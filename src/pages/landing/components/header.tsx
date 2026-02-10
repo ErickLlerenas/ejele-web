@@ -1,18 +1,6 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <nav className="fixed top-0 left-0 right-0 z-[1000] px-6 md:px-8 py-6">
       <div className="max-w-7xl mx-auto flex justify-between items-center">

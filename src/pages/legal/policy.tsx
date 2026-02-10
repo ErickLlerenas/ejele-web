@@ -1,4 +1,3 @@
-import React from 'react';
 import Header from '../landing/components/header';
 
 export default function Policy() {

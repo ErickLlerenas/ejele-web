@@ -57,21 +57,15 @@ export default function Hero() {
             ) : (
               <a
                 href={downloadUrl || '#'}
-                className="group relative w-full sm:w-auto px-12 py-6 rounded-xl font-bold text-xl no-underline flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:scale-105"
+                className="group relative w-full sm:w-auto px-12 py-6 rounded-xl font-bold text-xl no-underline flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:scale-105 bg-blue-600 hover:bg-blue-700"
               >
-                {/* Background with glassmorphism effect */}
-                <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-500/50 rounded-xl backdrop-blur-sm group-hover:bg-blue-500/30 group-hover:border-blue-500 transition-all duration-300"></div>
-                
                 {/* Glow effect */}
-                <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/20 rounded-xl blur-xl transition-all duration-300"></div>
-                
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/40 via-blue-500/30 to-blue-600/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-700/40 rounded-xl blur-2xl transition-all duration-300 -z-10"></div>
                 
                 {/* Content */}
                 <div className="relative z-10 flex items-center justify-center gap-3">
                   <Icon icon="solar:download-bold-duotone" className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
-                  <span className="text-white drop-shadow-lg">{getDownloadText()}</span>
+                  <span className="text-white">{getDownloadText()}</span>
                 </div>
                 
                 {/* Shine effect on hover */}

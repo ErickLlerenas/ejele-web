@@ -10,7 +10,18 @@ import Footer from './components/footer';
 
 export default function LandingPage() {
   useEffect(() => {
-    // Use requestAnimationFrame to ensure DOM is ready
+    // En móviles, no usar animaciones reveal para mejor rendimiento
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+      // En móviles, mostrar todo inmediatamente
+      document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('active');
+      });
+      return;
+    }
+
+    // Solo en desktop: usar IntersectionObserver para animaciones
     let observer: IntersectionObserver | null = null;
     let timeout: NodeJS.Timeout | null = null;
 
@@ -32,14 +43,14 @@ export default function LandingPage() {
       const revealElements = document.querySelectorAll('.reveal');
       revealElements.forEach(el => observer?.observe(el));
 
-      // Fallback: show all after 500ms
+      // Fallback: show all after 300ms
       timeout = setTimeout(() => {
         document.querySelectorAll('.reveal').forEach(el => {
           if (!el.classList.contains('active')) {
             el.classList.add('active');
           }
         });
-      }, 500);
+      }, 300);
     };
 
     requestAnimationFrame(initObserver);

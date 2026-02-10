@@ -12,7 +12,7 @@ export default function Hero() {
           {/* Logo reducido */}
           <div className="mb-8 flex justify-center">
             <div className="relative">
-              <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full"></div>
+              <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full hidden md:block"></div>
               <img 
                 src="/favicon.ico" 
                 alt="Ejele Logo" 
@@ -32,19 +32,19 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">
             <button
               onClick={() => setShowDialog(true)}
-              className="group relative w-full sm:w-auto px-6 py-4 sm:px-12 sm:py-6 rounded-xl font-bold text-base sm:text-xl flex items-center justify-center gap-2 sm:gap-3 overflow-hidden transition-all duration-300 hover:scale-105 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              className="group relative w-full sm:w-auto px-6 py-4 sm:px-12 sm:py-6 rounded-xl font-bold text-base sm:text-xl flex items-center justify-center gap-2 sm:gap-3 overflow-hidden transition-colors duration-200 sm:hover:scale-105 bg-blue-600 hover:bg-blue-700 active:bg-blue-700 cursor-pointer"
             >
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-700/40 rounded-xl blur-2xl transition-all duration-300 -z-10"></div>
+              {/* Glow effect - solo en desktop */}
+              <div className="hidden sm:block absolute inset-0 bg-blue-600/0 group-hover:bg-blue-700/40 rounded-xl blur-2xl transition-all duration-300 -z-10"></div>
               
               {/* Content */}
               <div className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
-                <Icon icon="solar:download-bold-duotone" className="w-5 h-5 sm:w-7 sm:h-7 text-white group-hover:scale-110 transition-transform duration-300" />
+                <Icon icon="solar:download-bold-duotone" className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-white">Descargar Ejele gratis</span>
               </div>
               
-              {/* Shine effect on hover */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl transition-transform duration-700"></div>
+              {/* Shine effect on hover - solo en desktop */}
+              <div className="hidden sm:block absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl transition-transform duration-700"></div>
             </button>
           </div>
 

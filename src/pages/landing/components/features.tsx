@@ -35,14 +35,14 @@ export default function Features() {
       title: 'App para Meseros',
       description: 'Toma pedidos desde cualquier smartphone o tablet. Instala la misma aplicación en todos tus dispositivos y conéctalos a tu computadora central.',
       color: 'purple',
-      premium: false
+      premium: true
     },
     {
       icon: 'solar:devices-bold-duotone',
       title: 'Multi Dispositivos',
-      description: 'Conecta ilimitados dispositivos a tu sistema: tablets para meseros, monitores de cocina y cajas adicionales.',
+      description: 'Conecta ilimitados dispositivos a tu sistema: monitores de cocina, cajas adicionales y más.',
       color: 'cyan',
-      premium: true
+      premium: false
     },
     {
       icon: 'solar:box-bold-duotone',

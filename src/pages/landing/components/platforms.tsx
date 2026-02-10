@@ -1,12 +1,14 @@
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
 import { detectOS, fetchLatestDownloadUrl, type OperatingSystem } from '@/utils/os';
+import ComingSoonDialog from './coming-soon-dialog';
 
 export default function Platforms() {
   const [macUrl, setMacUrl] = useState('');
   const [windowsUrl, setWindowsUrl] = useState('');
   const [userOS, setUserOS] = useState<OperatingSystem>('Unknown');
   const [loading, setLoading] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -45,7 +47,7 @@ export default function Platforms() {
       icon: 'logos:android-icon',
       description: 'Funciona en cualquier dispositivo Android',
       color: 'green',
-      downloadUrl: 'https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele.apk',
+      downloadUrl: '',
       isUserOS: false
     },
     {
@@ -53,7 +55,7 @@ export default function Platforms() {
       icon: 'logos:apple',
       description: 'iPhone y iPad',
       color: 'gray',
-      downloadUrl: 'https://apps.apple.com/app/ejele',
+      downloadUrl: '',
       isUserOS: false
     },
   ];
@@ -123,19 +125,21 @@ export default function Platforms() {
                 {loading && (platform.name === 'Windows' || platform.name === 'macOS') ? (
                   <div className="w-full h-12 bg-white/5 rounded-lg animate-pulse" />
                 ) : (
-                  <a
-                    href={platform.downloadUrl || '#'}
-                    className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 no-underline`}
+                  <button
+                    onClick={() => setShowDialog(true)}
+                    className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
                   >
                     <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
                     Descargar
-                  </a>
+                  </button>
                 )}
               </div>
             );
           })}
         </div>
       </div>
+      
+      <ComingSoonDialog isOpen={showDialog} onClose={() => setShowDialog(false)} />
     </section>
   );
 }

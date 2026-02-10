@@ -1,45 +1,52 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import Hero from './components/hero';
 import Header from './components/header';
-
-// Lazy load non-critical sections
-const Features = lazy(() => import('./components/features'));
-const Platforms = lazy(() => import('./components/platforms'));
-const Questions = lazy(() => import('./components/questions'));
-const Footer = lazy(() => import('./components/footer'));
+import Features from './components/features';
+import Platforms from './components/platforms';
+import Questions from './components/questions';
+import Footer from './components/footer';
 
 export default function LandingPage() {
   useEffect(() => {
-    const observerOptions = { 
-      threshold: 0.01,
-      rootMargin: '100px 0px 400px 0px'
+    // Use requestAnimationFrame to ensure DOM is ready
+    let observer: IntersectionObserver | null = null;
+    let timeout: NodeJS.Timeout | null = null;
+
+    const initObserver = () => {
+      const observerOptions = { 
+        threshold: 0.01,
+        rootMargin: '50px'
+      };
+      
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer?.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const revealElements = document.querySelectorAll('.reveal');
+      revealElements.forEach(el => observer?.observe(el));
+
+      // Fallback: show all after 500ms
+      timeout = setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => {
+          if (!el.classList.contains('active')) {
+            el.classList.add('active');
+          }
+        });
+      }, 500);
     };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
 
-    const revealElements = document.querySelectorAll('.reveal');
-    revealElements.forEach(el => observer.observe(el));
-
-    const timeout = setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => {
-        if (!el.classList.contains('active')) {
-          el.classList.add('active');
-        }
-      });
-    }, 800);
+    requestAnimationFrame(initObserver);
 
     return () => {
-      observer.disconnect();
-      clearTimeout(timeout);
+      if (observer) observer.disconnect();
+      if (timeout) clearTimeout(timeout);
     };
   }, []);
 
@@ -48,12 +55,10 @@ export default function LandingPage() {
       <Helmet title="Ejele - Punto de venta gratis para restaurantes" />
       <Header />
       <Hero />
-      <Suspense fallback={<div className="h-20" />}>
-        <Features />
-        <Platforms />
-        <Questions />
-        <Footer />
-      </Suspense>
+      <Features />
+      <Platforms />
+      <Questions />
+      <Footer />
     </div>
   );
 }

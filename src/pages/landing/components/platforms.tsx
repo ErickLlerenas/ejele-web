@@ -36,7 +36,7 @@ export default function Platforms() {
       name: 'macOS',
       icon: 'logos:apple',
       description: 'Compatible con Apple Silicon',
-      color: 'gray',
+      color: 'slate',
       downloadUrl: macUrl,
       isUserOS: userOS === 'macOS'
     },
@@ -70,18 +70,21 @@ export default function Platforms() {
           {platforms.map((platform, index) => {
             const colorClasses = {
               blue: 'bg-blue-500/20 border-blue-500/50 hover:border-blue-500 hover:bg-blue-500/30',
+              slate: 'bg-slate-500/20 border-slate-500/50 hover:border-slate-500 hover:bg-slate-500/30',
               gray: 'bg-gray-500/20 border-gray-500/50 hover:border-gray-500 hover:bg-gray-500/30',
               green: 'bg-green-500/20 border-green-500/50 hover:border-green-500 hover:bg-green-500/30'
             };
             
             const iconColors = {
               blue: 'text-blue-300',
+              slate: 'text-slate-300',
               gray: 'text-gray-300',
               green: 'text-green-300'
             };
             
             const buttonColors = {
               blue: 'bg-blue-600 hover:bg-blue-500',
+              slate: 'bg-slate-600 hover:bg-slate-500',
               gray: 'bg-gray-600 hover:bg-gray-500',
               green: 'bg-green-600 hover:bg-green-500'
             };

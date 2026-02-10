@@ -58,6 +58,16 @@ export default function Footer() {
                     <Icon icon="lucide:monitor" className="w-4 h-4" /> Windows
                   </a>
                 </li>
+                <li>
+                  <a href="https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele.apk" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                    <Icon icon="logos:android-icon" className="w-4 h-4" /> Android
+                  </a>
+                </li>
+                <li>
+                  <a href="https://apps.apple.com/app/ejele" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                    <Icon icon="lucide:apple" className="w-4 h-4" /> iOS
+                  </a>
+                </li>
               </ul>
             </div>
 

@@ -4,7 +4,7 @@ export default function Questions() {
   const faqs = [
     {
       question: '¿En qué equipos puedo usarlo?',
-      answer: 'Solo necesitas una computadora central (Windows o Mac) para la caja. Todos los demás dispositivos, como el Monitor de Cocina y la App de Meseros, funcionan directamente en el navegador de cualquier PC, Celular o Tablet.',
+      answer: 'Funciona en Windows, Mac, Android e iOS. Necesitas una computadora central para la caja y todos los demás dispositivos (monitores de cocina, tablets de meseros) se conectan usando la misma aplicación.',
       icon: 'solar:laptop-bold-duotone',
       color: 'blue'
     },
@@ -28,7 +28,7 @@ export default function Questions() {
     },
     {
       question: '¿Necesito internet para usarlo?',
-      answer: 'No. Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet si quieres usar funciones premium como facturación CFDI.',
+      answer: 'Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte y para comprar planes premium. Para facturar, tus clientes necesitan internet en sus dispositivos.',
       icon: 'solar:wi-fi-router-bold-duotone',
       color: 'purple'
     },

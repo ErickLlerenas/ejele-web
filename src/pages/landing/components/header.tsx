@@ -22,7 +22,7 @@ export default function Header() {
         </Link>
         <div className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm text-gray-400 hover:text-white transition-colors no-underline">Funciones</a>
-          <a href="#download" className="text-sm text-gray-400 hover:text-white transition-colors no-underline">Descargar</a>
+          <a href="#platforms" className="text-sm text-gray-400 hover:text-white transition-colors no-underline">Descargar</a>
           <a href="#faq" className="text-sm text-gray-400 hover:text-white transition-colors no-underline">FAQ</a>
         </div>
       </div>

@@ -57,10 +57,25 @@ export default function Hero() {
             ) : (
               <a
                 href={downloadUrl || '#'}
-                className="w-full sm:w-auto bg-blue-500 text-white px-12 py-6 rounded-lg font-bold text-xl hover:bg-blue-400 transition-all duration-200 no-underline flex items-center justify-center gap-3 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105"
+                className="group relative w-full sm:w-auto px-12 py-6 rounded-xl font-bold text-xl no-underline flex items-center justify-center gap-3 overflow-hidden transition-all duration-300 hover:scale-105"
               >
-                <Icon icon="solar:download-bold-duotone" className="w-7 h-7" />
-                {getDownloadText()}
+                {/* Background with glassmorphism effect */}
+                <div className="absolute inset-0 bg-blue-500/20 border-2 border-blue-500/50 rounded-xl backdrop-blur-sm group-hover:bg-blue-500/30 group-hover:border-blue-500 transition-all duration-300"></div>
+                
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/20 rounded-xl blur-xl transition-all duration-300"></div>
+                
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/40 via-blue-500/30 to-blue-600/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* Content */}
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                  <Icon icon="solar:download-bold-duotone" className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
+                  <span className="text-white drop-shadow-lg">{getDownloadText()}</span>
+                </div>
+                
+                {/* Shine effect on hover */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl transition-transform duration-700"></div>
               </a>
             )}
           </div>

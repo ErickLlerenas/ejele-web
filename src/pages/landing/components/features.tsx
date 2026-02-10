@@ -35,14 +35,14 @@ export default function Features() {
       title: 'App para Meseros',
       description: 'Toma pedidos desde cualquier smartphone o tablet. Instala la misma aplicación en todos tus dispositivos y conéctalos a tu computadora central.',
       color: 'purple',
-      premium: true
+      premium: false
     },
     {
-      icon: 'solar:printer-bold-duotone',
-      title: 'Logística de Despacho',
-      description: 'Despacho inteligente de pedidos: bebidas directo a barra y alimentos a cocina de forma automatizada.',
+      icon: 'solar:devices-bold-duotone',
+      title: 'Multi Dispositivos',
+      description: 'Conecta ilimitados dispositivos a tu sistema: tablets para meseros, monitores de cocina y cajas adicionales.',
       color: 'cyan',
-      premium: false
+      premium: true
     },
     {
       icon: 'solar:box-bold-duotone',

@@ -1,29 +1,9 @@
 import { Icon } from '@iconify/react';
-import { useState, useEffect } from 'react';
-import { detectOS, fetchLatestDownloadUrl, type OperatingSystem } from '@/utils/os';
+import { useState } from 'react';
 import ComingSoonDialog from './coming-soon-dialog';
 
 export default function Platforms() {
-  const [macUrl, setMacUrl] = useState('');
-  const [windowsUrl, setWindowsUrl] = useState('');
-  const [userOS, setUserOS] = useState<OperatingSystem>('Unknown');
-  const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
-
-  useEffect(() => {
-    const fetchUrls = async () => {
-      setLoading(true);
-      const os = detectOS();
-      setUserOS(os);
-      
-      const mac = await fetchLatestDownloadUrl('macOS');
-      const windows = await fetchLatestDownloadUrl('Windows');
-      setMacUrl(mac);
-      setWindowsUrl(windows);
-      setLoading(false);
-    };
-    fetchUrls();
-  }, []);
 
   const platforms = [
     {
@@ -31,16 +11,14 @@ export default function Platforms() {
       icon: 'logos:microsoft-windows',
       description: 'Windows 10 y Windows 11',
       color: 'blue',
-      downloadUrl: windowsUrl,
-      isUserOS: userOS === 'Windows'
+      isUserOS: false
     },
     {
       name: 'macOS',
       icon: 'logos:apple',
       description: 'Compatible con Apple Silicon',
       color: 'slate',
-      downloadUrl: macUrl,
-      isUserOS: userOS === 'macOS'
+      isUserOS: false
     },
     {
       name: 'Android',
@@ -122,17 +100,13 @@ export default function Platforms() {
                 <h3 className="text-xl font-bold mb-2 text-white">{platform.name}</h3>
                 <p className="text-gray-300 text-sm mb-6">{platform.description}</p>
                 
-                {loading && (platform.name === 'Windows' || platform.name === 'macOS') ? (
-                  <div className="w-full h-12 bg-white/5 rounded-lg animate-pulse" />
-                ) : (
-                  <button
-                    onClick={() => setShowDialog(true)}
-                    className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
-                  >
-                    <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                    Descargar
-                  </button>
-                )}
+                <button
+                  onClick={() => setShowDialog(true)}
+                  className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
+                >
+                  <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
+                  Descargar
+                </button>
               </div>
             );
           })}

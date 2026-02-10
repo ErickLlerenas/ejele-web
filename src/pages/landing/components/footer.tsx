@@ -1,21 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchLatestDownloadUrl } from '@/utils/os';
 import { Icon } from '@iconify/react';
+import ComingSoonDialog from './coming-soon-dialog';
 
 export default function Footer() {
-  const [macUrl, setMacUrl] = useState('');
-  const [windowsUrl, setWindowsUrl] = useState('');
-
-  useEffect(() => {
-    const fetchUrls = async () => {
-      const mac = await fetchLatestDownloadUrl('macOS');
-      const windows = await fetchLatestDownloadUrl('Windows');
-      setMacUrl(mac);
-      setWindowsUrl(windows);
-    };
-    fetchUrls();
-  }, []);
+  const [showDialog, setShowDialog] = useState(false);
 
   return (
     <>
@@ -39,7 +28,7 @@ export default function Footer() {
               <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Producto</h3>
               <ul className="space-y-4">
                 <li><a href="#features" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Funciones</a></li>
-                <li><a href="#download" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Descargar</a></li>
+                <li><a href="#platforms" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Descargar</a></li>
                 <li><a href="#faq" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">FAQ</a></li>
               </ul>
             </div>
@@ -49,24 +38,24 @@ export default function Footer() {
               <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Descargas</h3>
               <ul className="space-y-4">
                 <li>
-                  <a href={macUrl || '#'} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                  <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
                     <Icon icon="lucide:apple" className="w-4 h-4" /> macOS
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href={windowsUrl || '#'} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                  <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
                     <Icon icon="lucide:monitor" className="w-4 h-4" /> Windows
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele.apk" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                  <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
                     <Icon icon="logos:android-icon" className="w-4 h-4" /> Android
-                  </a>
+                  </button>
                 </li>
                 <li>
-                  <a href="https://apps.apple.com/app/ejele" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                  <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
                     <Icon icon="lucide:apple" className="w-4 h-4" /> iOS
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -92,6 +81,8 @@ export default function Footer() {
           </div>
         </div>
       </footer>
+      
+      <ComingSoonDialog isOpen={showDialog} onClose={() => setShowDialog(false)} />
     </>
   );
 }

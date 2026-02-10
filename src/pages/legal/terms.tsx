@@ -35,12 +35,12 @@ export default function TermsAndConditions() {
               </li>
             </ul>
 
-            <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">3. Registro y Uso del Servicio</h2>
+            <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">3. Uso del Servicio</h2>
             <p className="mb-2">
-              Para utilizar Ejele, es necesario registrarse proporcionando información precisa,
-              incluyendo datos del restaurante y una contraseña segura. El usuario es responsable de
-              mantener la confidencialidad de su contraseña y de todas las actividades realizadas en su
-              cuenta.
+              Para utilizar Ejele, solo necesitas proporcionar tu correo electrónico. No se requiere registro tradicional con contraseña ni creación de cuenta. El software funciona de forma local en tu computadora, y toda la información de tu restaurante se almacena únicamente en tu dispositivo.
+            </p>
+            <p className="mb-2 mt-4">
+              Eres responsable de mantener la seguridad de tu computadora y de hacer respaldos regulares de tu información local.
             </p>
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">4. Obligaciones del Usuario</h2>
@@ -49,8 +49,10 @@ export default function TermsAndConditions() {
               <li>Utilizar el software de manera lícita y conforme a su propósito.</li>
               <li>Asegurar que la información ingresada en el sistema sea precisa y actualizada.</li>
               <li>
-                Tomar medidas para proteger el acceso a su cuenta, como cerrar sesión en dispositivos
-                compartidos.
+                Mantener la seguridad de su computadora y hacer respaldos regulares de su información local.
+              </li>
+              <li>
+                Proporcionar un correo electrónico válido para recibir comunicaciones importantes sobre el software.
               </li>
             </ul>
 
@@ -61,10 +63,12 @@ export default function TermsAndConditions() {
               y no creados por nosotros, pero se utilizan conforme a sus licencias respectivas.
             </p>
 
-            <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">6. Uso Gratuito</h2>
+            <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">6. Modelo Freemium</h2>
             <p className="mb-2">
-              Ejele se ofrece de forma completamente gratuita. No hay costos ocultos, suscripciones o
-              limitaciones en el uso del software.
+              Ejele ofrece un modelo freemium: todas las funciones básicas (comandas, app para meseros, reportes básicos) son completamente gratuitas y sin límites. Las funciones avanzadas como Pantallas de Cocina (KDS), Control de Inventarios y Facturación CFDI están disponibles mediante planes premium opcionales.
+            </p>
+            <p className="mb-2 mt-4">
+              No hay costos ocultos ni suscripciones obligatorias. Puedes usar el software básico de forma gratuita indefinidamente.
             </p>
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">7. Limitación de Responsabilidad</h2>
@@ -88,7 +92,7 @@ export default function TermsAndConditions() {
             <p className="mb-2">
               El manejo de la información personal se rige por nuestra política de privacidad, que
               puedes consultar aquí:
-              <Link to="/politica-de-privacidad" className="text-indigo-400 hover:text-indigo-300 underline ml-1">
+              <Link to="/politica-de-privacidad" className="text-blue-400 hover:text-blue-300 underline ml-1">
                 Política de Privacidad
               </Link>
               .

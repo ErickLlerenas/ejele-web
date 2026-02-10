@@ -10,7 +10,7 @@ export default function Questions() {
     },
     {
       question: '¿Cuántos dispositivos puedo conectar?',
-      answer: 'Todos los que necesites. No hay límites. Tu software es ilimitado para que tu negocio crezca sin frenos.',
+      answer: 'Todos los que necesites. No hay límites. Ejele es ilimitado para que tu negocio crezca sin frenos.',
       icon: 'solar:users-group-two-rounded-bold-duotone',
       color: 'green'
     },
@@ -22,13 +22,13 @@ export default function Questions() {
     },
     {
       question: '¿Es realmente gratis?',
-      answer: 'Sí, completamente gratis. No hay costos ocultos, no hay suscripciones, no hay límites. Descarga y usa el software sin restricciones.',
+      answer: 'Sí, todo lo esencial es gratis para siempre. Puedes tomar pedidos, usar la app de meseros y generar reportes básicos sin pagar nada. Las funciones avanzadas como KDS, inventario y facturación están disponibles con planes opcionales.',
       icon: 'solar:gift-bold-duotone',
       color: 'orange'
     },
     {
-      question: '¿Qué pasa si se me va el internet?',
-      answer: 'El sistema entra en Modo Offline de inmediato. Puedes seguir tomando pedidos y sacando tickets; cuando el internet vuelve, todo se sincroniza solo.',
+      question: '¿Necesito internet para usarlo?',
+      answer: 'No. Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet si quieres usar funciones premium como facturación CFDI.',
       icon: 'solar:wi-fi-router-bold-duotone',
       color: 'purple'
     },
@@ -49,15 +49,35 @@ export default function Questions() {
         </div>
       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {faqs.map((faq, index) => (
-            <div key={index} className="p-6 rounded-lg border border-white/5 bg-[#0a0a0a] reveal hover:border-white/10 transition-colors">
-              <div className="mb-4 text-gray-400">
-                <Icon icon={faq.icon} className="w-6 h-6" />
+          {faqs.map((faq, index) => {
+            const colorClasses = {
+              blue: 'bg-blue-500/20 border-blue-500/50 hover:border-blue-500 hover:bg-blue-500/30',
+              green: 'bg-green-500/20 border-green-500/50 hover:border-green-500 hover:bg-green-500/30',
+              indigo: 'bg-blue-600/20 border-blue-600/50 hover:border-blue-600 hover:bg-blue-600/30',
+              orange: 'bg-orange-500/20 border-orange-500/50 hover:border-orange-500 hover:bg-orange-500/30',
+              purple: 'bg-purple-500/20 border-purple-500/50 hover:border-purple-500 hover:bg-purple-500/30',
+              pink: 'bg-pink-500/20 border-pink-500/50 hover:border-pink-500 hover:bg-pink-500/30'
+            };
+            
+            const iconColors = {
+              blue: 'text-blue-300',
+              green: 'text-green-300',
+              indigo: 'text-blue-400',
+              orange: 'text-orange-300',
+              purple: 'text-purple-300',
+              pink: 'text-pink-300'
+            };
+            
+            return (
+              <div key={index} className={`p-6 rounded-lg border-2 ${colorClasses[faq.color as keyof typeof colorClasses]} bg-[#0a0a0a] reveal transition-all hover:scale-[1.02]`}>
+                <div className={`mb-4 ${iconColors[faq.color as keyof typeof iconColors]}`}>
+                  <Icon icon={faq.icon} className="w-7 h-7" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-3">{faq.question}</h4>
+                <p className="text-gray-300 text-sm leading-relaxed">{faq.answer}</p>
               </div>
-              <h4 className="text-lg font-bold text-white mb-3">{faq.question}</h4>
-              <p className="text-gray-400 text-sm leading-relaxed">{faq.answer}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

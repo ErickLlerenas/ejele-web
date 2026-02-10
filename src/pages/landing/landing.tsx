@@ -7,7 +7,6 @@ import Header from './components/header';
 // Lazy load non-critical sections
 const Features = lazy(() => import('./components/features'));
 const Platforms = lazy(() => import('./components/platforms'));
-const Download = lazy(() => import('./components/download'));
 const Questions = lazy(() => import('./components/questions'));
 const Footer = lazy(() => import('./components/footer'));
 
@@ -46,13 +45,12 @@ export default function LandingPage() {
 
   return (
     <div className="landing-premium min-h-screen overflow-x-hidden">
-      <Helmet title="Ejele - Software gratis para restaurantes" />
+      <Helmet title="Ejele - Punto de venta gratis para restaurantes" />
       <Header />
       <Hero />
       <Suspense fallback={<div className="h-20" />}>
         <Features />
         <Platforms />
-        <Download />
         <Questions />
         <Footer />
       </Suspense>

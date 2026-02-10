@@ -2,17 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchLatestDownloadUrl } from '@/utils/os';
 import { Icon } from '@iconify/react';
-import { detectOS, type OperatingSystem } from '@/utils/os';
 
 export default function Footer() {
   const [macUrl, setMacUrl] = useState('');
   const [windowsUrl, setWindowsUrl] = useState('');
-  const [userOS, setUserOS] = useState<OperatingSystem>('Unknown');
 
   useEffect(() => {
     const fetchUrls = async () => {
-      const os = detectOS();
-      setUserOS(os);
       const mac = await fetchLatestDownloadUrl('macOS');
       const windows = await fetchLatestDownloadUrl('Windows');
       setMacUrl(mac);
@@ -23,44 +19,6 @@ export default function Footer() {
 
   return (
     <>
-      {/* Final CTA */}
-      <section className="py-32 md:py-48 px-6 text-center">
-        <div className="reveal">
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">
-            ¿Listo para empezar?
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            {userOS === 'macOS' && macUrl ? (
-              <a href={macUrl} className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-blue-700 transition-colors no-underline flex items-center justify-center gap-2">
-                <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                Descargar Ejele gratis
-              </a>
-            ) : userOS === 'Windows' && windowsUrl ? (
-              <a href={windowsUrl} className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-blue-700 transition-colors no-underline flex items-center justify-center gap-2">
-                <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                Descargar Ejele gratis
-              </a>
-            ) : (
-              <div className="flex flex-col sm:flex-row gap-4">
-                {macUrl && (
-                  <a href={macUrl} className="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-base hover:bg-blue-700 transition-colors no-underline flex items-center justify-center gap-2">
-                    <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                    Descargar Ejele gratis
-                  </a>
-                )}
-                {windowsUrl && (
-                  <a href={windowsUrl} className="w-full sm:w-auto bg-white/5 text-white border border-white/10 px-8 py-4 rounded-lg font-semibold text-base hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-                    <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                    Descargar Ejele gratis
-                  </a>
-                )}
-              </div>
-            )}
-          </div>
-          <p className="text-gray-400 text-sm">100% Gratis • Sin límites • Sin suscripciones</p>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-white/5 py-24 px-6 bg-black">
         <div className="max-w-7xl mx-auto">
@@ -72,7 +30,7 @@ export default function Footer() {
                 <span className="text-2xl font-black text-white tracking-tighter">Ejele</span>
               </div>
               <p className="text-gray-400 text-base max-w-sm leading-relaxed mb-8">
-                Software gratuito para restaurantes en México. Completo, fácil de usar y sin límites.
+                Punto de venta completo para restaurantes en México. Gratis, funciona perfecto. Funciones premium opcionales.
               </p>
             </div>
 
@@ -115,11 +73,11 @@ export default function Footer() {
 
           <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-gray-500 text-sm font-medium">
-              © 2026 Ejele. Software gratis para restaurantes.
+              © 2026 Ejele. Punto de venta freemium para restaurantes.
             </div>
             <div className="flex items-center gap-2 text-gray-500 text-xs font-bold uppercase tracking-widest">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Sistemas Online
+              Funciona Offline
             </div>
           </div>
         </div>

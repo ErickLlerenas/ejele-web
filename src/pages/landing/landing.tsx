@@ -63,7 +63,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-premium min-h-screen overflow-x-hidden">
-      <Helmet title="Ejele - Punto de venta gratis para restaurantes" />
+      <Helmet title="Ejele - Tu restaurante funcionando hoy" />
       <Header />
       <Hero />
       <Features />

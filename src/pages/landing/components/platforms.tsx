@@ -39,7 +39,7 @@ export default function Platforms() {
   ];
 
   return (
-    <section id="platforms" className="py-32 md:py-48 px-6">
+    <section id="platforms" className="py-20 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 reveal">
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Plataformas</h2>
@@ -74,7 +74,7 @@ export default function Platforms() {
                 key={index} 
                 className={`p-8 rounded-lg border-2 ${
                   platform.isUserOS 
-                    ? 'border-blue-500/60 bg-blue-500/10' 
+                    ? 'border-blue-500 bg-blue-500/10' 
                     : colorClasses[platform.color as keyof typeof colorClasses]
                 } bg-[#0a0a0a] reveal transition-all hover:scale-[1.02] text-center relative`}
               >
@@ -92,7 +92,7 @@ export default function Platforms() {
                     icon={platform.icon} 
                     className={`${
                       platform.isUserOS 
-                        ? 'text-blue-300' 
+                        ? 'text-blue-400' 
                         : iconColors[platform.color as keyof typeof iconColors]
                     } w-12 h-12`} 
                   />
@@ -102,7 +102,7 @@ export default function Platforms() {
                 
                 <button
                   onClick={() => setShowDialog(true)}
-                  className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-3 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
+                  className={`w-full ${buttonColors[platform.color as keyof typeof buttonColors]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
                 >
                   <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
                   Descargar

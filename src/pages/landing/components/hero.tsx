@@ -26,7 +26,7 @@ export default function Hero() {
             <span className="text-blue-400">funcionando hoy</span>
           </h1>
           <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed px-4 md:px-0">
-            Completo, <span className="font-bold text-white">gratis</span> y sin límites. Empieza a vender hoy mismo.
+            Sencillo, completo, <span className="font-bold text-white">gratis,</span> moderno.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">

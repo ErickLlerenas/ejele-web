@@ -64,10 +64,19 @@ export default function TermsAndConditions() {
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">6. Modelo Freemium</h2>
             <p className="mb-2">
-              Ejele ofrece un modelo freemium: todas las funciones básicas (comandas, app para meseros, reportes básicos) son completamente gratuitas y sin límites. Las funciones avanzadas como Pantallas de Cocina (KDS), Control de Inventarios y Facturación CFDI están disponibles mediante planes premium opcionales.
+              Ejele ofrece un modelo freemium: la aplicación es completamente gratuita y funcional para siempre. Puedes gestionar tu restaurante, tomar pedidos y operar sin pagar nada. Puedes registrar múltiples restaurantes o sucursales de forma gratuita.
             </p>
             <p className="mb-2 mt-4">
-              No hay costos ocultos ni suscripciones obligatorias. Puedes usar el software básico de forma gratuita indefinidamente.
+              <strong className="text-white">Funciones Premium:</strong> Las funciones avanzadas como Pantallas de Cocina (KDS), App para Meseros, Multi Dispositivos, Control de Inventarios y otras están disponibles mediante planes premium opcionales. El plan premium se paga por cada restaurante individualmente.
+            </p>
+            <p className="mb-2 mt-4">
+              <strong className="text-white">Planes Premium:</strong> Ofrecemos tres opciones: Plan mensual por $299 MXN, plan anual por $2,999 MXN y plan de por vida por $5,999 MXN. Todos incluyen acceso completo a todas las funciones premium.
+            </p>
+            <p className="mb-2 mt-4">
+              <strong className="text-white">Facturación:</strong> La facturación CFDI se paga por folios. Cada folio comprado te permite emitir una factura. Los folios se compran de forma independiente a los planes premium.
+            </p>
+            <p className="mb-2 mt-4">
+              No hay costos ocultos ni suscripciones obligatorias. Puedes usar la aplicación de forma gratuita indefinidamente.
             </p>
 
             <h2 className="text-2xl font-semibold mt-8 mb-4 text-white">7. Limitación de Responsabilidad</h2>

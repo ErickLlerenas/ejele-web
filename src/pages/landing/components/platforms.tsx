@@ -48,11 +48,18 @@ export default function Platforms() {
       
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {platforms.map((platform, index) => {
-            const colorClasses = {
-              blue: 'bg-blue-500/20 border-blue-500/50 hover:border-blue-500 hover:bg-blue-500/30',
-              slate: 'bg-slate-500/20 border-slate-500/50 hover:border-slate-500 hover:bg-slate-500/30',
-              gray: 'bg-gray-500/20 border-gray-500/50 hover:border-gray-500 hover:bg-gray-500/30',
-              green: 'bg-green-500/20 border-green-500/50 hover:border-green-500 hover:bg-green-500/30'
+            const cardBgColors = {
+              blue: 'bg-blue-900',
+              slate: 'bg-slate-800',
+              gray: 'bg-gray-800',
+              green: 'bg-green-900'
+            };
+            
+            const iconBgColors = {
+              blue: 'bg-blue-800',
+              slate: 'bg-slate-700',
+              gray: 'bg-gray-700',
+              green: 'bg-green-800'
             };
             
             const iconColors = {
@@ -72,27 +79,27 @@ export default function Platforms() {
             return (
               <div 
                 key={index} 
-                className={`p-8 rounded-lg border-2 ${
+                className={`p-8 rounded-lg ${
                   platform.isUserOS 
-                    ? 'border-blue-500 bg-blue-500/10' 
-                    : colorClasses[platform.color as keyof typeof colorClasses]
-                } bg-[#0a0a0a] reveal transition-all hover:scale-[1.02] text-center relative`}
+                    ? 'bg-blue-900' 
+                    : cardBgColors[platform.color as keyof typeof cardBgColors]
+                } reveal transition-all hover:scale-[1.02] text-center relative`}
               >
                 {platform.isUserOS && (
-                  <div className="absolute top-4 right-4 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
+                  <div className="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded">
                     Tu Sistema
                   </div>
                 )}
                 <div className={`w-20 h-20 rounded-lg ${
                   platform.isUserOS 
-                    ? 'bg-blue-500/20' 
-                    : colorClasses[platform.color as keyof typeof colorClasses]
+                    ? 'bg-blue-800' 
+                    : iconBgColors[platform.color as keyof typeof iconBgColors]
                 } flex items-center justify-center mb-6 mx-auto`}>
                   <Icon 
                     icon={platform.icon} 
                     className={`${
                       platform.isUserOS 
-                        ? 'text-blue-400' 
+                        ? 'text-blue-300' 
                         : iconColors[platform.color as keyof typeof iconColors]
                     } w-12 h-12`} 
                   />

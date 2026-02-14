@@ -54,17 +54,16 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Hero Image (KDS) */}
-        <div className="relative reveal delay-300 max-w-5xl mx-auto px-2 md:px-0">
-          <div className="relative bg-[#0a0a0a] rounded-2xl md:rounded-3xl p-3 md:p-4 border border-white/10 group overflow-hidden">
-            <img 
-              src="/assets/images/screenshots/KDS.png" 
-              alt="Ejele KDS" 
-              className="rounded-xl md:rounded-2xl w-full relative z-10"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
+        {/* Hero Video */}
+        <div className="relative reveal delay-300 max-w-4xl md:max-w-4xl mx-auto px-2 md:px-0">
+          <video 
+            src="/assets/videos/ejele.mp4" 
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="rounded-xl md:rounded-2xl w-full"
+          />
         </div>
       </div>
       

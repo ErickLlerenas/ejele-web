@@ -19,7 +19,7 @@ export default function Footer() {
                 <span className="text-2xl font-black text-white tracking-tighter">Ejele</span>
               </div>
               <p className="text-gray-400 text-base max-w-sm leading-relaxed mb-8">
-                Punto de venta completo para restaurantes en México. Gratis, funciona perfecto. Funciones premium opcionales.
+                Punto de venta completo para restaurantes en México. Gratis para siempre y completamente funcional. Funciones premium disponibles cuando las necesites.
               </p>
             </div>
 
@@ -29,7 +29,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 <li><a href="#features" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Funciones</a></li>
                 <li><a href="#platforms" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Descargar</a></li>
-                <li><a href="#faq" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">FAQ</a></li>
+                <li><a href="#faq" className="text-gray-400 hover:text-white transition-colors text-sm font-medium no-underline">Preguntas</a></li>
               </ul>
             </div>
 

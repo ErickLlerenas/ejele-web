@@ -19,7 +19,7 @@ export default function Features() {
     },
     {
       icon: 'solar:monitor-bold-duotone',
-      title: 'Pantallas de Cocina (KDS)',
+      title: 'Pantallas en cocina (KDS)',
       description: 'Convierte cualquier dispositivo en pantalla de producción. Funciona en tu red local.',
       color: 'indigo',
       premium: true
@@ -48,16 +48,16 @@ export default function Features() {
     {
       icon: 'solar:box-bold-duotone',
       title: 'Inventario',
-      description: 'Control completo. Registra entradas, salidas y ajustes de productos.',
+      description: 'Lleva el control de tus productos: registra entradas de mercancía, salidas por venta y ajustes cuando lo necesites.',
       color: 'pink',
       premium: true
     },
     {
       icon: 'solar:chart-2-bold-duotone',
-      title: 'Inteligencia de Ventas',
-      description: 'Reportes financieros y operativos para identificar platillos rentables.',
+      title: 'Reporte de Ventas',
+      description: 'Recibe un correo con las ventas del turno al cerrar caja.',
       color: 'yellow',
-      premium: false
+      premium: true
     },
     {
       icon: 'solar:chair-bold-duotone',

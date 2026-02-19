@@ -5,7 +5,7 @@ export default function Questions() {
     {
       question: "¿En qué equipos puedo usarlo?",
       answer:
-        "Funciona en Windows, Mac, Android e iOS. Una computadora central para la caja y todos los demás dispositivos (monitores de cocina, tablets, smartphones) se conectan con la misma aplicación.",
+        "Funciona en Windows, Mac, Android e iOS. Una computadora central para la caja y todos los demás dispositivos (monitores de cocina, tablets, celulares) se conectan con la misma aplicación.",
       icon: "solar:laptop-bold-duotone",
       color: "blue",
     },

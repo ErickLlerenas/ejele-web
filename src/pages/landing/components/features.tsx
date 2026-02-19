@@ -23,7 +23,7 @@ export default function Features() {
       icon: "solar:monitor-bold-duotone",
       title: "Pantallas en Cocina (KDS)",
       description:
-        "Convierte cualquier dispositivo en pantalla de producción. Funciona en tu red local.",
+        "Convierte cualquier dispositivo en una pantalla de comandas para tu cocina.",
       color: "indigo",
       premium: true,
     },
@@ -39,7 +39,7 @@ export default function Features() {
       icon: "solar:smartphone-bold-duotone",
       title: "App para Meseros",
       description:
-        "Toma pedidos desde cualquier smartphone o tablet conectado a tu sistema.",
+        "Toma pedidos desde cualquier celular o tablet conectado a tu sistema.",
       color: "purple",
       premium: true,
     },
@@ -62,7 +62,8 @@ export default function Features() {
     {
       icon: "solar:chart-2-bold-duotone",
       title: "Reporte de Ventas",
-      description: "Al cerrar caja, recibes un PDF con el reporte de ventas del turno por correo.",
+      description:
+        "Al cerrar caja, recibes un PDF con el reporte de ventas del turno por correo.",
       color: "yellow",
       premium: true,
     },

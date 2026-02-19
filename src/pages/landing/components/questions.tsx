@@ -3,25 +3,54 @@ import { Icon } from "@iconify/react";
 export default function Questions() {
   const faqs = [
     {
-      question: "¿En qué equipos puedo usarlo?",
+      question: "¿Por qué es gratis?",
       answer:
-        "Funciona en Windows, Mac, Android e iOS. Una computadora central para la caja y todos los demás dispositivos (monitores de cocina, tablets, celulares) se conectan con la misma aplicación.",
+        "Ejele corre en tu computadora, no en la nube ni en apps de terceros. Sin rentas que pagar de nuestra parte, podemos ofrecerte la versión gratuita de por vida y un premium a un precio muy bajo.",
+      icon: "solar:gift-bold-duotone",
+      color: "emerald",
+    },
+    {
+      question: "¿Qué incluye el plan premium?",
+      answer:
+        "Incluye acceso a pantallas en cocina (KDS), la app para meseros y la opción de conectar todos los dispositivos que necesites. También llevas inventario y recibes por correo un PDF con el reporte de ventas cada vez que cierras caja.",
+      icon: "solar:star-bold-duotone",
+      color: "orange",
+    },
+    {
+      question: "¿Cuánto cuesta el plan premium?",
+      answer:
+        "Tenemos tres planes: Plan mensual por $299, plan anual por $2,999 y plan de por vida por $5,999. Todos incluyen acceso completo a todas las funciones premium.",
+      icon: "solar:wallet-money-bold-duotone",
+      color: "yellow",
+    },
+    {
+      question: "¿Cómo funciona?",
+      answer:
+        "Una computadora o laptop es la central. El resto (tablets, celulares, pantallas de cocina) se conecta a ella por tu red WiFi.",
       icon: "solar:laptop-bold-duotone",
       color: "blue",
     },
     {
-      question: "¿Por qué es gratis?",
-      answer:
-        "Es modelo freemium: lo esencial es gratis para siempre. Otros puntos de venta cobran muy caro porque tienen que pagar servidores y aplicaciones externas. Ejele funciona offline: no pagamos servidores ni infraestructura costosa. Por eso podemos ofrecerlo gratis y el premium a bajo precio.",
-      icon: "solar:question-circle-bold-duotone",
-      color: "emerald",
-    },
-    {
       question: "¿Cuántos dispositivos puedo conectar?",
       answer:
-        "Un dispositivo es gratis. Con premium conecta todos los que necesites: tablets, computadoras, celulares y más. Sin límites.",
+        "Un dispositivo incluido gratis. Con premium, conecta todos los que necesites — tablets, computadoras, celulares — sin límite.",
       icon: "solar:users-group-two-rounded-bold-duotone",
       color: "green",
+    },
+    {
+      question:
+        "¿Tienen integración con plataformas como Uber Eats, Didi Food o Rappi?",
+      answer:
+        "No. Ejele está pensado para la venta en tu local — meseros, mostrador y cocina — y para funcionar offline. Integrar esas plataformas tendría un costo alto para ti; ya no podríamos ofrecer la versión gratis y el premium tendría que ser más caro.",
+      icon: "solar:delivery-bold-duotone",
+      color: "pink",
+    },
+    {
+      question: "¿Puedo gestionar múltiples restaurantes?",
+      answer:
+        "Sí, puedes registrar múltiples restaurantes o sucursales con tu misma cuenta, gratis. El plan premium se paga por cada restaurante individualmente.",
+      icon: "solar:shop-2-bold-duotone",
+      color: "teal",
     },
     {
       question: "¿Cómo funciona la facturación?",
@@ -33,7 +62,7 @@ export default function Questions() {
     {
       question: "¿Necesito internet para usarlo?",
       answer:
-        "Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte y para comprar los planes premium. Para facturar, tus clientes necesitan internet en sus dispositivos.",
+        "Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte, para comprar los planes premium y para recibir el reporte en PDF al cerrar caja.",
       icon: "solar:wi-fi-router-bold-duotone",
       color: "purple",
     },
@@ -43,20 +72,6 @@ export default function Questions() {
         "Para nada. Ejele es tan intuitivo como usar WhatsApp. Lo configuras en minutos y empiezas a vender de inmediato. Sin complicaciones técnicas ni conocimientos avanzados.",
       icon: "solar:magic-stick-3-bold-duotone",
       color: "pink",
-    },
-    {
-      question: "¿Cuánto cuesta el plan premium?",
-      answer:
-        "Tenemos tres planes: Plan mensual por $299, plan anual por $2,999 y plan de por vida por $5,999. Todos incluyen acceso completo a todas las funciones premium.",
-      icon: "solar:wallet-money-bold-duotone",
-      color: "yellow",
-    },
-    {
-      question: "¿Puedo gestionar múltiples restaurantes?",
-      answer:
-        "Sí, puedes registrar múltiples restaurantes o sucursales gratis. El plan premium se paga por cada restaurante individualmente.",
-      icon: "solar:shop-2-bold-duotone",
-      color: "teal",
     },
   ];
 

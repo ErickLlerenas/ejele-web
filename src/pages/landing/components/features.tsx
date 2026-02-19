@@ -47,7 +47,7 @@ export default function Features() {
       icon: "solar:devices-bold-duotone",
       title: "Multi Dispositivos",
       description:
-        "Conecta dispositivos ilimitados: monitores, tablets y cajas adicionales.",
+        "Conecta dispositivos ilimitados: computadoras, tablets y celulares.",
       color: "cyan",
       premium: true,
     },

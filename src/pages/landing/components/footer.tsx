@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
+import { APP_STORE_URL, PLAY_STORE_URL } from '@/constants/store';
 import ComingSoonDialog from './coming-soon-dialog';
 
 export default function Footer() {
@@ -36,12 +37,8 @@ export default function Footer() {
             {/* Col 3: Descargas */}
             <div>
               <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-xs">Descargas</h3>
-              <ul className="space-y-4">
-                <li>
-                  <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
-                    <Icon icon="lucide:apple" className="w-4 h-4" /> macOS
-                  </button>
-                </li>
+              <p className="text-gray-500 text-xs mb-3">Equipo principal</p>
+              <ul className="space-y-3 mb-6">
                 <li>
                   <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
                     <Icon icon="lucide:monitor" className="w-4 h-4" /> Windows
@@ -49,13 +46,26 @@ export default function Footer() {
                 </li>
                 <li>
                   <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
-                    <Icon icon="logos:android-icon" className="w-4 h-4" /> Android
+                    <Icon icon="lucide:apple" className="w-4 h-4" /> macOS
                   </button>
                 </li>
                 <li>
                   <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
-                    <Icon icon="lucide:apple" className="w-4 h-4" /> iOS
+                    <Icon icon="logos:android-icon" className="w-4 h-4" /> Terminal POS Android
                   </button>
+                </li>
+              </ul>
+              <p className="text-gray-500 text-xs mb-3">App remota (meseros, cocina)</p>
+              <ul className="space-y-3">
+                <li>
+                  <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                    <Icon icon="logos:android-icon" className="w-4 h-4" /> Android
+                  </a>
+                </li>
+                <li>
+                  <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                    <Icon icon="lucide:apple" className="w-4 h-4" /> iOS
+                  </a>
                 </li>
               </ul>
             </div>

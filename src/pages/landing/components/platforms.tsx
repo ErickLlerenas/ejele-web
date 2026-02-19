@@ -171,7 +171,11 @@ export default function Platforms() {
               <h3 className="text-lg font-bold mb-1 text-white">
                 {platform.name}
               </h3>
-              <p className="text-gray-400 text-xs mb-3">Celulares y tablets</p>
+              <p className="text-gray-400 text-xs mb-3">
+                {platform.name === "iOS"
+                  ? "iPhone y iPad"
+                  : "Celulares y tablets"}
+              </p>
               <p className="text-gray-400 text-sm mb-4 flex items-center justify-center gap-2 flex-wrap">
                 <Icon
                   icon="solar:users-group-two-rounded-bold-duotone"

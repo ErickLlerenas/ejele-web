@@ -27,25 +27,25 @@ const mainButtonColors = {
   green: "bg-green-600 hover:bg-green-500",
 };
 
-// Tonos más suaves para las apps satélite
+// Paleta del logo (teal/cyan): distintas de arriba (blue, slate, green) y hacen match con Ejele
 const remoteCardBg = {
-  green: "bg-green-900/60",
-  gray: "bg-gray-800/60",
+  green: "bg-teal-900/80",
+  blue: "bg-cyan-900/80",
 };
 
 const remoteIconBg = {
-  green: "bg-green-800/80",
-  gray: "bg-gray-700/80",
+  green: "bg-teal-800/90",
+  blue: "bg-cyan-800/90",
 };
 
 const remoteIconColors = {
-  green: "text-green-300",
-  gray: "text-gray-300",
+  green: "text-teal-300",
+  blue: "text-cyan-300",
 };
 
 const remoteButtonColors = {
-  green: "bg-green-600/90 hover:bg-green-500",
-  gray: "bg-gray-600/90 hover:bg-gray-500",
+  green: "bg-teal-600 hover:bg-teal-500",
+  blue: "bg-cyan-600 hover:bg-cyan-500",
 };
 
 const mainPlatforms = [
@@ -71,18 +71,20 @@ const mainPlatforms = [
 
 const remoteApps = [
   {
-    name: "Android",
-    icon: "logos:android-icon",
+    name: "Play Store",
+    icon: "logos:google-play-icon",
     color: "green" as const,
     href: PLAY_STORE_URL,
     storeLabel: "Ver en Play Store",
+    deviceLabel: "Celulares y tablets",
   },
   {
-    name: "iOS",
-    icon: "logos:apple",
-    color: "gray" as const,
+    name: "App Store",
+    icon: "logos:apple-app-store",
+    color: "blue" as const,
     href: APP_STORE_URL,
     storeLabel: "Ver en App Store",
+    deviceLabel: "iPhone y iPads",
   },
 ];
 
@@ -172,9 +174,7 @@ export default function Platforms() {
                 {platform.name}
               </h3>
               <p className="text-gray-400 text-xs mb-3">
-                {platform.name === "iOS"
-                  ? "iPhone y iPad"
-                  : "Celulares y tablets"}
+                {platform.deviceLabel}
               </p>
               <p className="text-gray-400 text-sm mb-4 flex items-center justify-center gap-2 flex-wrap">
                 <Icon

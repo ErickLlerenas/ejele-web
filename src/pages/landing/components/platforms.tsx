@@ -99,16 +99,8 @@ export default function Platforms() {
             Plataformas
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Instala Ejele en tu equipo principal (Windows, macOS o Terminal POS
-            Android).
+            Descarga e instala Ejele en tu equipo principal.
           </p>
-        </div>
-
-        {/* Sticker fila superior */}
-        <div className="flex justify-center mb-4 reveal">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm font-medium">
-            Donde vive tu base de datos y cobras
-          </span>
         </div>
 
         {/* Equipo principal: 3 cards */}
@@ -143,14 +135,9 @@ export default function Platforms() {
           ))}
         </div>
 
-        <p className="text-center text-gray-300 text-lg mb-4 reveal">
-          Con Premium puedes acceder a la app para meseros y cocina
+        <p className="text-center text-gray-300 text-lg mb-6 reveal">
+          Aplicación para meseros y cocina
         </p>
-        <div className="flex justify-center mb-2 reveal">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm font-medium">
-            App para meseros y cocina
-          </span>
-        </div>
 
         {/* App remota: 2 cards más pequeñas y tono suave */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
@@ -160,8 +147,11 @@ export default function Platforms() {
               href={platform.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center block no-underline border border-white/5 hover:border-white/10`}
+              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center block no-underline border border-white/5 hover:border-white/10`}
             >
+              <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
+                Premium
+              </div>
               <div
                 className={`w-16 h-16 rounded-lg ${remoteIconBg[platform.color]} flex items-center justify-center mb-4 mx-auto`}
               >

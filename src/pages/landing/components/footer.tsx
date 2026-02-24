@@ -41,12 +41,12 @@ export default function Footer() {
               <ul className="space-y-3 mb-6">
                 <li>
                   <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
-                    <Icon icon="lucide:monitor" className="w-4 h-4" /> Windows
+                    <Icon icon="lucide:monitor" className="w-4 h-4 shrink-0 text-blue-400" /> Windows
                   </button>
                 </li>
                 <li>
                   <button onClick={() => setShowDialog(true)} className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer bg-transparent border-none p-0">
-                    <Icon icon="lucide:apple" className="w-4 h-4" /> macOS
+                    <Icon icon="lucide:apple" className="w-4 h-4 shrink-0 text-gray-200" /> macOS
                   </button>
                 </li>
                 <li>
@@ -59,12 +59,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a href={PLAY_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
-                    <Icon icon="logos:android-icon" className="w-4 h-4" /> Android
+                    <Icon icon="logos:google-play-icon" className="w-4 h-4" /> Play Store
                   </a>
                 </li>
                 <li>
                   <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
-                    <Icon icon="lucide:apple" className="w-4 h-4" /> iOS
+                    <Icon icon="logos:apple-app-store" className="w-4 h-4" /> App Store
                   </a>
                 </li>
               </ul>

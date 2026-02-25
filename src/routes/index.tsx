@@ -3,6 +3,7 @@ import LandingPage from '@/pages/landing/landing';
 import Policy from '@/pages/legal/policy';
 import TermsAndConditions from '@/pages/legal/terms';
 import PaymentSuccess from '@/pages/payment/payment-success';
+import NotFound from '@/pages/NotFound';
 
 export function Router() {
   return useRoutes([
@@ -21,6 +22,10 @@ export function Router() {
     {
       path: 'payment-success',
       element: <PaymentSuccess />,
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ]);
 }

@@ -1,8 +1,15 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/:path*",
-      "destination": "/index.html"
+      "destination": "https://www.ejele.app/:path*",
+      "permanent": true,
+      "has": [
+        { "type": "host", "value": "ejele.app" }
+      ]
     }
+  ],
+  "rewrites": [
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }

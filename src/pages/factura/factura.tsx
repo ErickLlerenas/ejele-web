@@ -1,34 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { Icon } from '@iconify/react';
-import Header from '@/pages/landing/components/header';
-import { getInvoiceFromQr } from './api';
-import type { FacturaQueryParams, InvoiceFromQrResponse } from './types';
+import { useEffect, useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Icon } from "@iconify/react";
+import Header from "@/pages/landing/components/header";
+import { getInvoiceFromQr } from "./api";
+import type { FacturaQueryParams, InvoiceFromQrResponse } from "./types";
 
 function getParams(search: URLSearchParams): FacturaQueryParams | null {
-  const orderId = search.get('orderId');
-  const restaurant_id = search.get('restaurant_id');
-  const total = search.get('total');
-  const ts = search.get('ts');
-  const sig = search.get('sig');
+  const orderId = search.get("orderId");
+  const restaurant_id = search.get("restaurant_id");
+  const total = search.get("total");
+  const ts = search.get("ts");
+  const sig = search.get("sig");
   if (!orderId || !restaurant_id || !total || !ts || !sig) return null;
   return { orderId, restaurant_id, total, ts, sig };
 }
 
 type ViewState =
-  | { status: 'idle' }
-  | { status: 'missing_params' }
-  | { status: 'loading' }
-  | { status: 'error'; message: string }
-  | { status: 'ready'; data: InvoiceFromQrResponse };
+  | { status: "idle" }
+  | { status: "missing_params" }
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ready"; data: InvoiceFromQrResponse };
 
 function formatDate(iso?: string): string {
-  if (!iso) return '—';
+  if (!iso) return "—";
   try {
-    return new Date(iso).toLocaleDateString('es-MX', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
+    return new Date(iso).toLocaleDateString("es-MX", {
+      dateStyle: "medium",
+      timeStyle: "short",
     });
   } catch {
     return iso;
@@ -37,25 +37,31 @@ function formatDate(iso?: string): string {
 
 export default function FacturaPage() {
   const [searchParams] = useSearchParams();
-  const [view, setView] = useState<ViewState>({ status: 'idle' });
+  const [view, setView] = useState<ViewState>({ status: "idle" });
   const params = getParams(searchParams);
 
   useEffect(() => {
-    if (view.status !== 'idle') return;
+    if (view.status !== "idle") return;
     if (!params) {
-      setView({ status: 'missing_params' });
+      setView({ status: "missing_params" });
       return;
     }
-    setView({ status: 'loading' });
+    setView({ status: "loading" });
     getInvoiceFromQr(params)
-      .then((data) => setView({ status: 'ready', data }))
+      .then((data) => setView({ status: "ready", data }))
       .catch((err) =>
         setView({
-          status: 'error',
-          message: err instanceof Error ? err.message : 'Error desconocido',
-        })
+          status: "error",
+          message: err instanceof Error ? err.message : "Error desconocido",
+        }),
       );
-  }, [params?.orderId, params?.restaurant_id, params?.total, params?.ts, params?.sig]);
+  }, [
+    params?.orderId,
+    params?.restaurant_id,
+    params?.total,
+    params?.ts,
+    params?.sig,
+  ]);
 
   return (
     <div className="landing-premium min-h-screen">
@@ -64,7 +70,7 @@ export default function FacturaPage() {
       <section className="pt-32 pb-20 px-6 flex items-center justify-center min-h-screen">
         <div className="max-w-xl mx-auto text-center">
           <div className="reveal active">
-            {view.status === 'idle' && (
+            {view.status === "idle" && (
               <div className="flex justify-center py-12">
                 <Icon
                   icon="solar:refresh-circle-bold"
@@ -73,13 +79,16 @@ export default function FacturaPage() {
               </div>
             )}
 
-            {view.status === 'missing_params' && (
+            {view.status === "missing_params" && (
               <>
                 <div className="mb-8 flex justify-center">
                   <div className="relative">
                     <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
                     <div className="relative w-20 h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
-                      <Icon icon="solar:link-circle-bold-duotone" className="w-12 h-12 text-white" />
+                      <Icon
+                        icon="solar:link-circle-bold-duotone"
+                        className="w-12 h-12 text-white"
+                      />
                     </div>
                   </div>
                 </div>
@@ -87,7 +96,8 @@ export default function FacturaPage() {
                   Enlace inválido
                 </h1>
                 <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
-                  Abre esta página escaneando el código QR de tu ticket de cuenta.
+                  Abre esta página escaneando el código QR de tu ticket de
+                  cuenta.
                 </p>
                 <Link
                   to="/"
@@ -99,7 +109,7 @@ export default function FacturaPage() {
               </>
             )}
 
-            {view.status === 'loading' && (
+            {view.status === "loading" && (
               <div className="flex flex-col items-center gap-4 py-12">
                 <Icon
                   icon="solar:refresh-circle-bold"
@@ -109,13 +119,16 @@ export default function FacturaPage() {
               </div>
             )}
 
-            {view.status === 'error' && (
+            {view.status === "error" && (
               <>
                 <div className="mb-8 flex justify-center">
                   <div className="relative">
                     <div className="absolute inset-0 bg-red-600/20 blur-3xl rounded-full" />
                     <div className="relative w-20 h-20 bg-red-600/80 rounded-full flex items-center justify-center">
-                      <Icon icon="solar:close-circle-bold-duotone" className="w-12 h-12 text-white" />
+                      <Icon
+                        icon="solar:close-circle-bold-duotone"
+                        className="w-12 h-12 text-white"
+                      />
                     </div>
                   </div>
                 </div>
@@ -135,13 +148,16 @@ export default function FacturaPage() {
               </>
             )}
 
-            {view.status === 'ready' && view.data.already_invoiced && (
+            {view.status === "ready" && view.data.already_invoiced && (
               <>
                 <div className="mb-8 flex justify-center">
                   <div className="relative">
                     <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
                     <div className="relative w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
-                      <Icon icon="solar:check-circle-bold-duotone" className="w-12 h-12 text-white" />
+                      <Icon
+                        icon="solar:check-circle-bold-duotone"
+                        className="w-12 h-12 text-white"
+                      />
                     </div>
                   </div>
                 </div>
@@ -149,8 +165,8 @@ export default function FacturaPage() {
                   Esta cuenta ya fue facturada
                 </h1>
                 <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
-                  La factura de esta cuenta ya fue generada. Puedes descargar el PDF y el XML (CFDI)
-                  a continuación.
+                  La factura de esta cuenta ya fue generada. Puedes descargar el
+                  PDF y el XML (CFDI) a continuación.
                 </p>
 
                 <div className="glass-card rounded-2xl p-6 mb-8 text-left">
@@ -160,8 +176,12 @@ export default function FacturaPage() {
                   <dl className="space-y-2 text-white">
                     {view.data.created_at && (
                       <div>
-                        <dt className="text-gray-500 text-sm">Fecha de emisión</dt>
-                        <dd className="font-medium">{formatDate(view.data.created_at)}</dd>
+                        <dt className="text-gray-500 text-sm">
+                          Fecha de emisión
+                        </dt>
+                        <dd className="font-medium">
+                          {formatDate(view.data.created_at)}
+                        </dd>
                       </div>
                     )}
                     <div className="flex flex-wrap gap-4 pt-2">
@@ -172,7 +192,10 @@ export default function FacturaPage() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline"
                         >
-                          <Icon icon="solar:document-text-bold-duotone" className="w-5 h-5" />
+                          <Icon
+                            icon="solar:document-text-bold-duotone"
+                            className="w-5 h-5"
+                          />
                           Descargar PDF
                         </a>
                       )}
@@ -183,7 +206,10 @@ export default function FacturaPage() {
                           rel="noopener noreferrer"
                           className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline"
                         >
-                          <Icon icon="solar:code-file-bold-duotone" className="w-5 h-5" />
+                          <Icon
+                            icon="solar:code-file-bold-duotone"
+                            className="w-5 h-5"
+                          />
                           Descargar XML (CFDI)
                         </a>
                       )}
@@ -206,7 +232,7 @@ export default function FacturaPage() {
               </>
             )}
 
-            {view.status === 'ready' &&
+            {view.status === "ready" &&
               !view.data.already_invoiced &&
               view.data.invoice_credits <= 0 && (
                 <>
@@ -225,8 +251,9 @@ export default function FacturaPage() {
                     No se puede facturar por ahora
                   </h1>
                   <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
-                    Este establecimiento no tiene créditos de facturación disponibles en este
-                    momento. Pide en caja que activen la facturación o vuelve a intentar más tarde.
+                    Este establecimiento no tiene créditos de facturación
+                    disponibles en este momento. Pide en caja que activen la
+                    facturación o vuelve a intentar más tarde.
                   </p>
                   <Link
                     to="/"
@@ -238,7 +265,7 @@ export default function FacturaPage() {
                 </>
               )}
 
-            {view.status === 'ready' &&
+            {view.status === "ready" &&
               !view.data.already_invoiced &&
               view.data.invoice_credits > 0 && (
                 <>
@@ -257,8 +284,9 @@ export default function FacturaPage() {
                     Solicitar factura
                   </h1>
                   <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
-                    Esta cuenta aún no tiene factura. El restaurante tiene créditos disponibles;
-                    aquí podrás solicitar tu factura (formulario próximamente).
+                    Esta cuenta aún no tiene factura. El restaurante tiene
+                    créditos disponibles; aquí podrás solicitar tu factura
+                    (formulario próximamente).
                   </p>
                   <div className="glass-card rounded-2xl p-6 text-left">
                     <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
@@ -267,20 +295,26 @@ export default function FacturaPage() {
                     <dl className="space-y-2 text-white">
                       <div>
                         <dt className="text-gray-500 text-sm">Orden</dt>
-                        <dd className="font-mono text-sm break-all">{view.data.order_id}</dd>
+                        <dd className="font-mono text-sm break-all">
+                          {view.data.order_id}
+                        </dd>
                       </div>
                       <div>
                         <dt className="text-gray-500 text-sm">Total</dt>
                         <dd className="font-medium">
-                          {new Intl.NumberFormat('es-MX', {
-                            style: 'currency',
-                            currency: 'MXN',
+                          {new Intl.NumberFormat("es-MX", {
+                            style: "currency",
+                            currency: "MXN",
                           }).format(view.data.total_cents / 100)}
                         </dd>
                       </div>
                       <div>
-                        <dt className="text-gray-500 text-sm">Créditos del restaurante</dt>
-                        <dd className="font-medium">{view.data.invoice_credits}</dd>
+                        <dt className="text-gray-500 text-sm">
+                          Créditos del restaurante
+                        </dt>
+                        <dd className="font-medium">
+                          {view.data.invoice_credits}
+                        </dd>
                       </div>
                     </dl>
                   </div>

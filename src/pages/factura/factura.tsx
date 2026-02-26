@@ -8,6 +8,7 @@ import type {
   FacturaQueryParams,
   InvoiceFromQrResponse,
   CreateInvoiceRequest,
+  InvoiceStateInvoiced,
   InvoiceStateNotInvoiced,
 } from "./types";
 import FacturaFiscalForm from "./FacturaFiscalForm";
@@ -50,8 +51,28 @@ export default function FacturaPage() {
   const [creatingWithData, setCreatingWithData] =
     useState<InvoiceStateNotInvoiced | null>(null);
   const [snackbarError, setSnackbarError] = useState<string | null>(null);
+  const [loadingDownload, setLoadingDownload] = useState<"pdf" | "xml" | null>(null);
   const snackbarTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const params = getParams(searchParams);
+
+  const handleDownload = async (url: string, type: "pdf" | "xml") => {
+    setLoadingDownload(type);
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Error al obtener el archivo");
+      const blob = await res.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objectUrl;
+      a.download = type === "pdf" ? "factura.pdf" : "factura.xml";
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    } catch {
+      window.open(url, "_blank");
+    } finally {
+      setLoadingDownload(null);
+    }
+  };
 
   useEffect(() => {
     if (view.status !== "idle") return;
@@ -241,30 +262,46 @@ export default function FacturaPage() {
                     )}
                     <div className="flex flex-wrap gap-3 pt-2 items-stretch justify-center">
                       {view.data.pdf_url && (
-                        <a
-                          href={view.data.pdf_url}
-                          download="factura.pdf"
-                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
+                        <button
+                          type="button"
+                          onClick={() => handleDownload((view.data as InvoiceStateInvoiced).pdf_url!, "pdf")}
+                          disabled={loadingDownload !== null}
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:pointer-events-none text-white flex-1 min-w-[200px] max-w-[280px]"
                         >
-                          <Icon
-                            icon="solar:document-text-bold-duotone"
-                            className="w-5 h-5 shrink-0"
-                          />
-                          Descargar PDF
-                        </a>
+                          {loadingDownload === "pdf" ? (
+                            <Icon
+                              icon="solar:refresh-circle-bold"
+                              className="w-5 h-5 shrink-0 animate-spin"
+                            />
+                          ) : (
+                            <Icon
+                              icon="solar:document-text-bold-duotone"
+                              className="w-5 h-5 shrink-0"
+                            />
+                          )}
+                          {loadingDownload === "pdf" ? "Descargando…" : "Descargar PDF"}
+                        </button>
                       )}
                       {view.data.xml_url && (
-                        <a
-                          href={view.data.xml_url}
-                          download="factura.xml"
-                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
+                        <button
+                          type="button"
+                          onClick={() => handleDownload((view.data as InvoiceStateInvoiced).xml_url!, "xml")}
+                          disabled={loadingDownload !== null}
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 flex-1 min-w-[200px] max-w-[280px] disabled:opacity-70 disabled:pointer-events-none"
                         >
-                          <Icon
-                            icon="solar:code-file-bold-duotone"
-                            className="w-5 h-5 shrink-0"
-                          />
-                          Descargar XML (CFDI)
-                        </a>
+                          {loadingDownload === "xml" ? (
+                            <Icon
+                              icon="solar:refresh-circle-bold"
+                              className="w-5 h-5 shrink-0 animate-spin"
+                            />
+                          ) : (
+                            <Icon
+                              icon="solar:code-file-bold-duotone"
+                              className="w-5 h-5 shrink-0"
+                            />
+                          )}
+                          {loadingDownload === "xml" ? "Descargando…" : "Descargar XML (CFDI)"}
+                        </button>
                       )}
                     </div>
                     {!view.data.pdf_url && !view.data.xml_url && (
@@ -340,30 +377,46 @@ export default function FacturaPage() {
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center items-stretch">
                   {view.pdf_url && (
-                    <a
-                      href={view.pdf_url}
-                      download="factura.pdf"
-                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(view.pdf_url!, "pdf")}
+                      disabled={loadingDownload !== null}
+                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:pointer-events-none text-white flex-1 min-w-[200px] max-w-[280px]"
                     >
-                      <Icon
-                        icon="solar:document-text-bold-duotone"
-                        className="w-5 h-5 shrink-0"
-                      />
-                      Descargar PDF
-                    </a>
+                      {loadingDownload === "pdf" ? (
+                        <Icon
+                          icon="solar:refresh-circle-bold"
+                          className="w-5 h-5 shrink-0 animate-spin"
+                        />
+                      ) : (
+                        <Icon
+                          icon="solar:document-text-bold-duotone"
+                          className="w-5 h-5 shrink-0"
+                        />
+                      )}
+                      {loadingDownload === "pdf" ? "Descargando…" : "Descargar PDF"}
+                    </button>
                   )}
                   {view.xml_url && (
-                    <a
-                      href={view.xml_url}
-                      download="factura.xml"
-                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
+                    <button
+                      type="button"
+                      onClick={() => handleDownload(view.xml_url!, "xml")}
+                      disabled={loadingDownload !== null}
+                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 flex-1 min-w-[200px] max-w-[280px] disabled:opacity-70 disabled:pointer-events-none"
                     >
-                      <Icon
-                        icon="solar:code-file-bold-duotone"
-                        className="w-5 h-5 shrink-0"
-                      />
-                      Descargar XML (CFDI)
-                    </a>
+                      {loadingDownload === "xml" ? (
+                        <Icon
+                          icon="solar:refresh-circle-bold"
+                          className="w-5 h-5 shrink-0 animate-spin"
+                        />
+                      ) : (
+                        <Icon
+                          icon="solar:code-file-bold-duotone"
+                          className="w-5 h-5 shrink-0"
+                        />
+                      )}
+                      {loadingDownload === "xml" ? "Descargando…" : "Descargar XML (CFDI)"}
+                    </button>
                   )}
                   {!view.pdf_url && !view.xml_url && (
                     <p className="text-gray-500 text-sm">

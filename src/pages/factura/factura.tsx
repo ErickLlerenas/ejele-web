@@ -248,12 +248,11 @@ export default function FacturaPage() {
                     </div>
                   </div>
                   <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                    No se puede facturar por ahora
+                    Facturación no disponible
                   </h1>
                   <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
-                    Este establecimiento no tiene créditos de facturación
-                    disponibles en este momento. Pide en caja que activen la
-                    facturación o vuelve a intentar más tarde.
+                    Este restaurante no tiene créditos de facturación
+                    disponibles en este momento.
                   </p>
                   <Link
                     to="/"

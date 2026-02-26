@@ -1,4 +1,3 @@
-import { FunctionsHttpError } from '@supabase/supabase-js';
 import { getSupabase } from '@/lib/supabase';
 import type { FacturaQueryParams, InvoiceFromQrResponse } from './types';
 
@@ -20,10 +19,11 @@ export async function getInvoiceFromQr(
 
   if (error) {
     let message = error.message;
-    if (error instanceof FunctionsHttpError && error.context) {
+    const err = error as { context?: { json?: () => Promise<unknown> } };
+    if (err.context?.json) {
       try {
-        const body = await error.context.json();
-        if (body && typeof body.error === 'string') message = body.error;
+        const body = (await err.context.json()) as { error?: string };
+        if (body?.error) message = body.error;
       } catch {
         // usar message por defecto
       }

@@ -243,8 +243,7 @@ export default function FacturaPage() {
                       {view.data.pdf_url && (
                         <a
                           href={view.data.pdf_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          download="factura.pdf"
                           className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
                         >
                           <Icon
@@ -257,8 +256,7 @@ export default function FacturaPage() {
                       {view.data.xml_url && (
                         <a
                           href={view.data.xml_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          download="factura.xml"
                           className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
                         >
                           <Icon
@@ -344,8 +342,7 @@ export default function FacturaPage() {
                   {view.pdf_url && (
                     <a
                       href={view.pdf_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download="factura.pdf"
                       className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
                     >
                       <Icon
@@ -358,8 +355,7 @@ export default function FacturaPage() {
                   {view.xml_url && (
                     <a
                       href={view.xml_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download="factura.xml"
                       className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
                     >
                       <Icon

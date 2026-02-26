@@ -123,20 +123,26 @@ export default function FacturaPage() {
               <>
                 <div className="mb-8 flex justify-center">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-red-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-20 h-20 bg-red-600/80 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
+                    <div className="relative w-20 h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
                       <Icon
-                        icon="solar:close-circle-bold-duotone"
+                        icon="solar:link-circle-bold-duotone"
                         className="w-12 h-12 text-white"
                       />
                     </div>
                   </div>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                  Error
+                  {view.message.toLowerCase().includes("inválido") ||
+                  view.message.toLowerCase().includes("modificado")
+                    ? "Enlace inválido"
+                    : "Algo salió mal"}
                 </h1>
                 <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
-                  {view.message}
+                  {view.message.toLowerCase().includes("inválido") ||
+                  view.message.toLowerCase().includes("modificado")
+                    ? "El enlace del ticket no es válido o fue modificado. Escanea de nuevo el QR de tu ticket."
+                    : view.message}
                 </p>
                 <Link
                   to="/"

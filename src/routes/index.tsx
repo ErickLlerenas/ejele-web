@@ -3,6 +3,7 @@ import LandingPage from '@/pages/landing/landing';
 import Policy from '@/pages/legal/policy';
 import TermsAndConditions from '@/pages/legal/terms';
 import PaymentSuccess from '@/pages/payment/payment-success';
+import FacturaPage from '@/pages/factura/factura';
 import NotFound from '@/pages/NotFound';
 
 export function Router() {
@@ -22,6 +23,10 @@ export function Router() {
     {
       path: 'payment-success',
       element: <PaymentSuccess />,
+    },
+    {
+      path: 'factura',
+      element: <FacturaPage />,
     },
     {
       path: '*',

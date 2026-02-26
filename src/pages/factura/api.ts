@@ -1,5 +1,10 @@
 import { getSupabase } from '@/lib/supabase';
-import type { FacturaQueryParams, InvoiceFromQrResponse } from './types';
+import type {
+  FacturaQueryParams,
+  InvoiceFromQrResponse,
+  CreateInvoiceRequest,
+  CreateInvoiceResponse,
+} from './types';
 
 export async function getInvoiceFromQr(
   params: FacturaQueryParams
@@ -35,4 +40,29 @@ export async function getInvoiceFromQr(
     throw new Error(String(data.error));
 
   return data as InvoiceFromQrResponse;
+}
+
+export async function createInvoice(
+  body: CreateInvoiceRequest
+): Promise<CreateInvoiceResponse> {
+  const { data, error } = await getSupabase().functions.invoke<CreateInvoiceResponse>(
+    'facturapi-create-invoice',
+    { body }
+  );
+
+  if (error) {
+    let message = error.message;
+    const err = error as { context?: { json?: () => Promise<unknown> } };
+    if (err.context?.json) {
+      try {
+        const res = (await err.context.json()) as { error?: string };
+        if (res?.error) message = res.error;
+      } catch {
+        // usar message por defecto
+      }
+    }
+    throw new Error(message);
+  }
+  if (typeof data === 'object' && data?.error) throw new Error(data.error);
+  return (data ?? {}) as CreateInvoiceResponse;
 }

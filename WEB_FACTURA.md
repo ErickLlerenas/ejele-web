@@ -91,7 +91,7 @@ Ambas viven en este repo: `supabase/functions/facturapi-invoice-from-qr` y `supa
    - **Si `already_invoiced`:** mostrar mensaje tipo “Esta cuenta ya fue facturada” y, si vienen `pdf_url` y/o `xml_url`, botones para descargar PDF y XML (CFDI).
    - **Si no hay factura pero `invoice_credits <= 0`:** mostrar mensaje tipo “Este restaurante no tiene créditos de facturación en este momento” y **no** mostrar el formulario ni permitir solicitar factura.
    - **Si no hay factura y `invoice_credits > 0`:** mostrar el formulario de datos fiscales.
-6. **Al enviar el formulario** (solo cuando hay créditos), la web llama a **`facturapi-create-invoice`** (POST) con el body que ya usa esa función: `restaurant_id`, `customer` (legal_name, tax_id, tax_system, email?, address?), `items`, `use`, `payment_form`. Los ítems pueden ser un concepto genérico con el `total_cents` que devolvió `facturapi-invoice-from-qr`. Conviene que el backend (esa función o una que la orqueste) además inserte en la tabla `invoices` con `restaurant_id`, `order_id` (del QR), `facturapi_id`, `pdf_url`, `xml_url` y reste 1 a `invoice_credits` del restaurante; y que devuelva al cliente el PDF y/o XML.
+6. **Al enviar el formulario** (solo cuando hay créditos), la web llama a **`facturapi-create-invoice`** (POST) con el body que ya usa esa función: `order_id`, `restaurant_id`, `total_cents`, `customer`, `use`, `payment_form`. El backend construye el payload para la API de Facturapi (ver sección 8) y timbra. Conviene que la Edge Function además inserte en la tabla `invoices` con `restaurant_id`, `order_id`, `facturapi_id`, `pdf_url`, `xml_url` y reste 1 a `invoice_credits` del restaurante; y que devuelva al cliente el PDF y/o XML.
 
 La web **nunca** debe usar `orderId` / `total` / `restaurant_id` para facturar sin que el backend haya validado antes la firma (eso lo hace `facturapi-invoice-from-qr` al cargar). La comprobación de **si el restaurante tiene tokens/créditos** y el mensaje al usuario correspondiente es responsabilidad de la app React usando el `invoice_credits` que devuelve esa función.
 
@@ -115,3 +115,37 @@ La web **nunca** debe usar `orderId` / `total` / `restaurant_id` para facturar s
 - **Salida:** Base64URL(digest) sin caracteres `=` de padding.
 
 La app Flutter ya genera la URL con este formato; la Edge Function debe repetir el mismo cálculo para validar.
+
+---
+
+## 8. Referencia Facturapi (crear factura)
+
+La Edge Function `facturapi-create-invoice` debe llamar a la API de Facturapi para timbrar. Según la [documentación oficial de Facturapi](https://docs.facturapi.io/docs/guides/invoices/ingreso/) y el [Quickstart](https://docs.facturapi.io/en/docs/quickstart/), el método **Crear factura** espera un body con esta estructura:
+
+| Campo | Requerido | Descripción |
+|-------|-----------|-------------|
+| **customer** | Sí | Objeto con datos fiscales del receptor. |
+| **customer.legal_name** | Sí | Nombre o razón social (sin régimen societario: S.A. de C.V.). |
+| **customer.tax_id** | Sí | RFC (México). |
+| **customer.tax_system** | Sí | Clave del régimen fiscal (catálogo SAT), 3 caracteres (ej. `601`). |
+| **customer.email** | Recomendado | Para envío de la factura por correo. |
+| **customer.address** | Sí (México) | Domicilio fiscal; **debe incluir al menos `zip`** (código postal). |
+| **items** | Sí | Arreglo de líneas de la factura. |
+| **items[].quantity** | Sí | Cantidad. |
+| **items[].product** | Sí | Objeto con `description`, `product_key` (clave producto/servicio SAT) y `price` (precio unitario). Por defecto el precio se considera con IVA incluido (16%). |
+| **use** | Sí | Uso del CFDI (catálogo SAT), ej. `G01`, `G03`, `P01`. |
+| **payment_form** | Sí | Forma de pago (catálogo SAT), ej. `01` (Efectivo), `03` (Transferencia), `28` (Tarjeta débito/crédito), `99` (Por definir). |
+
+**Cómo armar el request desde la web:**
+
+- La web envía a la Edge Function: `order_id`, `restaurant_id`, `total_cents`, `customer` (legal_name, tax_id, tax_system, email?, address?: { zip }), `use`, `payment_form`.
+- La Edge Function debe **construir el array `items`** para Facturapi: por ejemplo un solo ítem genérico (consumo, alimentos, etc.) con `quantity: 1`, `product.description` descriptivo, `product.product_key` de la clave SAT adecuada (ej. servicio de alimentos) y `product.price` = `total_cents / 100`.
+- Asegurar que **customer.address** tenga al menos **zip**; si el usuario no lo envía, el backend puede usar un valor por defecto o rechazar (según política).
+
+**Respuesta de Facturapi:** el objeto factura incluye `id`, `status`, `uuid`, etc. Para entregar PDF/XML al cliente, la Edge Function puede usar los endpoints de Facturapi de descarga (por `invoice.id`) y devolver URLs o el contenido; y guardar `pdf_url`/`xml_url` en la tabla `invoices`.
+
+Documentación de referencia:
+
+- [Guía: Comprobante de ingreso (factura)](https://docs.facturapi.io/docs/guides/invoices/ingreso/)
+- [Referencia API – Crear factura (CFDI 4.0)](https://docs.facturapi.io/api/)
+- [Quickstart – Create your first invoice](https://docs.facturapi.io/en/docs/quickstart/)

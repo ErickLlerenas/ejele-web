@@ -22,6 +22,49 @@ export interface InvoiceStateNotInvoiced {
   order_id: string;
   total_cents: number;
   invoice_credits: number;
+  iva_rate: number;
 }
 
 export type InvoiceFromQrResponse = InvoiceStateInvoiced | InvoiceStateNotInvoiced;
+
+/** Datos fiscales para facturapi-create-invoice (customer) */
+export interface InvoiceCustomer {
+  legal_name: string;
+  tax_id: string;
+  tax_system: string;
+  email: string;
+  address: { zip: string };
+}
+
+/** Un concepto/ítem para Facturapi (workaround: un solo ítem "Consumo de restaurante"). price con IVA incluido según tax_included. */
+export interface InvoiceLineItem {
+  quantity: number;
+  product: {
+    description: string;
+    product_key: string;
+    /** Clave unidad de medida SAT. E48 = kilogramo. */
+    unit_key: string;
+    price: number;
+    /** Si true, price ya incluye IVA; si false, price es unitario sin IVA. */
+    tax_included: boolean;
+  };
+}
+
+/** Body para facturapi-create-invoice. items: un único ítem "Consumo de restaurante". iva_rate viene de facturapi-invoice-from-qr. */
+export interface CreateInvoiceRequest {
+  order_id: string;
+  restaurant_id: string;
+  total_cents: number;
+  customer: InvoiceCustomer;
+  items: InvoiceLineItem[];
+  iva_rate: number;
+  use: string;
+  payment_form: string;
+}
+
+/** Respuesta esperada al crear factura (pdf/xml cuando el backend los devuelva) */
+export interface CreateInvoiceResponse {
+  pdf_url?: string;
+  xml_url?: string;
+  error?: string;
+}

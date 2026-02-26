@@ -1,14 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { Icon } from "@iconify/react";
 import Header from "@/pages/landing/components/header";
-import { getInvoiceFromQr } from "./api";
-import type { FacturaQueryParams, InvoiceFromQrResponse } from "./types";
+import { getInvoiceFromQr, createInvoice } from "./api";
+import type {
+  FacturaQueryParams,
+  InvoiceFromQrResponse,
+  CreateInvoiceRequest,
+  InvoiceStateNotInvoiced,
+} from "./types";
+import FacturaFiscalForm from "./FacturaFiscalForm";
 
 function getParams(search: URLSearchParams): FacturaQueryParams | null {
-  const orderId = search.get("orderId");
-  const restaurant_id = search.get("restaurant_id");
+  const orderId = search.get("orderId") ?? search.get("orderid");
+  const restaurant_id =
+    search.get("restaurant_id") ?? search.get("restaurantid");
   const total = search.get("total");
   const ts = search.get("ts");
   const sig = search.get("sig");
@@ -21,7 +28,9 @@ type ViewState =
   | { status: "missing_params" }
   | { status: "loading" }
   | { status: "error"; message: string }
-  | { status: "ready"; data: InvoiceFromQrResponse };
+  | { status: "ready"; data: InvoiceFromQrResponse }
+  | { status: "creating" }
+  | { status: "created"; pdf_url?: string; xml_url?: string };
 
 function formatDate(iso?: string): string {
   if (!iso) return "—";
@@ -38,6 +47,10 @@ function formatDate(iso?: string): string {
 export default function FacturaPage() {
   const [searchParams] = useSearchParams();
   const [view, setView] = useState<ViewState>({ status: "idle" });
+  const [creatingWithData, setCreatingWithData] =
+    useState<InvoiceStateNotInvoiced | null>(null);
+  const [snackbarError, setSnackbarError] = useState<string | null>(null);
+  const snackbarTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const params = getParams(searchParams);
 
   useEffect(() => {
@@ -62,6 +75,45 @@ export default function FacturaPage() {
     params?.ts,
     params?.sig,
   ]);
+
+  useEffect(() => {
+    return () => {
+      if (snackbarTimeout.current) clearTimeout(snackbarTimeout.current);
+    };
+  }, []);
+
+  const handleCreateInvoice = (payload: CreateInvoiceRequest) => {
+    const prevData: InvoiceStateNotInvoiced | null =
+      view.status === "ready" && !view.data.already_invoiced ? view.data : null;
+    if (prevData) setCreatingWithData(prevData);
+    setView({ status: "creating" });
+    setSnackbarError(null);
+    createInvoice(payload)
+      .then((res) => {
+        setCreatingWithData(null);
+        setView({
+          status: "created",
+          pdf_url: res.pdf_url,
+          xml_url: res.xml_url,
+        });
+      })
+      .catch((err) => {
+        const msg =
+          err instanceof Error ? err.message : "Error al generar la factura";
+        setCreatingWithData(null);
+        if (prevData) {
+          setView({ status: "ready", data: prevData });
+          setSnackbarError(msg);
+          if (snackbarTimeout.current) clearTimeout(snackbarTimeout.current);
+          snackbarTimeout.current = setTimeout(
+            () => setSnackbarError(null),
+            5000,
+          );
+        } else {
+          setView({ status: "error", message: msg });
+        }
+      });
+  };
 
   return (
     <div className="landing-premium min-h-screen">
@@ -168,7 +220,7 @@ export default function FacturaPage() {
                   </div>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                  Esta cuenta ya fue facturada
+                  Cuenta facturada
                 </h1>
                 <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
                   La factura de esta cuenta ya fue generada. Puedes descargar el
@@ -176,9 +228,6 @@ export default function FacturaPage() {
                 </p>
 
                 <div className="glass-card rounded-2xl p-6 mb-8 text-left">
-                  <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                    Información de la factura
-                  </h2>
                   <dl className="space-y-2 text-white">
                     {view.data.created_at && (
                       <div>
@@ -190,17 +239,17 @@ export default function FacturaPage() {
                         </dd>
                       </div>
                     )}
-                    <div className="flex flex-wrap gap-4 pt-2">
+                    <div className="flex flex-wrap gap-3 pt-2 items-stretch justify-center">
                       {view.data.pdf_url && (
                         <a
                           href={view.data.pdf_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline"
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
                         >
                           <Icon
                             icon="solar:document-text-bold-duotone"
-                            className="w-5 h-5"
+                            className="w-5 h-5 shrink-0"
                           />
                           Descargar PDF
                         </a>
@@ -210,11 +259,11 @@ export default function FacturaPage() {
                           href={view.data.xml_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline"
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
                         >
                           <Icon
                             icon="solar:code-file-bold-duotone"
-                            className="w-5 h-5"
+                            className="w-5 h-5 shrink-0"
                           />
                           Descargar XML (CFDI)
                         </a>
@@ -228,13 +277,15 @@ export default function FacturaPage() {
                   </dl>
                 </div>
 
-                <Link
-                  to="/"
-                  className="inline-flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors no-underline"
-                >
-                  <Icon icon="solar:home-bold-duotone" className="w-5 h-5" />
-                  Volver al inicio
-                </Link>
+                <div className="flex justify-center">
+                  <Link
+                    to="/"
+                    className="inline-flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors no-underline"
+                  >
+                    <Icon icon="solar:home-bold-duotone" className="w-5 h-5" />
+                    Volver al inicio
+                  </Link>
+                </div>
               </>
             )}
 
@@ -270,71 +321,140 @@ export default function FacturaPage() {
                 </>
               )}
 
-            {view.status === "ready" &&
-              !view.data.already_invoiced &&
-              view.data.invoice_credits > 0 && (
-                <>
-                  <div className="mb-8 flex justify-center">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full" />
-                      <div className="relative w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
-                        <Icon
-                          icon="solar:document-text-bold-duotone"
-                          className="w-12 h-12 text-white"
-                        />
-                      </div>
+            {view.status === "created" && (
+              <>
+                <div className="mb-8 flex justify-center">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
+                    <div className="relative w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
+                      <Icon
+                        icon="solar:check-circle-bold-duotone"
+                        className="w-12 h-12 text-white"
+                      />
                     </div>
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                    Solicitar factura
-                  </h1>
-                  <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
-                    Esta cuenta aún no tiene factura. El restaurante tiene
-                    créditos disponibles; aquí podrás solicitar tu factura
-                    (formulario próximamente).
-                  </p>
-                  <div className="glass-card rounded-2xl p-6 text-left">
-                    <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                      Datos de la cuenta
-                    </h2>
-                    <dl className="space-y-2 text-white">
-                      <div>
-                        <dt className="text-gray-500 text-sm">Orden</dt>
-                        <dd className="font-mono text-sm break-all">
-                          {view.data.order_id}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500 text-sm">Total</dt>
-                        <dd className="font-medium">
-                          {new Intl.NumberFormat("es-MX", {
-                            style: "currency",
-                            currency: "MXN",
-                          }).format(view.data.total_cents / 100)}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500 text-sm">
-                          Créditos del restaurante
-                        </dt>
-                        <dd className="font-medium">
-                          {view.data.invoice_credits}
-                        </dd>
-                      </div>
-                    </dl>
-                  </div>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                  Factura generada
+                </h1>
+                <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                  Tu factura ha sido enviada por correo.
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center items-stretch">
+                  {view.pdf_url && (
+                    <a
+                      href={view.pdf_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 text-white no-underline flex-1 min-w-[200px] max-w-[280px]"
+                    >
+                      <Icon
+                        icon="solar:document-text-bold-duotone"
+                        className="w-5 h-5 shrink-0"
+                      />
+                      Descargar PDF
+                    </a>
+                  )}
+                  {view.xml_url && (
+                    <a
+                      href={view.xml_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 no-underline flex-1 min-w-[200px] max-w-[280px]"
+                    >
+                      <Icon
+                        icon="solar:code-file-bold-duotone"
+                        className="w-5 h-5 shrink-0"
+                      />
+                      Descargar XML (CFDI)
+                    </a>
+                  )}
+                  {!view.pdf_url && !view.xml_url && (
+                    <p className="text-gray-500 text-sm">
+                      Tu factura fue registrada. Los enlaces de descarga estarán
+                      disponibles en breve.
+                    </p>
+                  )}
+                </div>
+                <div className="flex justify-center mt-8">
                   <Link
                     to="/"
-                    className="inline-flex items-center justify-center gap-2 mt-8 text-gray-400 hover:text-white transition-colors no-underline"
+                    className="inline-flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors no-underline"
                   >
                     <Icon icon="solar:home-bold-duotone" className="w-5 h-5" />
                     Volver al inicio
                   </Link>
-                </>
-              )}
+                </div>
+              </>
+            )}
+
+            {((view.status === "ready" &&
+              !view.data.already_invoiced &&
+              view.data.invoice_credits > 0) ||
+              (view.status === "creating" && creatingWithData)) &&
+              (() => {
+                const formData: InvoiceStateNotInvoiced =
+                  view.status === "ready"
+                    ? (view.data as InvoiceStateNotInvoiced)
+                    : creatingWithData!;
+                return (
+                  <>
+                    <div className="mb-8 flex justify-center">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full" />
+                        <div className="relative w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
+                          <Icon
+                            icon="solar:document-text-bold-duotone"
+                            className="w-12 h-12 text-white"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                      Solicitar factura
+                    </h1>
+                    <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                      Completa tus datos fiscales para generar tu factura.
+                    </p>
+                    <FacturaFiscalForm
+                      order_id={formData.order_id}
+                      restaurant_id={formData.restaurant_id}
+                      total_cents={formData.total_cents}
+                      totalFormatted={new Intl.NumberFormat("es-MX", {
+                        style: "currency",
+                        currency: "MXN",
+                      }).format(formData.total_cents / 100)}
+                      iva_rate={formData.iva_rate}
+                      onSubmit={handleCreateInvoice}
+                      loading={view.status === "creating"}
+                    />
+                  </>
+                );
+              })()}
           </div>
         </div>
       </section>
+
+      {snackbarError && (
+        <div
+          role="alert"
+          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-center gap-3 px-4 py-3 rounded-xl bg-red-900/95 text-white border border-red-500/50 shadow-lg z-[1100]"
+        >
+          <p className="flex-1 text-sm">{snackbarError}</p>
+          <button
+            type="button"
+            onClick={() => {
+              if (snackbarTimeout.current)
+                clearTimeout(snackbarTimeout.current);
+              setSnackbarError(null);
+            }}
+            className="shrink-0 p-1 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Cerrar"
+          >
+            <Icon icon="solar:close-circle-bold" className="w-5 h-5" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

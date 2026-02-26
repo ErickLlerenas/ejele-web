@@ -1,3 +1,4 @@
+import { FunctionsHttpError } from '@supabase/supabase-js';
 import { getSupabase } from '@/lib/supabase';
 import type { FacturaQueryParams, InvoiceFromQrResponse } from './types';
 
@@ -17,13 +18,21 @@ export async function getInvoiceFromQr(
     }
   );
 
-  const backendMessage =
-    typeof data === 'object' && data && 'error' in data && data.error
-      ? String(data.error)
-      : null;
-  if (error) throw new Error(backendMessage || error.message || 'Error al validar el enlace');
+  if (error) {
+    let message = error.message;
+    if (error instanceof FunctionsHttpError && error.context) {
+      try {
+        const body = await error.context.json();
+        if (body && typeof body.error === 'string') message = body.error;
+      } catch {
+        // usar message por defecto
+      }
+    }
+    throw new Error(message);
+  }
   if (!data) throw new Error('Sin respuesta del servidor');
-  if (backendMessage) throw new Error(backendMessage);
+  if (typeof data === 'object' && 'error' in data && data.error)
+    throw new Error(String(data.error));
 
   return data as InvoiceFromQrResponse;
 }

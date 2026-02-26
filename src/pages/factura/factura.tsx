@@ -66,7 +66,7 @@ export default function FacturaPage() {
   return (
     <div className="landing-premium min-h-screen">
       <Helmet title="Factura - Ejele" />
-      <Header />
+      <Header minimal />
       <section className="pt-32 pb-20 px-6 flex items-center justify-center min-h-screen">
         <div className="max-w-xl mx-auto text-center">
           <div className="reveal active">

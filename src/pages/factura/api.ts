@@ -17,10 +17,13 @@ export async function getInvoiceFromQr(
     }
   );
 
-  if (error) throw new Error(error.message || 'Error al validar el enlace');
+  const backendMessage =
+    typeof data === 'object' && data && 'error' in data && data.error
+      ? String(data.error)
+      : null;
+  if (error) throw new Error(backendMessage || error.message || 'Error al validar el enlace');
   if (!data) throw new Error('Sin respuesta del servidor');
-  if (typeof data === 'object' && 'error' in data && data.error)
-    throw new Error(String(data.error));
+  if (backendMessage) throw new Error(backendMessage);
 
   return data as InvoiceFromQrResponse;
 }

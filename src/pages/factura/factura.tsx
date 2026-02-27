@@ -75,6 +75,17 @@ export default function FacturaPage() {
   };
 
   useEffect(() => {
+    const prevHtmlBg = document.documentElement.style.backgroundColor;
+    const prevBodyBg = document.body.style.backgroundColor;
+    document.documentElement.style.backgroundColor = "#000";
+    document.body.style.backgroundColor = "#000";
+    return () => {
+      document.documentElement.style.backgroundColor = prevHtmlBg;
+      document.body.style.backgroundColor = prevBodyBg;
+    };
+  }, []);
+
+  useEffect(() => {
     if (view.status !== "idle") return;
     if (!params) {
       setView({ status: "missing_params" });
@@ -137,10 +148,10 @@ export default function FacturaPage() {
   };
 
   return (
-    <div className="landing-premium min-h-screen">
+    <div className="landing-premium min-h-[100dvh] flex flex-col">
       <Helmet title="Factura - Ejele" />
       <Header minimal />
-      <section className="pt-32 pb-20 px-6 flex items-center justify-center min-h-screen">
+      <section className="pt-32 pb-20 px-6 flex flex-1 items-center justify-center">
         <div className="max-w-xl mx-auto text-center">
           <div className="reveal active">
             {view.status === "idle" && (

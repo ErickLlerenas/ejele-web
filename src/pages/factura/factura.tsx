@@ -75,13 +75,22 @@ export default function FacturaPage() {
   };
 
   useEffect(() => {
-    const prevHtmlBg = document.documentElement.style.backgroundColor;
-    const prevBodyBg = document.body.style.backgroundColor;
-    document.documentElement.style.backgroundColor = "#000";
-    document.body.style.backgroundColor = "#000";
+    const html = document.documentElement;
+    const body = document.body;
+    const root = document.getElementById("root");
+    const prevHtmlBg = html.style.backgroundColor;
+    const prevBodyBg = body.style.backgroundColor;
+    const prevBodyMinHeight = body.style.minHeight;
+    const prevRootMinHeight = root?.style.minHeight ?? "";
+    html.style.backgroundColor = "#000";
+    body.style.backgroundColor = "#000";
+    body.style.minHeight = "auto";
+    if (root) root.style.minHeight = "auto";
     return () => {
-      document.documentElement.style.backgroundColor = prevHtmlBg;
-      document.body.style.backgroundColor = prevBodyBg;
+      html.style.backgroundColor = prevHtmlBg;
+      body.style.backgroundColor = prevBodyBg;
+      body.style.minHeight = prevBodyMinHeight;
+      if (root) root.style.minHeight = prevRootMinHeight;
     };
   }, []);
 
@@ -148,7 +157,7 @@ export default function FacturaPage() {
   };
 
   return (
-    <div className="landing-premium min-h-0 flex flex-col">
+    <div className="landing-premium factura-page flex flex-col">
       <Helmet title="Factura - Ejele" />
       <Header minimal />
       <section className="pt-32 pb-20 px-6 flex flex-col items-center justify-center">

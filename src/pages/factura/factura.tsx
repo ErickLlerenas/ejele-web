@@ -148,10 +148,10 @@ export default function FacturaPage() {
   };
 
   return (
-    <div className="landing-premium min-h-[100dvh] flex flex-col">
+    <div className="landing-premium min-h-0 flex flex-col">
       <Helmet title="Factura - Ejele" />
       <Header minimal />
-      <section className="pt-32 pb-20 px-6 flex flex-1 items-center justify-center">
+      <section className="pt-32 pb-20 px-6 flex flex-col items-center justify-center">
         <div className="max-w-xl mx-auto text-center">
           <div className="reveal active">
             {view.status === "idle" && (

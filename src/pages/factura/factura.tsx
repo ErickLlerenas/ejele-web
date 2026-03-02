@@ -51,8 +51,14 @@ export default function FacturaPage() {
   const [creatingWithData, setCreatingWithData] =
     useState<InvoiceStateNotInvoiced | null>(null);
   const [snackbarError, setSnackbarError] = useState<string | null>(null);
-  const [loadingDownload, setLoadingDownload] = useState<"pdf" | "xml" | null>(null);
+  const [snackbarWarning, setSnackbarWarning] = useState<string | null>(null);
+  const [loadingDownload, setLoadingDownload] = useState<"pdf" | "xml" | null>(
+    null,
+  );
   const snackbarTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const snackbarWarningTimeout = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
   const params = getParams(searchParams);
 
   const handleDownload = async (url: string, type: "pdf" | "xml") => {
@@ -127,8 +133,20 @@ export default function FacturaPage() {
   useEffect(() => {
     return () => {
       if (snackbarTimeout.current) clearTimeout(snackbarTimeout.current);
+      if (snackbarWarningTimeout.current)
+        clearTimeout(snackbarWarningTimeout.current);
     };
   }, []);
+
+  const showRegimenStrippedSnackbar = () => {
+    setSnackbarWarning("shown");
+    if (snackbarWarningTimeout.current)
+      clearTimeout(snackbarWarningTimeout.current);
+    snackbarWarningTimeout.current = setTimeout(() => {
+      setSnackbarWarning(null);
+      snackbarWarningTimeout.current = null;
+    }, 7500);
+  };
 
   const handleCreateInvoice = (payload: CreateInvoiceRequest) => {
     const prevData: InvoiceStateNotInvoiced | null =
@@ -295,7 +313,12 @@ export default function FacturaPage() {
                       {view.data.pdf_url && (
                         <button
                           type="button"
-                          onClick={() => handleDownload((view.data as InvoiceStateInvoiced).pdf_url!, "pdf")}
+                          onClick={() =>
+                            handleDownload(
+                              (view.data as InvoiceStateInvoiced).pdf_url!,
+                              "pdf",
+                            )
+                          }
                           disabled={loadingDownload !== null}
                           className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:pointer-events-none text-white flex-1 min-w-[200px] max-w-[280px]"
                         >
@@ -310,13 +333,20 @@ export default function FacturaPage() {
                               className="w-5 h-5 shrink-0"
                             />
                           )}
-                          {loadingDownload === "pdf" ? "Descargando…" : "Descargar PDF"}
+                          {loadingDownload === "pdf"
+                            ? "Descargando…"
+                            : "Descargar PDF"}
                         </button>
                       )}
                       {view.data.xml_url && (
                         <button
                           type="button"
-                          onClick={() => handleDownload((view.data as InvoiceStateInvoiced).xml_url!, "xml")}
+                          onClick={() =>
+                            handleDownload(
+                              (view.data as InvoiceStateInvoiced).xml_url!,
+                              "xml",
+                            )
+                          }
                           disabled={loadingDownload !== null}
                           className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold border-2 border-blue-500 text-blue-400 hover:bg-blue-500/20 disabled:opacity-70 disabled:pointer-events-none flex-1 min-w-[200px] max-w-[280px]"
                         >
@@ -331,7 +361,9 @@ export default function FacturaPage() {
                               className="w-5 h-5 shrink-0"
                             />
                           )}
-                          {loadingDownload === "xml" ? "Descargando…" : "Descargar XML (CFDI)"}
+                          {loadingDownload === "xml"
+                            ? "Descargando…"
+                            : "Descargar XML (CFDI)"}
                         </button>
                       )}
                     </div>
@@ -423,7 +455,9 @@ export default function FacturaPage() {
                           className="w-5 h-5 shrink-0"
                         />
                       )}
-                      {loadingDownload === "pdf" ? "Descargando…" : "Descargar PDF"}
+                      {loadingDownload === "pdf"
+                        ? "Descargando…"
+                        : "Descargar PDF"}
                     </button>
                   )}
                   {view.xml_url && (
@@ -444,7 +478,9 @@ export default function FacturaPage() {
                           className="w-5 h-5 shrink-0"
                         />
                       )}
-                      {loadingDownload === "xml" ? "Descargando…" : "Descargar XML (CFDI)"}
+                      {loadingDownload === "xml"
+                        ? "Descargando…"
+                        : "Descargar XML (CFDI)"}
                     </button>
                   )}
                   {!view.pdf_url && !view.xml_url && (
@@ -494,17 +530,18 @@ export default function FacturaPage() {
                         Completa tus datos fiscales para generar tu factura.
                       </p>
                       <FacturaFiscalForm
-                      order_id={formData.order_id}
-                      restaurant_id={formData.restaurant_id}
-                      total_cents={formData.total_cents}
-                      totalFormatted={new Intl.NumberFormat("es-MX", {
-                        style: "currency",
-                        currency: "MXN",
-                      }).format(formData.total_cents / 100)}
-                      iva_rate={formData.iva_rate}
-                      onSubmit={handleCreateInvoice}
-                      loading={view.status === "creating"}
-                    />
+                        order_id={formData.order_id}
+                        restaurant_id={formData.restaurant_id}
+                        total_cents={formData.total_cents}
+                        totalFormatted={new Intl.NumberFormat("es-MX", {
+                          style: "currency",
+                          currency: "MXN",
+                        }).format(formData.total_cents / 100)}
+                        iva_rate={formData.iva_rate}
+                        onSubmit={handleCreateInvoice}
+                        loading={view.status === "creating"}
+                        onRegimenStripped={showRegimenStrippedSnackbar}
+                      />
                     </div>
                   </>
                 );
@@ -527,6 +564,42 @@ export default function FacturaPage() {
               setSnackbarError(null);
             }}
             className="shrink-0 p-1 rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Cerrar"
+          >
+            <Icon icon="solar:close-circle-bold" className="w-5 h-5" />
+          </button>
+        </div>
+      )}
+
+      {snackbarWarning && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-start gap-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-400/30 shadow-xl shadow-amber-900/10 z-[1100]"
+        >
+          <div className="shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+            <Icon
+              icon="solar:info-circle-bold-duotone"
+              className="w-5 h-5 text-amber-400"
+            />
+          </div>
+          <div className="flex-1 min-w-0 pt-0.5">
+            <p className="text-sm font-semibold text-amber-200 mb-0.5">
+              Razón social actualizada
+            </p>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              El SAT pide la razón social sin el régimen societario (S.A. de
+              C.V., S. de R.L., etc.). Se quitó automáticamente para que tu
+              factura sea válida.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (snackbarWarningTimeout.current)
+                clearTimeout(snackbarWarningTimeout.current);
+              setSnackbarWarning(null);
+            }}
+            className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
             aria-label="Cerrar"
           >
             <Icon icon="solar:close-circle-bold" className="w-5 h-5" />

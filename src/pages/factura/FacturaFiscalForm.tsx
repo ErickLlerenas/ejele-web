@@ -19,6 +19,7 @@ interface FacturaFiscalFormProps {
   iva_rate: number;
   onSubmit: (payload: CreateInvoiceRequest) => void;
   loading?: boolean;
+  onRegimenStripped?: () => void;
 }
 
 const inputClass =
@@ -26,6 +27,31 @@ const inputClass =
 const labelClass =
   "flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5";
 const labelIconClass = "w-4 h-4 text-gray-400 shrink-0";
+
+/** Quita sufijos de régimen societario (S.A. de C.V., S. de R.L., etc.) del final del nombre/razón social. */
+function stripRegimenCapital(name: string): string {
+  let result = name.trim();
+  const suffixes = [
+    /\s*,\s*S\.A\.\s*de\s*C\.V\.?\s*$/i,
+    /\s*,\s*S\.\s*de\s*R\.L\.\s*(de\s*C\.V\.)?\s*$/i,
+    /\s+S\.A\.\s*de\s*C\.V\.?\s*$/i,
+    /\s+S\.\s*de\s*R\.L\.\s*(de\s*C\.V\.)?\s*$/i,
+    /\s+A\.C\.?\s*$/i,
+    /\s+S\.A\.P\.I\.\s*de\s*C\.V\.?\s*$/i,
+  ];
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const re of suffixes) {
+      if (re.test(result)) {
+        result = result.replace(re, "").trim();
+        changed = true;
+        break;
+      }
+    }
+  }
+  return result;
+}
 
 export default function FacturaFiscalForm({
   order_id,
@@ -35,6 +61,7 @@ export default function FacturaFiscalForm({
   iva_rate,
   onSubmit,
   loading = false,
+  onRegimenStripped,
 }: FacturaFiscalFormProps) {
   const [legal_name, setLegalName] = useState("");
   const [tax_id, setTaxId] = useState("");
@@ -73,8 +100,9 @@ export default function FacturaFiscalForm({
       !email.trim()
     )
       return;
+    const rawName = legal_name.trim();
     const customer: InvoiceCustomer = {
-      legal_name: legal_name.trim(),
+      legal_name: tax_id.length === 12 ? stripRegimenCapital(rawName) : rawName,
       tax_id: tax_id.trim().toUpperCase(),
       tax_system,
       email: email.trim(),
@@ -163,6 +191,15 @@ export default function FacturaFiscalForm({
           type="text"
           value={legal_name}
           onChange={(e) => setLegalName(e.target.value.toUpperCase())}
+          onBlur={() => {
+            if (tax_id.length === 12 && legal_name.trim()) {
+              const stripped = stripRegimenCapital(legal_name.trim()).toUpperCase();
+              if (stripped !== legal_name.trim()) {
+                setLegalName(stripped);
+                onRegimenStripped?.();
+              }
+            }
+          }}
           placeholder={
             tax_id.length === 13
               ? "JUAN PÉREZ GARCÍA"

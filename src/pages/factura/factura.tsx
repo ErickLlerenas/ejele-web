@@ -174,7 +174,7 @@ export default function FacturaPage() {
   return (
     <div className="landing-premium factura-page flex flex-col">
       <Helmet title="Factura - Ejele" />
-      <div className="md:hidden">
+      <div className="hidden md:block">
         <Header minimal />
       </div>
       <section className="pt-24 pb-20 px-4 sm:px-6 md:pt-28 md:pb-24 md:px-8 flex flex-col items-center justify-center">

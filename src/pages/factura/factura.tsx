@@ -316,7 +316,7 @@ export default function FacturaPage() {
                           type="button"
                           onClick={() => handleDownload((view.data as InvoiceStateInvoiced).xml_url!, "xml")}
                           disabled={loadingDownload !== null}
-                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 flex-1 min-w-[200px] max-w-[280px] disabled:opacity-70 disabled:pointer-events-none"
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold border-2 border-blue-500 text-blue-400 hover:bg-blue-500/20 disabled:opacity-70 disabled:pointer-events-none flex-1 min-w-[200px] max-w-[280px]"
                         >
                           {loadingDownload === "xml" ? (
                             <Icon
@@ -431,7 +431,7 @@ export default function FacturaPage() {
                       type="button"
                       onClick={() => handleDownload(view.xml_url!, "xml")}
                       disabled={loadingDownload !== null}
-                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 flex-1 min-w-[200px] max-w-[280px] disabled:opacity-70 disabled:pointer-events-none"
+                      className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold border-2 border-blue-500 text-blue-400 hover:bg-blue-500/20 disabled:opacity-70 disabled:pointer-events-none flex-1 min-w-[200px] max-w-[280px]"
                     >
                       {loadingDownload === "xml" ? (
                         <Icon

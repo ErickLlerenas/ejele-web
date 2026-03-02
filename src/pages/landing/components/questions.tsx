@@ -72,6 +72,11 @@ export default function Questions() {
         "Impresoras térmicas ESC/POS con red (Ethernet o Wi‑Fi con IP). Recomendamos Ethernet. No USB ni Bluetooth.",
       icon: "solar:printer-bold-duotone",
       color: "pink",
+      badges: [
+        { text: "Ejemplo (gama baja)", href: "https://a.co/d/0hOdySGy" },
+        { text: "Ejemplo (gama media)", href: "https://a.co/d/07YhykMp" },
+        { text: "Ejemplo (gama alta)", href: "https://a.co/d/0ddGizVo" },
+      ],
     },
   ];
 
@@ -129,6 +134,25 @@ export default function Questions() {
                 <p className="text-gray-300 text-sm leading-relaxed">
                   {faq.answer}
                 </p>
+                {"badges" in faq && (faq.badges?.length ?? 0) > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {(faq.badges ?? []).map((b, i) => (
+                      <a
+                        key={i}
+                        href={b.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white/15 text-white hover:bg-white/25 transition-colors"
+                      >
+                        {b.text}
+                        <Icon
+                          icon="solar:link-round-bold-duotone"
+                          className="w-3.5 h-3.5"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}

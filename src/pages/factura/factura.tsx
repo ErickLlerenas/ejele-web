@@ -190,37 +190,37 @@ export default function FacturaPage() {
             )}
 
             {view.status === "missing_params" && (
-              <>
-                <div className="mb-8 flex justify-center">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-20 h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:link-circle-bold-duotone"
-                        className="w-12 h-12 text-white"
+                        className="w-10 h-10 md:w-12 md:h-12 text-white"
                       />
                     </div>
                   </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Enlace inválido
                 </h1>
-                <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+                <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                   Abre esta página escaneando el código QR de tu ticket de
                   cuenta.
                 </p>
                 <Link
                   to="/"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors no-underline"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 text-white transition-all duration-200 no-underline"
                 >
                   <Icon icon="solar:home-bold-duotone" className="w-6 h-6" />
                   Volver al inicio
                 </Link>
-              </>
+              </div>
             )}
 
             {view.status === "loading" && (
-              <div className="flex flex-col items-center gap-4 py-12">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center flex flex-col items-center gap-4 py-12">
                 <Icon
                   icon="solar:refresh-circle-bold"
                   className="w-12 h-12 text-blue-500 animate-spin"
@@ -230,56 +230,56 @@ export default function FacturaPage() {
             )}
 
             {view.status === "error" && (
-              <>
-                <div className="mb-8 flex justify-center">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-20 h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:link-circle-bold-duotone"
-                        className="w-12 h-12 text-white"
+                        className="w-10 h-10 md:w-12 md:h-12 text-white"
                       />
                     </div>
                   </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   {view.title}
                 </h1>
-                <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+                <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                   {view.message}
                 </p>
                 <Link
                   to="/"
-                  className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors no-underline"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 text-white transition-all duration-200 no-underline"
                 >
                   <Icon icon="solar:home-bold-duotone" className="w-6 h-6" />
                   Volver al inicio
                 </Link>
-              </>
+              </div>
             )}
 
             {view.status === "ready" && view.data.already_invoiced && (
-              <>
-                <div className="mb-8 flex justify-center">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:check-circle-bold-duotone"
-                        className="w-12 h-12 text-white"
+                        className="w-10 h-10 md:w-12 md:h-12 text-white"
                       />
                     </div>
                   </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Cuenta facturada
                 </h1>
-                <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
                   La factura de esta cuenta ya fue generada. Puedes descargar el
                   PDF y el XML (CFDI) a continuación.
                 </p>
 
-                <div className="glass-card rounded-2xl p-6 mb-8 text-left">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-6 mb-8 text-left">
                   <dl className="space-y-2 text-white">
                     {view.data.created_at && (
                       <div>
@@ -343,16 +343,14 @@ export default function FacturaPage() {
                   </dl>
                 </div>
 
-                <div className="flex justify-center">
-                  <Link
-                    to="/"
-                    className="inline-flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors no-underline"
-                  >
-                    <Icon icon="solar:home-bold-duotone" className="w-5 h-5" />
-                    Volver al inicio
-                  </Link>
-                </div>
-              </>
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 text-white transition-all duration-200 no-underline"
+                >
+                  <Icon icon="solar:home-bold-duotone" className="w-6 h-6" />
+                  Volver al inicio
+                </Link>
+              </div>
             )}
 
             {view.status === "ready" &&
@@ -388,25 +386,25 @@ export default function FacturaPage() {
               )}
 
             {view.status === "created" && (
-              <>
-                <div className="mb-8 flex justify-center">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
                     <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-20 h-20 bg-green-600 rounded-full flex items-center justify-center">
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:check-circle-bold-duotone"
-                        className="w-12 h-12 text-white"
+                        className="w-10 h-10 md:w-12 md:h-12 text-white"
                       />
                     </div>
                   </div>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Factura generada
                 </h1>
-                <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
+                <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
                   Tu factura ha sido enviada por correo.
                 </p>
-                <div className="flex flex-wrap gap-3 justify-center items-stretch">
+                <div className="flex flex-wrap gap-3 justify-center items-stretch mb-8">
                   {view.pdf_url && (
                     <button
                       type="button"
@@ -450,22 +448,20 @@ export default function FacturaPage() {
                     </button>
                   )}
                   {!view.pdf_url && !view.xml_url && (
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-sm w-full">
                       Tu factura fue registrada. Los enlaces de descarga estarán
                       disponibles en breve.
                     </p>
                   )}
                 </div>
-                <div className="flex justify-center mt-8">
-                  <Link
-                    to="/"
-                    className="inline-flex items-center justify-center gap-2 text-gray-400 hover:text-white transition-colors no-underline"
-                  >
-                    <Icon icon="solar:home-bold-duotone" className="w-5 h-5" />
-                    Volver al inicio
-                  </Link>
-                </div>
-              </>
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 text-white transition-all duration-200 no-underline"
+                >
+                  <Icon icon="solar:home-bold-duotone" className="w-6 h-6" />
+                  Volver al inicio
+                </Link>
+              </div>
             )}
 
             {((view.status === "ready" &&

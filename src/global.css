@@ -24,37 +24,42 @@ body {
 
 .landing-premium.factura-page {
   min-height: 0;
-  /* Fondo azul más oscuro para mayor contraste con la tarjeta */
-  background-color: #0a0f1a;
-  color-scheme: dark;
+  background-color: #f8fafc;
+  color: #0f172a;
+  color-scheme: light;
 }
 
-/* Mismo tono azul-gris en todos los inputs (incl. cuando iOS autocompleta) */
+/* Inputs light: fondo blanco, borde gris, texto oscuro */
 .landing-premium.factura-page .factura-input-wrap {
-  background-color: #1e293b !important;
+  background-color: #fff !important;
+  border-color: #e2e8f0 !important;
 }
 
 .landing-premium.factura-page input,
 .landing-premium.factura-page select {
   -webkit-appearance: none;
   appearance: none;
-  background-color: #1e293b !important;
-  color: #fff !important;
+  background-color: #fff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Igualar estilo cuando el navegador autocompleta (mismo color que al escribir) */
+.landing-premium.factura-page input::placeholder {
+  color: #94a3b8;
+}
+
 .landing-premium.factura-page input:-webkit-autofill,
 .landing-premium.factura-page input:-webkit-autofill:hover,
 .landing-premium.factura-page input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #fff !important;
-  -webkit-box-shadow: 0 0 0 1000px #1e293b inset !important;
-  box-shadow: 0 0 0 1000px #1e293b inset !important;
+  -webkit-text-fill-color: #0f172a !important;
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+  box-shadow: 0 0 0 1000px #fff inset !important;
 }
 
 .landing-premium.factura-page select option {
-  background-color: #1e293b;
-  color: #fff;
+  background-color: #fff;
+  color: #0f172a;
 }
 
 .landing-premium .glass-card {

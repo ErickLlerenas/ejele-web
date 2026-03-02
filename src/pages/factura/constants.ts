@@ -2,21 +2,32 @@
 
 /** Regímenes para Personas Físicas (RFC de 13 dígitos). */
 export const REGIMEN_FISCAL_FISICA = [
-  { value: "605", label: "605 - Sueldos y Salarios e Ingresos Asimilados a Salarios" },
+  {
+    value: "605",
+    label: "605 - Sueldos y Salarios e Ingresos Asimilados a Salarios",
+  },
   { value: "606", label: "606 - Arrendamiento" },
   { value: "608", label: "608 - Demás ingresos" },
-  { value: "611", label: "611 - Ingresos por Dividendos (socios y accionistas)" },
+  {
+    value: "611",
+    label: "611 - Ingresos por Dividendos (socios y accionistas)",
+  },
   {
     value: "612",
-    label: "612 - Personas Físicas con Actividades Empresariales y Profesionales",
+    label:
+      "612 - Personas Físicas con Actividades Empresariales y Profesionales",
   },
   { value: "614", label: "614 - Ingresos por intereses" },
-  { value: "615", label: "615 - Régimen de los ingresos por obtención de premios" },
+  {
+    value: "615",
+    label: "615 - Régimen de los ingresos por obtención de premios",
+  },
   { value: "616", label: "616 - Sin obligaciones fiscales" },
   { value: "621", label: "621 - Incorporación Fiscal" },
   {
     value: "625",
-    label: "625 - Actividades Empresariales con ingresos a través de Plataformas Tecnológicas",
+    label:
+      "625 - Actividades Empresariales con ingresos a través de Plataformas Tecnológicas",
   },
   { value: "626", label: "626 - Régimen Simplificado de Confianza (RESICO)" },
 ];
@@ -42,7 +53,7 @@ export const USO_CFDI_OPTIONS = [
 ];
 
 /** Ítem único de factura: consumo en restaurante (catálogo SAT). */
-export const INVOICE_ITEM_DESCRIPTION = "Consumo";
+export const INVOICE_ITEM_DESCRIPTION = "Consumo de alimentos y bebidas";
 export const INVOICE_ITEM_PRODUCT_KEY = "90101501"; // Restaurantes (SAT)
 export const INVOICE_ITEM_UNIT_KEY = "E48"; // Unidad de servicio
 

@@ -88,8 +88,8 @@ export default function FacturaPage() {
     const prevBodyBg = body.style.backgroundColor;
     const prevBodyMinHeight = body.style.minHeight;
     const prevRootMinHeight = root?.style.minHeight ?? "";
-    html.style.backgroundColor = "#0a0f1a";
-    body.style.backgroundColor = "#0a0f1a";
+    html.style.backgroundColor = "#f8fafc";
+    body.style.backgroundColor = "#f8fafc";
     body.style.minHeight = "auto";
     if (root) root.style.minHeight = "auto";
     return () => {
@@ -193,9 +193,9 @@ export default function FacturaPage() {
     <div className="landing-premium factura-page flex flex-col">
       <Helmet title="Factura - Ejele" />
       <div className="hidden md:block">
-        <Header minimal />
+        <Header minimal light />
       </div>
-      <section className="pt-24 pb-20 px-4 sm:px-6 md:pt-28 md:pb-24 md:px-8 flex flex-col items-center justify-center">
+      <section className="pt-6 pb-6 px-4 sm:px-6 md:pt-28 md:pb-24 md:px-8 flex flex-col items-center justify-center">
         <div className="max-w-xl mx-auto text-center w-full md:max-w-2xl">
           <div className="reveal active">
             {view.status === "idle" && (
@@ -208,11 +208,11 @@ export default function FacturaPage() {
             )}
 
             {view.status === "missing_params" && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center">
                 <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-amber-400/30 blur-3xl rounded-full" />
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-500 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:link-circle-bold-duotone"
                         className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -220,10 +220,10 @@ export default function FacturaPage() {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Enlace inválido
                 </h1>
-                <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
+                <p className="text-gray-600 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                   Abre esta página escaneando el código QR de tu ticket de
                   cuenta.
                 </p>
@@ -238,21 +238,21 @@ export default function FacturaPage() {
             )}
 
             {view.status === "loading" && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center flex flex-col items-center gap-4 py-12">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center flex flex-col items-center gap-4 py-12">
                 <Icon
                   icon="solar:refresh-circle-bold"
                   className="w-12 h-12 text-blue-500 animate-spin"
                 />
-                <p className="text-gray-400">Validando enlace...</p>
+                <p className="text-gray-600">Validando enlace...</p>
               </div>
             )}
 
             {view.status === "error" && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center">
                 <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-amber-400/30 blur-3xl rounded-full" />
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-500 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:link-circle-bold-duotone"
                         className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -260,10 +260,10 @@ export default function FacturaPage() {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   {view.title}
                 </h1>
-                <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
+                <p className="text-gray-600 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                   {view.message}
                 </p>
                 <Link
@@ -277,11 +277,11 @@ export default function FacturaPage() {
             )}
 
             {view.status === "ready" && view.data.already_invoiced && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center">
                 <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-emerald-400/30 blur-3xl rounded-full" />
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-emerald-500 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:check-circle-bold-duotone"
                         className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -289,22 +289,22 @@ export default function FacturaPage() {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Cuenta facturada
                 </h1>
-                <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
+                <p className="text-gray-600 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
                   La factura de esta cuenta ya fue generada. Puedes descargar el
                   PDF y el XML (CFDI) a continuación.
                 </p>
 
-                <div className="rounded-xl border border-white/10 bg-white/5 p-6 mb-8 text-left">
-                  <dl className="space-y-2 text-white">
+                <div className="rounded-xl border border-gray-200 bg-gray-50 p-6 mb-8 text-left">
+                  <dl className="space-y-2 text-gray-900">
                     {view.data.created_at && (
                       <div>
                         <dt className="text-gray-500 text-sm">
                           Fecha de emisión
                         </dt>
-                        <dd className="font-medium">
+                        <dd className="font-medium text-gray-900">
                           {formatDate(view.data.created_at)}
                         </dd>
                       </div>
@@ -348,7 +348,7 @@ export default function FacturaPage() {
                             )
                           }
                           disabled={loadingDownload !== null}
-                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold border-2 border-blue-500 text-blue-400 hover:bg-blue-500/20 disabled:opacity-70 disabled:pointer-events-none flex-1 min-w-[200px] max-w-[280px]"
+                          className="inline-flex items-center justify-center gap-2 min-h-12 px-6 py-3 rounded-xl font-bold border-2 border-blue-500 text-blue-600 hover:bg-blue-50 disabled:opacity-70 disabled:pointer-events-none flex-1 min-w-[200px] max-w-[280px]"
                         >
                           {loadingDownload === "xml" ? (
                             <Icon
@@ -388,11 +388,11 @@ export default function FacturaPage() {
             {view.status === "ready" &&
               !view.data.already_invoiced &&
               view.data.invoice_credits <= 0 && (
-                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center">
                   <div className="mb-6 flex justify-center md:mb-8">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                      <div className="absolute inset-0 bg-amber-400/30 blur-3xl rounded-full" />
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-500 rounded-full flex items-center justify-center">
                         <Icon
                           icon="solar:wallet-money-bold-duotone"
                           className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -400,10 +400,10 @@ export default function FacturaPage() {
                       </div>
                     </div>
                   </div>
-                  <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                  <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                     Facturación no disponible
                   </h1>
-                  <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
+                  <p className="text-gray-600 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                     Este restaurante no tiene créditos de facturación
                     disponibles en este momento.
                   </p>
@@ -418,11 +418,11 @@ export default function FacturaPage() {
               )}
 
             {view.status === "created" && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto text-center">
                 <div className="mb-6 flex justify-center md:mb-8">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-green-600/20 blur-3xl rounded-full" />
-                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-green-600 rounded-full flex items-center justify-center">
+                    <div className="absolute inset-0 bg-emerald-400/30 blur-3xl rounded-full" />
+                    <div className="relative w-16 h-16 md:w-20 md:h-20 bg-emerald-500 rounded-full flex items-center justify-center">
                       <Icon
                         icon="solar:check-circle-bold-duotone"
                         className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -430,10 +430,10 @@ export default function FacturaPage() {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                   Factura generada
                 </h1>
-                <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
+                <p className="text-gray-600 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
                   Tu factura ha sido enviada por correo.
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center items-stretch mb-8">
@@ -511,11 +511,11 @@ export default function FacturaPage() {
                     : creatingWithData!;
                 return (
                   <>
-                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto">
+                    <div className="rounded-2xl border border-gray-200 bg-white shadow-xl p-6 md:p-8 max-w-lg mx-auto">
                       <div className="mb-6 flex justify-center md:mb-8">
                         <div className="relative">
-                          <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full" />
-                          <div className="relative w-16 h-16 md:w-20 md:h-20 bg-blue-600 rounded-full flex items-center justify-center">
+                          <div className="absolute inset-0 bg-blue-400/30 blur-3xl rounded-full" />
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 bg-blue-500 rounded-full flex items-center justify-center">
                             <Icon
                               icon="solar:document-text-bold-duotone"
                               className="w-10 h-10 md:w-12 md:h-12 text-white"
@@ -523,10 +523,10 @@ export default function FacturaPage() {
                           </div>
                         </div>
                       </div>
-                      <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                      <h1 className="text-3xl font-black text-gray-900 mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                         Solicitar factura
                       </h1>
-                      <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
+                      <p className="text-gray-600 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
                         Completa tus datos fiscales para generar tu factura.
                       </p>
                       <FacturaFiscalForm
@@ -574,19 +574,19 @@ export default function FacturaPage() {
       {snackbarWarning && (
         <div
           role="status"
-          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-start gap-4 p-4 rounded-2xl bg-amber-900 border border-amber-600 shadow-xl z-[1100]"
+          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-start gap-4 p-4 rounded-2xl bg-amber-50 border border-amber-200 shadow-xl z-[1100]"
         >
-          <div className="shrink-0 w-10 h-10 rounded-full bg-amber-700 flex items-center justify-center">
+          <div className="shrink-0 w-10 h-10 rounded-full bg-amber-200 flex items-center justify-center">
             <Icon
               icon="solar:info-circle-bold-duotone"
-              className="w-5 h-5 text-amber-200"
+              className="w-5 h-5 text-amber-700"
             />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <p className="text-sm font-semibold text-amber-100 mb-0.5">
+            <p className="text-sm font-semibold text-amber-900 mb-0.5">
               Razón social actualizada
             </p>
-            <p className="text-sm text-amber-200/90 leading-relaxed">
+            <p className="text-sm text-amber-800 leading-relaxed">
               El SAT pide la razón social sin el régimen societario (S.A. de
               C.V., S. de R.L., etc.). Se quitó automáticamente para que tu
               factura sea válida.
@@ -599,7 +599,7 @@ export default function FacturaPage() {
                 clearTimeout(snackbarWarningTimeout.current);
               setSnackbarWarning(null);
             }}
-            className="shrink-0 p-1.5 rounded-lg text-amber-300 hover:text-amber-100 hover:bg-amber-800 transition-colors"
+            className="shrink-0 p-1.5 rounded-lg text-amber-600 hover:text-amber-900 hover:bg-amber-100 transition-colors"
             aria-label="Cerrar"
           >
             <Icon icon="solar:close-circle-bold" className="w-5 h-5" />

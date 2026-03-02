@@ -3,15 +3,17 @@ import { Link } from 'react-router-dom';
 interface HeaderProps {
   /** Si es true, solo muestra el logo (sin enlaces Funciones, Descargar, Preguntas). */
   minimal?: boolean;
+  /** Si es true, usa fondo claro y texto oscuro (para página de factura en light mode). */
+  light?: boolean;
 }
 
-export default function Header({ minimal = false }: HeaderProps) {
+export default function Header({ minimal = false, light = false }: HeaderProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[1000] px-6 md:px-8 py-6">
+    <nav className={`fixed top-0 left-0 right-0 z-[1000] px-6 md:px-8 py-6 ${light ? "bg-white/90 backdrop-blur-sm border-b border-gray-200/80" : ""}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center gap-3 group cursor-pointer no-underline">
           <img src="/favicon.ico" alt="Ejele Logo" className="w-8 h-8 rounded-lg transition-opacity group-hover:opacity-80" />
-          <span className="text-xl font-black tracking-tight text-white">Ejele</span>
+          <span className={`text-xl font-black tracking-tight ${light ? "text-gray-900" : "text-white"}`}>Ejele</span>
         </Link>
         {!minimal && (
           <div className="hidden md:flex items-center gap-8">

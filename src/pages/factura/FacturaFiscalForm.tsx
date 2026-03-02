@@ -23,10 +23,10 @@ interface FacturaFiscalFormProps {
 }
 
 const inputClass =
-  "w-full px-4 py-3 rounded-xl border border-white/20 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors";
+  "w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors";
 const labelClass =
-  "flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5";
-const labelIconClass = "w-4 h-4 text-gray-400 shrink-0";
+  "flex items-center gap-2 text-sm font-medium text-gray-700 mb-1.5";
+const labelIconClass = "w-4 h-4 text-gray-500 shrink-0";
 
 /** Quita sufijos de régimen societario (S.A. de C.V., S. de R.L., etc.) del final del nombre/razón social. */
 function stripRegimenCapital(name: string): string {
@@ -157,9 +157,9 @@ export default function FacturaFiscalForm({
       onSubmit={handleSubmit}
       className="text-left space-y-4 max-w-md mx-auto md:max-w-lg md:space-y-5"
     >
-      <div className="flex items-baseline justify-between gap-4 mb-5 md:mb-6 pb-4 border-b border-white/10">
-        <span className="text-gray-400 text-sm">Total a facturar</span>
-        <span className="text-xl md:text-2xl font-bold text-white tabular-nums">{totalFormatted}</span>
+      <div className="flex items-baseline justify-between gap-4 mb-5 md:mb-6 pb-4 border-b border-gray-200">
+        <span className="text-gray-600 text-sm">Total a facturar</span>
+        <span className="text-xl md:text-2xl font-bold text-gray-900 tabular-nums">{totalFormatted}</span>
       </div>
 
       <div>
@@ -167,7 +167,7 @@ export default function FacturaFiscalForm({
           <Icon icon="solar:document-bold-duotone" className={labelIconClass} />
           RFC *
         </label>
-        <div className="factura-input-wrap flex items-center gap-2 w-full rounded-xl border border-white/20 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 overflow-hidden transition-colors">
+        <div className="factura-input-wrap flex items-center gap-2 w-full rounded-xl border border-gray-300 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 overflow-hidden transition-colors">
           <input
             type="text"
             value={tax_id}
@@ -175,18 +175,18 @@ export default function FacturaFiscalForm({
               setTaxId(e.target.value.toUpperCase().slice(0, 13))
             }
             placeholder="XAXX010101000"
-            className="flex-1 min-w-0 px-4 py-3 bg-transparent border-0 text-white placeholder-gray-400 outline-none focus:ring-0"
+            className="flex-1 min-w-0 px-4 py-3 bg-transparent border-0 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
             required
             maxLength={13}
           />
           {tax_id.length === 13 && (
-            <span className="shrink-0 mr-2 px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-400 text-xs font-medium border border-emerald-500/30 flex items-center gap-1.5">
+            <span className="shrink-0 mr-2 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-xs font-medium border border-emerald-200 flex items-center gap-1.5">
               <Icon icon="solar:user-bold-duotone" className="w-3.5 h-3.5" />
               Persona física
             </span>
           )}
           {tax_id.length === 12 && (
-            <span className="shrink-0 mr-2 px-2.5 py-1 rounded-lg bg-blue-500/15 text-blue-400 text-xs font-medium border border-blue-500/30 flex items-center gap-1.5">
+            <span className="shrink-0 mr-2 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-700 text-xs font-medium border border-blue-200 flex items-center gap-1.5">
               <Icon
                 icon="solar:buildings-2-bold-duotone"
                 className="w-3.5 h-3.5"
@@ -229,7 +229,7 @@ export default function FacturaFiscalForm({
             />
             {tax_id.length === 12 && (
               <p className="mt-1.5 text-xs text-gray-500">
-                Sin régimen capital (S.A. de C.V., S. de R.L., etc.).
+                Sin régimen societario (S.A. de C.V., S. de R.L., etc.).
               </p>
             )}
           </div>
@@ -253,7 +253,7 @@ export default function FacturaFiscalForm({
                 <option
                   key={o.value}
                   value={o.value}
-                  className="bg-gray-900 text-white"
+                  className="bg-white text-gray-900"
                 >
                   {o.label}
                 </option>
@@ -278,7 +278,7 @@ export default function FacturaFiscalForm({
             <option
               key={o.value}
               value={o.value}
-              className="bg-gray-900 text-white"
+              className="bg-white text-gray-900"
             >
               {o.label}
             </option>
@@ -302,7 +302,7 @@ export default function FacturaFiscalForm({
             <option
               key={o.value}
               value={o.value}
-              className="bg-gray-900 text-white"
+              className="bg-white text-gray-900"
             >
               {o.label}
             </option>

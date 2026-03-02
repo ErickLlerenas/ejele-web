@@ -41,7 +41,7 @@ export default function Questions() {
       question:
         "¿Tienen integración con plataformas como Uber Eats, Didi Food o Rappi?",
       answer:
-        "No. Esas plataformas no son gratis, por lo que ya no podríamos ofrecer la versión gratuita y el premium tendría que ser más caro.",
+        "No. Integrar esas plataformas no es gratis, ya no podríamos ofrecer la versión gratuita y el premium tendría que ser más caro.",
       icon: "solar:delivery-bold-duotone",
       color: "pink",
     },

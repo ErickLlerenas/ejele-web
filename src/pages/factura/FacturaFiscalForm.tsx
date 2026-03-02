@@ -79,6 +79,24 @@ export default function FacturaFiscalForm({
         : [];
 
   useEffect(() => {
+    if (tax_id.length !== 12 && tax_id.length !== 13) {
+      setLegalName("");
+      setTaxSystem("");
+    }
+  }, [tax_id.length]);
+
+  // Si el RFC pasa a 12 (persona moral), quitar S.A. de C.V. etc. del nombre ya escrito
+  useEffect(() => {
+    if (tax_id.length === 12 && legal_name.trim()) {
+      const stripped = stripRegimenCapital(legal_name.trim()).toUpperCase();
+      if (stripped !== legal_name.trim()) {
+        setLegalName(stripped);
+        onRegimenStripped?.();
+      }
+    }
+  }, [tax_id.length]);
+
+  useEffect(() => {
     if (tax_id.length === 12 && tax_system) {
       if (!REGIMEN_FISCAL_MORAL.some((o) => o.value === tax_system))
         setTaxSystem("");
@@ -90,6 +108,7 @@ export default function FacturaFiscalForm({
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (tax_id.length !== 12 && tax_id.length !== 13) return;
     if (
       !legal_name.trim() ||
       !tax_id.trim() ||
@@ -178,71 +197,71 @@ export default function FacturaFiscalForm({
         </div>
       </div>
 
-      <div>
-        <label className={labelClass}>
-          <Icon icon="solar:user-bold-duotone" className={labelIconClass} />
-          {tax_id.length === 13
-            ? "Nombre fiscal *"
-            : tax_id.length === 12
-              ? "Razón social *"
-              : "Nombre o razón social *"}
-        </label>
-        <input
-          type="text"
-          value={legal_name}
-          onChange={(e) => setLegalName(e.target.value.toUpperCase())}
-          onBlur={() => {
-            if (tax_id.length === 12 && legal_name.trim()) {
-              const stripped = stripRegimenCapital(legal_name.trim()).toUpperCase();
-              if (stripped !== legal_name.trim()) {
-                setLegalName(stripped);
-                onRegimenStripped?.();
+      {(tax_id.length === 12 || tax_id.length === 13) && (
+        <>
+          <div>
+            <label className={labelClass}>
+              <Icon icon="solar:user-bold-duotone" className={labelIconClass} />
+              {tax_id.length === 13
+                ? "Nombre fiscal *"
+                : "Razón social *"}
+            </label>
+            <input
+              type="text"
+              value={legal_name}
+              onChange={(e) => setLegalName(e.target.value.toUpperCase())}
+              onBlur={() => {
+                if (tax_id.length === 12 && legal_name.trim()) {
+                  const stripped = stripRegimenCapital(legal_name.trim()).toUpperCase();
+                  if (stripped !== legal_name.trim()) {
+                    setLegalName(stripped);
+                    onRegimenStripped?.();
+                  }
+                }
+              }}
+              placeholder={
+                tax_id.length === 13
+                  ? "JUAN PÉREZ GARCÍA"
+                  : "EMPRESA DE SOFTWARE"
               }
-            }
-          }}
-          placeholder={
-            tax_id.length === 13
-              ? "JUAN PÉREZ GARCÍA"
-              : tax_id.length === 12
-                ? "EMPRESA DE SOFTWARE"
-                : "Nombre o razón social"
-          }
-          className={inputClass}
-          required
-        />
-        {tax_id.length === 12 && (
-          <p className="mt-1.5 text-xs text-gray-500">
-            Sin régimen capital (S.A. de C.V., S. de R.L., etc.).
-          </p>
-        )}
-      </div>
+              className={inputClass}
+              required
+            />
+            {tax_id.length === 12 && (
+              <p className="mt-1.5 text-xs text-gray-500">
+                Sin régimen capital (S.A. de C.V., S. de R.L., etc.).
+              </p>
+            )}
+          </div>
 
-      <div>
-        <label className={labelClass}>
-          <Icon icon="solar:document-text-bold-duotone" className={labelIconClass} />
-          Régimen fiscal *
-        </label>
-        <select
-          value={tax_system}
-          onChange={(e) => setTaxSystem(e.target.value)}
-          className={inputClass}
-          required
-          disabled={regimenOptions.length === 0}
-        >
-          <option value="">
-            {regimenOptions.length === 0 ? "—" : "Selecciona tu régimen"}
-          </option>
-          {regimenOptions.map((o) => (
-            <option
-              key={o.value}
-              value={o.value}
-              className="bg-gray-900 text-white"
+          <div>
+            <label className={labelClass}>
+              <Icon icon="solar:document-text-bold-duotone" className={labelIconClass} />
+              Régimen fiscal *
+            </label>
+            <select
+              value={tax_system}
+              onChange={(e) => setTaxSystem(e.target.value)}
+              className={inputClass}
+              required
+              disabled={regimenOptions.length === 0}
             >
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </div>
+              <option value="">
+                {regimenOptions.length === 0 ? "—" : "Selecciona tu régimen"}
+              </option>
+              {regimenOptions.map((o) => (
+                <option
+                  key={o.value}
+                  value={o.value}
+                  className="bg-gray-900 text-white"
+                >
+                  {o.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
 
       <div>
         <label className={labelClass}>

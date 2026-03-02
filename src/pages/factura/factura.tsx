@@ -574,19 +574,19 @@ export default function FacturaPage() {
       {snackbarWarning && (
         <div
           role="status"
-          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-start gap-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-400/30 shadow-xl shadow-amber-900/10 z-[1100]"
+          className="fixed bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md flex items-start gap-4 p-4 rounded-2xl bg-amber-900 border border-amber-600 shadow-xl z-[1100]"
         >
-          <div className="shrink-0 w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
+          <div className="shrink-0 w-10 h-10 rounded-full bg-amber-700 flex items-center justify-center">
             <Icon
               icon="solar:info-circle-bold-duotone"
-              className="w-5 h-5 text-amber-400"
+              className="w-5 h-5 text-amber-200"
             />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <p className="text-sm font-semibold text-amber-200 mb-0.5">
+            <p className="text-sm font-semibold text-amber-100 mb-0.5">
               Razón social actualizada
             </p>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-amber-200/90 leading-relaxed">
               El SAT pide la razón social sin el régimen societario (S.A. de
               C.V., S. de R.L., etc.). Se quitó automáticamente para que tu
               factura sea válida.
@@ -599,7 +599,7 @@ export default function FacturaPage() {
                 clearTimeout(snackbarWarningTimeout.current);
               setSnackbarWarning(null);
             }}
-            className="shrink-0 p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="shrink-0 p-1.5 rounded-lg text-amber-300 hover:text-amber-100 hover:bg-amber-800 transition-colors"
             aria-label="Cerrar"
           >
             <Icon icon="solar:close-circle-bold" className="w-5 h-5" />

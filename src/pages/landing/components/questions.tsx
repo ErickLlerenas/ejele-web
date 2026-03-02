@@ -67,10 +67,10 @@ export default function Questions() {
       color: "purple",
     },
     {
-      question: "¿Es muy difícil de usar?",
+      question: "¿Qué tipo de impresora puedo usar?",
       answer:
-        "Para nada. Ejele es tan intuitivo como usar WhatsApp. Lo configuras en minutos y empiezas a vender de inmediato. Sin complicaciones técnicas ni conocimientos avanzados.",
-      icon: "solar:magic-stick-3-bold-duotone",
+        "Impresoras térmicas ESC/POS con red (Ethernet o Wi‑Fi con IP). Recomendamos Ethernet. No USB ni Bluetooth.",
+      icon: "solar:printer-bold-duotone",
       color: "pink",
     },
   ];

@@ -67,15 +67,14 @@ export default function Questions() {
       color: "purple",
     },
     {
-      question: "¿Qué tipo de impresora puedo usar?",
+      question: "¿Qué impresoras puedo usar?",
       answer:
-        "Impresoras térmicas ESC/POS con red (Ethernet o Wi‑Fi con IP). Recomendamos Ethernet. No USB ni Bluetooth.",
-      icon: "solar:printer-bold-duotone",
+        "Cualquier impresora térmica (ESC/POS) que se conecte a tu red (Ethernet o WiFi). Te recomendamos usar conexión por cable Ethernet. No es compatible con impresoras USB o Bluetooth.\n\nModelos recomendados:",
       color: "pink",
       badges: [
-        { text: "Ejemplo 1 (gama baja)", href: "https://a.co/d/0hOdySGy" },
-        { text: "Ejemplo 2 (gama media)", href: "https://a.co/d/07YhykMp" },
-        { text: "Ejemplo 3 (gama alta)", href: "https://a.co/d/0ddGizVo" },
+        { text: "Económica", href: "https://a.co/d/0hOdySGy" },
+        { text: "Estándar", href: "https://a.co/d/07YhykMp" },
+        { text: "Gama alta", href: "https://a.co/d/0ddGizVo" },
       ],
     },
   ];
@@ -131,7 +130,7 @@ export default function Questions() {
                 <h4 className="text-lg font-bold text-white mb-3">
                   {faq.question}
                 </h4>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
                   {faq.answer}
                 </p>
                 {"badges" in faq && (faq.badges?.length ?? 0) > 0 && (

@@ -62,7 +62,7 @@ export default function Questions() {
     {
       question: "¿Necesito internet para usarlo?",
       answer:
-        "Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte, para comprar los planes premium y para recibir el reporte en PDF al cerrar caja.",
+        "Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte, para comprar los planes premium y para enviar el reporte en PDF por correo al hacer corte de caja.",
       icon: "solar:wi-fi-router-bold-duotone",
       color: "purple",
     },
@@ -146,7 +146,7 @@ export default function Questions() {
                       >
                         {b.text}
                         <Icon
-                          icon="solar:link-round-bold-duotone"
+                          icon="fa6-brands:amazon"
                           className="w-3.5 h-3.5"
                         />
                       </a>

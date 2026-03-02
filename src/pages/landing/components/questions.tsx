@@ -70,6 +70,7 @@ export default function Questions() {
       question: "¿Qué impresoras puedo usar?",
       answer:
         "Cualquier impresora térmica (ESC/POS) que se conecte a tu red (Ethernet o WiFi). Te recomendamos usar conexión por cable Ethernet. No es compatible con impresoras USB o Bluetooth.\n\nModelos recomendados:",
+      icon: "solar:printer-bold-duotone",
       color: "pink",
       badges: [
         { text: "Económica", href: "https://a.co/d/0hOdySGy" },

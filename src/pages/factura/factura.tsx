@@ -28,7 +28,7 @@ type ViewState =
   | { status: "idle" }
   | { status: "missing_params" }
   | { status: "loading" }
-  | { status: "error"; message: string }
+  | { status: "error"; title: string; message: string }
   | { status: "ready"; data: InvoiceFromQrResponse }
   | { status: "creating" }
   | { status: "created"; pdf_url?: string; xml_url?: string };
@@ -103,12 +103,19 @@ export default function FacturaPage() {
     setView({ status: "loading" });
     getInvoiceFromQr(params)
       .then((data) => setView({ status: "ready", data }))
-      .catch((err) =>
-        setView({
-          status: "error",
-          message: err instanceof Error ? err.message : "Error desconocido",
-        }),
-      );
+      .catch((err) => {
+        const title =
+          err && typeof err === "object" && "title" in err
+            ? String((err as { title: string }).title)
+            : err instanceof Error
+              ? err.message
+              : "Error desconocido";
+        const message =
+          err && typeof err === "object" && "message" in err
+            ? String((err as { message: string }).message)
+            : title;
+        setView({ status: "error", title, message });
+      });
   }, [
     params?.orderId,
     params?.restaurant_id,
@@ -139,19 +146,27 @@ export default function FacturaPage() {
         });
       })
       .catch((err) => {
-        const msg =
-          err instanceof Error ? err.message : "Error al generar la factura";
+        const title =
+          err && typeof err === "object" && "title" in err
+            ? String((err as { title: string }).title)
+            : err instanceof Error
+              ? err.message
+              : "Error al generar la factura";
+        const message =
+          err && typeof err === "object" && "message" in err
+            ? String((err as { message: string }).message)
+            : title;
         setCreatingWithData(null);
         if (prevData) {
           setView({ status: "ready", data: prevData });
-          setSnackbarError(msg);
+          setSnackbarError(message);
           if (snackbarTimeout.current) clearTimeout(snackbarTimeout.current);
           snackbarTimeout.current = setTimeout(
             () => setSnackbarError(null),
             5000,
           );
         } else {
-          setView({ status: "error", message: msg });
+          setView({ status: "error", title, message });
         }
       });
   };
@@ -226,16 +241,10 @@ export default function FacturaPage() {
                   </div>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                  {view.message.toLowerCase().includes("inválido") ||
-                  view.message.toLowerCase().includes("modificado")
-                    ? "Enlace inválido"
-                    : "Algo salió mal"}
+                  {view.title}
                 </h1>
                 <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
-                  {view.message.toLowerCase().includes("inválido") ||
-                  view.message.toLowerCase().includes("modificado")
-                    ? "El enlace del ticket no es válido o fue modificado. Escanea de nuevo el QR de tu ticket."
-                    : view.message}
+                  {view.message}
                 </p>
                 <Link
                   to="/"

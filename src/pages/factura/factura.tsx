@@ -82,8 +82,8 @@ export default function FacturaPage() {
     const prevBodyBg = body.style.backgroundColor;
     const prevBodyMinHeight = body.style.minHeight;
     const prevRootMinHeight = root?.style.minHeight ?? "";
-    html.style.backgroundColor = "#000";
-    body.style.backgroundColor = "#000";
+    html.style.backgroundColor = "#0a0f1a";
+    body.style.backgroundColor = "#0a0f1a";
     body.style.minHeight = "auto";
     if (root) root.style.minHeight = "auto";
     return () => {
@@ -174,9 +174,11 @@ export default function FacturaPage() {
   return (
     <div className="landing-premium factura-page flex flex-col">
       <Helmet title="Factura - Ejele" />
-      <Header minimal />
-      <section className="pt-32 pb-20 px-6 flex flex-col items-center justify-center">
-        <div className="max-w-xl mx-auto text-center">
+      <div className="md:hidden">
+        <Header minimal />
+      </div>
+      <section className="pt-24 pb-20 px-4 sm:px-6 md:pt-28 md:pb-24 md:px-8 flex flex-col items-center justify-center">
+        <div className="max-w-xl mx-auto text-center w-full md:max-w-2xl">
           <div className="reveal active">
             {view.status === "idle" && (
               <div className="flex justify-center py-12">
@@ -356,33 +358,33 @@ export default function FacturaPage() {
             {view.status === "ready" &&
               !view.data.already_invoiced &&
               view.data.invoice_credits <= 0 && (
-                <>
-                  <div className="mb-8 flex justify-center">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto text-center">
+                  <div className="mb-6 flex justify-center md:mb-8">
                     <div className="relative">
                       <div className="absolute inset-0 bg-amber-600/20 blur-3xl rounded-full" />
-                      <div className="relative w-20 h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 bg-amber-600/80 rounded-full flex items-center justify-center">
                         <Icon
                           icon="solar:wallet-money-bold-duotone"
-                          className="w-12 h-12 text-white"
+                          className="w-10 h-10 md:w-12 md:h-12 text-white"
                         />
                       </div>
                     </div>
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                  <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
                     Facturación no disponible
                   </h1>
-                  <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto leading-relaxed">
+                  <p className="text-gray-400 text-base mb-8 leading-relaxed sm:text-lg md:mb-10">
                     Este restaurante no tiene créditos de facturación
                     disponibles en este momento.
                   </p>
                   <Link
                     to="/"
-                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors no-underline"
+                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-bold text-lg bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 text-white transition-all duration-200 no-underline"
                   >
                     <Icon icon="solar:home-bold-duotone" className="w-6 h-6" />
                     Volver al inicio
                   </Link>
-                </>
+                </div>
               )}
 
             {view.status === "created" && (
@@ -477,24 +479,25 @@ export default function FacturaPage() {
                     : creatingWithData!;
                 return (
                   <>
-                    <div className="mb-8 flex justify-center">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full" />
-                        <div className="relative w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center">
-                          <Icon
-                            icon="solar:document-text-bold-duotone"
-                            className="w-12 h-12 text-white"
-                          />
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 max-w-lg mx-auto">
+                      <div className="mb-6 flex justify-center md:mb-8">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full" />
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 bg-blue-600 rounded-full flex items-center justify-center">
+                            <Icon
+                              icon="solar:document-text-bold-duotone"
+                              className="w-10 h-10 md:w-12 md:h-12 text-white"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight">
-                      Solicitar factura
-                    </h1>
-                    <p className="text-gray-400 text-lg mb-8 max-w-md mx-auto leading-relaxed">
-                      Completa tus datos fiscales para generar tu factura.
-                    </p>
-                    <FacturaFiscalForm
+                      <h1 className="text-3xl font-black text-white mb-2 tracking-tight sm:text-4xl md:text-5xl md:mb-3">
+                        Solicitar factura
+                      </h1>
+                      <p className="text-gray-400 text-base mb-6 leading-relaxed sm:text-lg md:mb-8">
+                        Completa tus datos fiscales para generar tu factura.
+                      </p>
+                      <FacturaFiscalForm
                       order_id={formData.order_id}
                       restaurant_id={formData.restaurant_id}
                       total_cents={formData.total_cents}
@@ -506,6 +509,7 @@ export default function FacturaPage() {
                       onSubmit={handleCreateInvoice}
                       loading={view.status === "creating"}
                     />
+                    </div>
                   </>
                 );
               })()}

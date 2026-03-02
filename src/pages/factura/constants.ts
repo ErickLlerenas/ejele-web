@@ -35,11 +35,10 @@ export const REGIMEN_FISCAL_MORAL = [
   { value: "624", label: "624 - Coordinados" },
 ];
 
-/** Uso del CFDI – Top 3 para restaurantes (G03 por defecto). */
+/** Uso del CFDI – 2 opciones para restaurantes (G03 por defecto). */
 export const USO_CFDI_OPTIONS = [
   { value: "G03", label: "G03 - Gastos en general" },
   { value: "S01", label: "S01 - Sin efectos fiscales" },
-  { value: "G01", label: "G01 - Adquisición de mercancías" },
 ];
 
 /** Ítem único de factura: consumo en restaurante (catálogo SAT). */

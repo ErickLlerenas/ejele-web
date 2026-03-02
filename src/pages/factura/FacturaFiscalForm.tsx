@@ -22,8 +22,10 @@ interface FacturaFiscalFormProps {
 }
 
 const inputClass =
-  "w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none";
-const labelClass = "block text-sm font-medium text-gray-300 mb-1";
+  "w-full px-4 py-3 rounded-xl border border-white/20 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors";
+const labelClass =
+  "flex items-center gap-2 text-sm font-medium text-gray-300 mb-1.5";
+const labelIconClass = "w-4 h-4 text-gray-400 shrink-0";
 
 export default function FacturaFiscalForm({
   order_id,
@@ -106,16 +108,19 @@ export default function FacturaFiscalForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="text-left space-y-4 max-w-md mx-auto"
+      className="text-left space-y-4 max-w-md mx-auto md:max-w-lg md:space-y-5"
     >
-      <p className="text-gray-400 text-sm mb-4">
-        Total a facturar:{" "}
-        <span className="text-white font-semibold">{totalFormatted}</span>
-      </p>
+      <div className="flex items-baseline justify-between gap-4 mb-5 md:mb-6 pb-4 border-b border-white/10">
+        <span className="text-gray-400 text-sm">Total a facturar</span>
+        <span className="text-xl md:text-2xl font-bold text-white tabular-nums">{totalFormatted}</span>
+      </div>
 
       <div>
-        <label className={labelClass}>RFC *</label>
-        <div className="flex items-center gap-2 w-full rounded-xl bg-white/5 border border-white/10 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 overflow-hidden">
+        <label className={labelClass}>
+          <Icon icon="solar:document-bold-duotone" className={labelIconClass} />
+          RFC *
+        </label>
+        <div className="factura-input-wrap flex items-center gap-2 w-full rounded-xl border border-white/20 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 overflow-hidden transition-colors">
           <input
             type="text"
             value={tax_id}
@@ -123,7 +128,7 @@ export default function FacturaFiscalForm({
               setTaxId(e.target.value.toUpperCase().slice(0, 13))
             }
             placeholder="XAXX010101000"
-            className="flex-1 min-w-0 px-4 py-3 bg-transparent border-0 text-white placeholder-gray-500 outline-none focus:ring-0"
+            className="flex-1 min-w-0 px-4 py-3 bg-transparent border-0 text-white placeholder-gray-400 outline-none focus:ring-0"
             required
             maxLength={13}
           />
@@ -147,6 +152,7 @@ export default function FacturaFiscalForm({
 
       <div>
         <label className={labelClass}>
+          <Icon icon="solar:user-bold-duotone" className={labelIconClass} />
           {tax_id.length === 13
             ? "Nombre fiscal *"
             : tax_id.length === 12
@@ -175,7 +181,10 @@ export default function FacturaFiscalForm({
       </div>
 
       <div>
-        <label className={labelClass}>Régimen fiscal *</label>
+        <label className={labelClass}>
+          <Icon icon="solar:document-text-bold-duotone" className={labelIconClass} />
+          Régimen fiscal *
+        </label>
         <select
           value={tax_system}
           onChange={(e) => setTaxSystem(e.target.value)}
@@ -184,9 +193,7 @@ export default function FacturaFiscalForm({
           disabled={regimenOptions.length === 0}
         >
           <option value="">
-            {regimenOptions.length === 0
-              ? "Ingresa un RFC de 12 o 13 caracteres"
-              : "Selecciona régimen fiscal"}
+            {regimenOptions.length === 0 ? "—" : "Selecciona tu régimen"}
           </option>
           {regimenOptions.map((o) => (
             <option
@@ -201,7 +208,10 @@ export default function FacturaFiscalForm({
       </div>
 
       <div>
-        <label className={labelClass}>Uso del CFDI *</label>
+        <label className={labelClass}>
+          <Icon icon="solar:bill-list-bold-duotone" className={labelIconClass} />
+          Uso del CFDI *
+        </label>
         <select
           value={use}
           onChange={(e) => setUse(e.target.value)}
@@ -221,7 +231,10 @@ export default function FacturaFiscalForm({
       </div>
 
       <div>
-        <label className={labelClass}>Forma de pago *</label>
+        <label className={labelClass}>
+          <Icon icon="solar:wallet-money-bold-duotone" className={labelIconClass} />
+          Forma de pago *
+        </label>
         <select
           value={payment_form}
           onChange={(e) => setPaymentForm(e.target.value)}
@@ -242,7 +255,10 @@ export default function FacturaFiscalForm({
       </div>
 
       <div>
-        <label className={labelClass}>Correo electrónico *</label>
+        <label className={labelClass}>
+          <Icon icon="solar:letter-bold-duotone" className={labelIconClass} />
+          Correo electrónico *
+        </label>
         <input
           type="email"
           value={email}
@@ -257,7 +273,10 @@ export default function FacturaFiscalForm({
       </div>
 
       <div>
-        <label className={labelClass}>Código postal *</label>
+        <label className={labelClass}>
+          <Icon icon="solar:map-point-bold-duotone" className={labelIconClass} />
+          Código postal *
+        </label>
         <input
           type="text"
           value={zip}
@@ -275,7 +294,7 @@ export default function FacturaFiscalForm({
       <button
         type="submit"
         disabled={loading}
-        className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white transition-colors"
+        className="w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/25 disabled:opacity-60 disabled:cursor-not-allowed text-white transition-all duration-200 md:mt-8 md:py-4 md:text-lg"
       >
         {loading ? (
           <>

@@ -73,9 +73,9 @@ export default function Questions() {
       icon: "solar:printer-bold-duotone",
       color: "pink",
       badges: [
-        { text: "Ejemplo (gama baja)", href: "https://a.co/d/0hOdySGy" },
-        { text: "Ejemplo (gama media)", href: "https://a.co/d/07YhykMp" },
-        { text: "Ejemplo (gama alta)", href: "https://a.co/d/0ddGizVo" },
+        { text: "Ejemplo 1 (gama baja)", href: "https://a.co/d/0hOdySGy" },
+        { text: "Ejemplo 2 (gama media)", href: "https://a.co/d/07YhykMp" },
+        { text: "Ejemplo 3 (gama alta)", href: "https://a.co/d/0ddGizVo" },
       ],
     },
   ];

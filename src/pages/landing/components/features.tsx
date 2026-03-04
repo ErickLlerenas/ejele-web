@@ -112,7 +112,7 @@ export default function Features() {
             <span className="text-white font-semibold">
               gratis para siempre
             </span>
-            . Funciones premium opcionales cuando las necesites.
+            , las funciones premium son opcionales.
           </p>
         </div>
 

@@ -55,7 +55,7 @@ export default function Questions() {
     {
       question: "¿Cómo funciona la facturación?",
       answer:
-        "Tus clientes se facturan solos. Solo tienen que escanear el código QR que sale en su ticket de venta, ingresar sus datos y listo. El CFDI les llega al instante. Compras folios y cada folio te permite hacer una factura.",
+        "Cuando imprimes la cuenta, el ticket de venta incluye un código QR para facturar. El cliente escanea el código QR, ingresa sus datos fiscales y obtiene su CFDI. Necesitas comprar folios y cada folio te permite hacer una factura.",
       icon: "solar:document-text-bold-duotone",
       color: "indigo",
     },

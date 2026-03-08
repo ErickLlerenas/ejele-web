@@ -1,9 +1,40 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import { detectOS, getMainDownloadUrl } from '@/utils/os';
 import ComingSoonDialog from './coming-soon-dialog';
+
+function triggerDownload(url: string, filename: string) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.rel = 'noopener noreferrer';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 export default function Hero() {
   const [showDialog, setShowDialog] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    const os = detectOS();
+    if (os === 'macOS' || os === 'Unknown') {
+      setShowDialog(true);
+      return;
+    }
+    setDownloading(true);
+    try {
+      const url = await getMainDownloadUrl();
+      if (url) triggerDownload(url, url.split('/').pop() ?? 'ejele-download');
+      else setShowDialog(true);
+    } catch {
+      setShowDialog(true);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <section className="relative pt-24 md:pt-32 pb-24 px-6 flex flex-col justify-center">
@@ -31,8 +62,9 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">
             <button
-              onClick={() => setShowDialog(true)}
-              className="group relative w-full sm:w-auto px-6 py-3 sm:px-10 sm:py-4 rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 overflow-hidden transition-colors duration-200 sm:hover:scale-105 bg-blue-600 hover:bg-blue-700 active:bg-blue-700 cursor-pointer"
+              onClick={handleDownload}
+              disabled={downloading}
+              className="group relative w-full sm:w-auto px-6 py-3 sm:px-10 sm:py-4 rounded-xl font-bold text-base sm:text-lg flex items-center justify-center gap-2 sm:gap-3 overflow-hidden transition-colors duration-200 sm:hover:scale-105 bg-blue-600 hover:bg-blue-700 active:bg-blue-700 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {/* Glow effect - solo en desktop */}
               <div className="hidden sm:block absolute inset-0 bg-blue-600/0 group-hover:bg-blue-700/40 rounded-xl blur-2xl transition-all duration-300 -z-10"></div>
@@ -40,7 +72,7 @@ export default function Hero() {
               {/* Content */}
               <div className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
                 <Icon icon="solar:download-bold-duotone" className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-white">Descargar Ejele gratis</span>
+                <span className="text-white">{downloading ? 'Descargando…' : 'Descargar Ejele gratis'}</span>
               </div>
               
               {/* Shine effect on hover - solo en desktop */}

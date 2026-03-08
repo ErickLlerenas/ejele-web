@@ -1,7 +1,23 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
+import {
+  fetchLatestReleaseUrls,
+  getFallbackDownloadUrl,
+  RELEASE_ASSETS,
+} from "@/utils/os";
 import ComingSoonDialog from "./coming-soon-dialog";
+
+function triggerDownload(url: string, filename: string) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.rel = "noopener noreferrer";
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 const mainCardBg = {
   blue: "bg-blue-900",
@@ -48,24 +64,35 @@ const remoteButtonColors = {
   blue: "bg-cyan-600 hover:bg-cyan-500",
 };
 
-const mainPlatforms = [
+type MainPlatformKey = "windows" | "macos" | "android";
+
+const mainPlatforms: Array<{
+  key: MainPlatformKey;
+  name: string;
+  icon: string;
+  description: string;
+  color: "blue" | "slate" | "green";
+}> = [
   {
+    key: "windows",
     name: "Windows",
     icon: "logos:microsoft-windows",
-    description: "Windows 10 y Windows 11",
-    color: "blue" as const,
+    description: "Compatible con ",
+    color: "blue",
   },
   {
+    key: "macos",
     name: "macOS",
     icon: "logos:apple",
-    description: "Compatible con Apple Silicon",
-    color: "slate" as const,
+    description: "Diseñado para Apple Silicon.",
+    color: "slate",
   },
   {
-    name: "Terminal POS Android",
+    key: "android",
+    name: "Android",
     icon: "logos:android-icon",
-    description: "Ideal para terminales Sunmi o Nexgo",
-    color: "green" as const,
+    description: "Para terminales como Sunmi o Nexgo.",
+    color: "green",
   },
 ];
 
@@ -90,6 +117,37 @@ const remoteApps = [
 
 export default function Platforms() {
   const [showDialog, setShowDialog] = useState(false);
+  const [loading, setLoading] = useState<
+    "windows-x64" | "windows-arm" | "android" | null
+  >(null);
+
+  const handleWindowsDownload = async (variant: "x64" | "arm") => {
+    setLoading(variant === "x64" ? "windows-x64" : "windows-arm");
+    try {
+      const urls = await fetchLatestReleaseUrls();
+      const url = variant === "x64" ? urls.windowsX64 : urls.windowsArm64;
+      const fallback = getFallbackDownloadUrl(
+        variant === "x64" ? "windowsX64" : "windowsArm64",
+      );
+      triggerDownload(
+        url || fallback,
+        RELEASE_ASSETS[variant === "x64" ? "windowsX64" : "windowsArm64"],
+      );
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleAndroidDownload = async () => {
+    setLoading("android");
+    try {
+      const urls = await fetchLatestReleaseUrls();
+      const url = urls.android || getFallbackDownloadUrl("android");
+      triggerDownload(url, RELEASE_ASSETS.android);
+    } finally {
+      setLoading(null);
+    }
+  };
 
   return (
     <section id="platforms" className="py-20 md:py-32 px-6">
@@ -105,9 +163,9 @@ export default function Platforms() {
 
         {/* Equipo principal: 3 cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
-          {mainPlatforms.map((platform, index) => (
+          {mainPlatforms.map((platform) => (
             <div
-              key={index}
+              key={platform.key}
               className={`p-8 rounded-lg ${mainCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center`}
             >
               <div
@@ -124,13 +182,57 @@ export default function Platforms() {
               <p className="text-gray-300 text-sm mb-6">
                 {platform.description}
               </p>
-              <button
-                onClick={() => setShowDialog(true)}
-                className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer`}
-              >
-                <Icon icon="solar:download-bold-duotone" className="w-5 h-5" />
-                Descargar
-              </button>
+              {platform.key === "windows" && (
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => handleWindowsDownload("x64")}
+                    disabled={loading !== null}
+                    className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70`}
+                  >
+                    <Icon
+                      icon="solar:download-bold-duotone"
+                      className="w-5 h-5"
+                    />
+                    {loading === "windows-x64"
+                      ? "Descargando…"
+                      : "Descargar (x64)"}
+                  </button>
+                  <button
+                    onClick={() => handleWindowsDownload("arm")}
+                    disabled={loading !== null}
+                    className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+                  >
+                    <Icon
+                      icon="solar:download-bold-duotone"
+                      className="w-5 h-5"
+                    />
+                    {loading === "windows-arm"
+                      ? "Descargando…"
+                      : "Descargar (ARM)"}
+                  </button>
+                </div>
+              )}
+              {platform.key === "macos" && (
+                <button
+                  onClick={() => setShowDialog(true)}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer opacity-90`}
+                >
+                  Próximamente
+                </button>
+              )}
+              {platform.key === "android" && (
+                <button
+                  onClick={handleAndroidDownload}
+                  disabled={loading !== null}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70`}
+                >
+                  <Icon
+                    icon="solar:download-bold-duotone"
+                    className="w-5 h-5"
+                  />
+                  {loading === "android" ? "Descargando…" : "Descargar"}
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -142,12 +244,11 @@ export default function Platforms() {
         {/* App remota: 2 cards más pequeñas y tono suave */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {remoteApps.map((platform, index) => (
-            <a
+            <button
               key={index}
-              href={platform.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center block no-underline border border-white/5 hover:border-white/10`}
+              type="button"
+              onClick={() => setShowDialog(true)}
+              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}
             >
               <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
                 Premium
@@ -185,7 +286,7 @@ export default function Platforms() {
               >
                 {platform.storeLabel}
               </span>
-            </a>
+            </button>
           ))}
         </div>
       </div>

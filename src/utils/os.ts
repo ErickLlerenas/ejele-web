@@ -1,67 +1,82 @@
-export type OperatingSystem = 'macOS' | 'Windows' | 'Linux' | 'Unknown';
+/** Nombres de assets en GitHub Releases (ErickLlerenas/ejele-releases). */
+export const RELEASE_ASSETS = {
+  windowsX64: "ejele-windows-x64.zip",
+  windowsArm64: "ejele-windows-arm64.zip",
+  android: "ejele-android.apk",
+} as const;
+
+export type OperatingSystem = "macOS" | "Windows" | "Android" | "Unknown";
 
 export function detectOS(): OperatingSystem {
-  if (typeof window === 'undefined') {
-    return 'Unknown';
-  }
+  if (typeof window === "undefined") return "Unknown";
 
-  const userAgent = window.navigator.userAgent.toLowerCase();
-  const platform = window.navigator.platform.toLowerCase();
+  const ua = window.navigator.userAgent.toLowerCase();
+  const platform = window.navigator.platform?.toLowerCase() ?? "";
 
-  if (platform.includes('mac') || userAgent.includes('mac os x')) {
-    return 'macOS';
-  }
+  if (ua.includes("android")) return "Android";
+  if (platform.includes("mac") || ua.includes("mac os x")) return "macOS";
+  if (platform.includes("win") || ua.includes("windows")) return "Windows";
 
-  if (platform.includes('win') || userAgent.includes('windows')) {
-    return 'Windows';
-  }
-
-  return 'Unknown';
+  return "Unknown";
 }
 
-export function getDownloadUrl(os: OperatingSystem): string {
-  switch (os) {
-    case 'macOS':
-      return 'https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele-arm64.dmg';
-    case 'Windows':
-      return 'https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele.exe';
-    default:
-      return 'https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/Ejele.exe';
-  }
+const GITHUB_RELEASES_API =
+  "https://api.github.com/repos/ErickLlerenas/ejele-releases/releases/latest";
+
+export type ReleaseUrls = {
+  windowsX64: string;
+  windowsArm64: string;
+  android: string;
+};
+
+/** Obtiene las URLs de descarga de la última release (una sola llamada a la API). */
+export async function fetchLatestReleaseUrls(): Promise<ReleaseUrls> {
+  const res = await fetch(GITHUB_RELEASES_API);
+  const data = await res.json();
+  const assets: Array<{ name: string; browser_download_url: string }> =
+    data?.assets ?? [];
+
+  const byName = (name: string) =>
+    assets.find((a) => a.name === name)?.browser_download_url ?? "";
+
+  return {
+    windowsX64: byName(RELEASE_ASSETS.windowsX64),
+    windowsArm64: byName(RELEASE_ASSETS.windowsArm64),
+    android: byName(RELEASE_ASSETS.android),
+  };
 }
 
-export async function fetchLatestDownloadUrl(os: OperatingSystem): Promise<string> {
+/** URL directa al asset (sin API). Útil como fallback si la API falla. */
+export function getFallbackDownloadUrl(asset: keyof typeof RELEASE_ASSETS): string {
+  const name = RELEASE_ASSETS[asset];
+  return `https://github.com/ErickLlerenas/ejele-releases/releases/latest/download/${name}`;
+}
+
+/** Para el botón principal: devuelve la URL según OS (solo Windows y Android; Mac/Unknown → null). */
+export async function getMainDownloadUrl(): Promise<string | null> {
+  const os = detectOS();
+  if (os !== "Windows" && os !== "Android") return null;
+
   try {
-    const response = await fetch(
-      'https://api.github.com/repos/ErickLlerenas/ejele-releases/releases/latest'
-    );
-    const data = await response.json();
-    const assets = data.assets || [];
-
-    let asset;
-    if (os === 'macOS') {
-      asset = assets.find((a: any) => a.name.endsWith('.dmg') && a.name.includes('arm64'));
-    } else if (os === 'Windows') {
-      asset = assets.find((a: any) => a.name.endsWith('.exe') && a.name.includes('Setup'));
-    }
-
-    if (asset) {
-      return asset.browser_download_url;
-    }
-  } catch (error) {
-    console.error('Error fetching latest release:', error);
+    const urls = await fetchLatestReleaseUrls();
+    if (os === "Windows") return urls.windowsX64 || getFallbackDownloadUrl("windowsX64");
+    return urls.android || getFallbackDownloadUrl("android");
+  } catch (e) {
+    console.error("Error fetching latest release:", e);
+    if (os === "Windows") return getFallbackDownloadUrl("windowsX64");
+    return getFallbackDownloadUrl("android");
   }
-
-  return getDownloadUrl(os);
 }
 
 export function getDownloadButtonText(os: OperatingSystem): string {
   switch (os) {
-    case 'macOS':
-      return 'Descargar para Mac';
-    case 'Windows':
-      return 'Descargar para Windows';
+    case "macOS":
+      return "Próximamente";
+    case "Windows":
+      return "Descargar para Windows";
+    case "Android":
+      return "Descargar para Android";
     default:
-      return 'Descargar';
+      return "Descargar Ejele gratis";
   }
 }

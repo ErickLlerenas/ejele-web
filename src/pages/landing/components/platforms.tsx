@@ -120,8 +120,13 @@ export default function Platforms() {
   const [loading, setLoading] = useState<
     "windows-x64" | "windows-arm" | "android" | null
   >(null);
+  const [windowsVariant, setWindowsVariant] = useState<"x64" | "arm">("x64");
 
-  const handleWindowsDownload = async (variant: "x64" | "arm") => {
+  const handleWindowsDownload = async () => {
+    await handleWindowsDownloadVariant(windowsVariant);
+  };
+
+  const handleWindowsDownloadVariant = async (variant: "x64" | "arm") => {
     setLoading(variant === "x64" ? "windows-x64" : "windows-arm");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -183,33 +188,33 @@ export default function Platforms() {
                 {platform.description}
               </p>
               {platform.key === "windows" && (
-                <div className="flex flex-col gap-2">
+                <div className="relative w-full">
                   <button
-                    onClick={() => handleWindowsDownload("x64")}
+                    type="button"
+                    onClick={handleWindowsDownload}
                     disabled={loading !== null}
-                    className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70`}
+                    className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 pr-20`}
                   >
                     <Icon
                       icon="solar:download-bold-duotone"
                       className="w-5 h-5"
                     />
-                    {loading === "windows-x64"
+                    {loading === "windows-x64" || loading === "windows-arm"
                       ? "Descargando…"
-                      : "Descargar (x64)"}
+                      : "Descargar"}
                   </button>
-                  <button
-                    onClick={() => handleWindowsDownload("arm")}
-                    disabled={loading !== null}
-                    className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+                  <select
+                    value={windowsVariant}
+                    onChange={(e) =>
+                      setWindowsVariant(e.target.value as "x64" | "arm")
+                    }
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute top-1 right-1 bottom-1 w-14 rounded-md border-0 bg-white/20 text-white text-xs font-medium cursor-pointer focus:ring-1 focus:ring-white/50 focus:outline-none [&>option]:bg-slate-800 [&>option]:text-white"
+                    aria-label="Arquitectura Windows"
                   >
-                    <Icon
-                      icon="solar:download-bold-duotone"
-                      className="w-5 h-5"
-                    />
-                    {loading === "windows-arm"
-                      ? "Descargando…"
-                      : "Descargar (ARM)"}
-                  </button>
+                    <option value="x64">x64</option>
+                    <option value="arm">ARM</option>
+                  </select>
                 </div>
               )}
               {platform.key === "macos" && (

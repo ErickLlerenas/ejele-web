@@ -1,7 +1,7 @@
 /** Nombres de assets en GitHub Releases (ErickLlerenas/ejele-releases). */
 export const RELEASE_ASSETS = {
-  windowsX64: "ejele-windows-x64.zip",
-  windowsArm64: "ejele-windows-arm64.zip",
+  windowsX64: "ejele-windows-x64.exe",
+  windowsArm64: "ejele-windows-arm64.exe",
   android: "ejele-android.apk",
 } as const;
 

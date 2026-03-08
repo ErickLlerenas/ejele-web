@@ -1,14 +1,14 @@
-import { Icon } from '@iconify/react';
-import { useState } from 'react';
-import { detectOS, getMainDownloadUrl } from '@/utils/os';
-import ComingSoonDialog from './coming-soon-dialog';
+import { Icon } from "@iconify/react";
+import { useState } from "react";
+import { detectOS, getMainDownloadUrl } from "@/utils/os";
+import ComingSoonDialog from "./coming-soon-dialog";
 
 function triggerDownload(url: string, filename: string) {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
   a.download = filename;
-  a.rel = 'noopener noreferrer';
-  a.target = '_blank';
+  a.rel = "noopener noreferrer";
+  a.target = "_blank";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -20,14 +20,14 @@ export default function Hero() {
 
   const handleDownload = async () => {
     const os = detectOS();
-    if (os === 'macOS' || os === 'Unknown') {
+    if (os === "macOS" || os === "Unknown") {
       setShowDialog(true);
       return;
     }
     setDownloading(true);
     try {
       const url = await getMainDownloadUrl();
-      if (url) triggerDownload(url, url.split('/').pop() ?? 'ejele-download');
+      if (url) triggerDownload(url, url.split("/").pop() ?? "ejele-download");
       else setShowDialog(true);
     } catch {
       setShowDialog(true);
@@ -44,20 +44,22 @@ export default function Hero() {
           <div className="mb-10 flex justify-center">
             <div className="relative">
               <div className="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full hidden md:block"></div>
-              <img 
-                src="/favicon.ico" 
-                alt="Ejele Logo" 
+              <img
+                src="/favicon.ico"
+                alt="Ejele Logo"
                 className="relative w-20 h-20 md:w-28 md:h-28 rounded-2xl"
               />
             </div>
           </div>
-          
+
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6 md:mb-8 text-white">
-            Tu restaurante<br/>
+            Tu restaurante
+            <br />
             <span className="text-blue-400">funcionando hoy</span>
           </h1>
           <p className="text-gray-400 text-xl md:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed px-4 md:px-0">
-            Corre en tu equipo, sin rentas. <span className="font-bold text-white">Gratis</span> para siempre.
+            Sin rentas, <span className="font-bold text-white">gratis</span>{" "}
+            para siempre.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">
@@ -68,13 +70,18 @@ export default function Hero() {
             >
               {/* Glow effect - solo en desktop */}
               <div className="hidden sm:block absolute inset-0 bg-blue-600/0 group-hover:bg-blue-700/40 rounded-xl blur-2xl transition-all duration-300 -z-10"></div>
-              
+
               {/* Content */}
               <div className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
-                <Icon icon="solar:download-bold-duotone" className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300" />
-                <span className="text-white">{downloading ? 'Descargando…' : 'Descargar Ejele gratis'}</span>
+                <Icon
+                  icon="solar:download-bold-duotone"
+                  className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300"
+                />
+                <span className="text-white">
+                  {downloading ? "Descargando…" : "Descargar Ejele gratis"}
+                </span>
               </div>
-              
+
               {/* Shine effect on hover - solo en desktop */}
               <div className="hidden sm:block absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl transition-transform duration-700"></div>
             </button>
@@ -82,14 +89,15 @@ export default function Hero() {
 
           {/* Prueba social */}
           <p className="text-gray-500 text-sm mb-12">
-            <span className="text-white font-semibold">+100 restaurantes</span> en México • Instalación en 2 minutos
+            <span className="text-white font-semibold">+100 restaurantes</span>{" "}
+            en México • Instalación en 2 minutos
           </p>
         </div>
 
         {/* Hero Video */}
         <div className="relative reveal delay-300 max-w-4xl md:max-w-4xl mx-auto px-2 md:px-0">
-          <video 
-            src="/assets/videos/ejele.mp4" 
+          <video
+            src="/assets/videos/ejele.mp4"
             autoPlay
             loop
             muted
@@ -98,8 +106,11 @@ export default function Hero() {
           />
         </div>
       </div>
-      
-      <ComingSoonDialog isOpen={showDialog} onClose={() => setShowDialog(false)} />
+
+      <ComingSoonDialog
+        isOpen={showDialog}
+        onClose={() => setShowDialog(false)}
+      />
     </section>
   );
 }

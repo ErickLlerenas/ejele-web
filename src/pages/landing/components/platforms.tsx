@@ -188,39 +188,49 @@ export default function Platforms() {
                 {platform.description}
               </p>
               {platform.key === "windows" && (
-                <div className="relative w-full">
+                <div className="relative w-full flex rounded-xl overflow-hidden shadow-lg shadow-blue-900/30">
                   <button
                     type="button"
                     onClick={handleWindowsDownload}
                     disabled={loading !== null}
-                    className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 pr-20`}
+                    className={`flex-1 ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-l-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 min-w-0`}
                   >
                     <Icon
                       icon="solar:download-bold-duotone"
-                      className="w-5 h-5"
+                      className="w-5 h-5 shrink-0 opacity-95"
                     />
-                    {loading === "windows-x64" || loading === "windows-arm"
-                      ? "Descargando…"
-                      : "Descargar"}
+                    <span className="truncate">
+                      {loading === "windows-x64" || loading === "windows-arm"
+                        ? "Descargando…"
+                        : "Descargar"}
+                    </span>
                   </button>
-                  <select
-                    value={windowsVariant}
-                    onChange={(e) =>
-                      setWindowsVariant(e.target.value as "x64" | "arm")
-                    }
-                    onClick={(e) => e.stopPropagation()}
-                    className="absolute top-1 right-1 bottom-1 w-14 rounded-md border-0 bg-white/20 text-white text-xs font-medium cursor-pointer focus:ring-1 focus:ring-white/50 focus:outline-none [&>option]:bg-slate-800 [&>option]:text-white"
-                    aria-label="Arquitectura Windows"
-                  >
-                    <option value="x64">x64</option>
-                    <option value="arm">ARM</option>
-                  </select>
+                  <div className="relative flex items-stretch border-l border-white/20 bg-white/10 rounded-r-xl min-w-[5rem]">
+                    <select
+                      value={windowsVariant}
+                      onChange={(e) =>
+                        setWindowsVariant(e.target.value as "x64" | "arm")
+                      }
+                      onClick={(e) => e.stopPropagation()}
+                      className="appearance-none bg-transparent text-white text-xs font-semibold cursor-pointer pl-3 pr-8 py-3 focus:outline-none focus:ring-0 [&>option]:bg-slate-800 [&>option]:text-white"
+                      aria-label="Arquitectura Windows"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.8)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+                        backgroundSize: "1rem",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "right 0.5rem center",
+                      }}
+                    >
+                      <option value="x64">x64</option>
+                      <option value="arm">ARM</option>
+                    </select>
+                  </div>
                 </div>
               )}
               {platform.key === "macos" && (
                 <button
                   onClick={() => setShowDialog(true)}
-                  className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer opacity-90`}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer opacity-90 shadow-lg ${platform.color === "slate" ? "shadow-slate-900/30" : "shadow-blue-900/30"}`}
                 >
                   Próximamente
                 </button>
@@ -229,11 +239,11 @@ export default function Platforms() {
                 <button
                   onClick={handleAndroidDownload}
                   disabled={loading !== null}
-                  className={`w-full ${mainButtonColors[platform.color]} text-white py-2 px-6 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70`}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 shadow-lg shadow-green-900/30`}
                 >
                   <Icon
                     icon="solar:download-bold-duotone"
-                    className="w-5 h-5"
+                    className="w-5 h-5 shrink-0"
                   />
                   {loading === "android" ? "Descargando…" : "Descargar"}
                 </button>

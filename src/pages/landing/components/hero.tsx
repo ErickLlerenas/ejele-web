@@ -78,7 +78,9 @@ export default function Hero() {
                   className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300"
                 />
                 <span className="text-white">
-                  {downloading ? "Descargando…" : "Descargar Ejele gratis"}
+                  {downloading
+                    ? "Descargando…"
+                    : "Descargar Ejele gratis (Beta)"}
                 </span>
               </div>
 

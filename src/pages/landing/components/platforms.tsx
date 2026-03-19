@@ -2,11 +2,10 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
 import {
+  DOWNLOAD_FILENAMES,
   fetchLatestReleaseUrls,
   getFallbackDownloadUrl,
-  RELEASE_ASSETS,
 } from "@/utils/os";
-import ComingSoonDialog from "./coming-soon-dialog";
 
 function triggerDownload(url: string, filename: string) {
   const a = document.createElement("a");
@@ -116,9 +115,8 @@ const remoteApps = [
 ];
 
 export default function Platforms() {
-  const [showDialog, setShowDialog] = useState(false);
   const [loading, setLoading] = useState<
-    "windows-x64" | "windows-arm" | "android" | null
+    "windows-x64" | "windows-arm" | "android" | "macos" | null
   >(null);
   const [windowsVariant, setWindowsVariant] = useState<"x64" | "arm">("x64");
 
@@ -134,10 +132,8 @@ export default function Platforms() {
       const fallback = getFallbackDownloadUrl(
         variant === "x64" ? "windowsX64" : "windowsArm64",
       );
-      triggerDownload(
-        url || fallback,
-        RELEASE_ASSETS[variant === "x64" ? "windowsX64" : "windowsArm64"],
-      );
+      const key = variant === "x64" ? "windowsX64" : "windowsArm64";
+      triggerDownload(url || fallback, DOWNLOAD_FILENAMES[key]);
     } finally {
       setLoading(null);
     }
@@ -148,7 +144,18 @@ export default function Platforms() {
     try {
       const urls = await fetchLatestReleaseUrls();
       const url = urls.android || getFallbackDownloadUrl("android");
-      triggerDownload(url, RELEASE_ASSETS.android);
+      triggerDownload(url, DOWNLOAD_FILENAMES.android);
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleMacOsDownload = async () => {
+    setLoading("macos");
+    try {
+      const urls = await fetchLatestReleaseUrls();
+      const url = urls.macos || getFallbackDownloadUrl("macos");
+      triggerDownload(url, DOWNLOAD_FILENAMES.macos);
     } finally {
       setLoading(null);
     }
@@ -229,10 +236,15 @@ export default function Platforms() {
               )}
               {platform.key === "macos" && (
                 <button
-                  onClick={() => setShowDialog(true)}
-                  className={`w-full ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer opacity-90 shadow-lg ${platform.color === "slate" ? "shadow-slate-900/30" : "shadow-blue-900/30"}`}
+                  onClick={handleMacOsDownload}
+                  disabled={loading !== null}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 shadow-lg ${platform.color === "slate" ? "shadow-slate-900/30" : "shadow-blue-900/30"}`}
                 >
-                  Próximamente
+                  <Icon
+                    icon="solar:download-bold-duotone"
+                    className="w-5 h-5 shrink-0"
+                  />
+                  {loading === "macos" ? "Descargando…" : "Descargar"}
                 </button>
               )}
               {platform.key === "android" && (
@@ -259,10 +271,11 @@ export default function Platforms() {
         {/* App remota: 2 cards más pequeñas y tono suave */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {remoteApps.map((platform, index) => (
-            <button
+            <a
               key={index}
-              type="button"
-              onClick={() => setShowDialog(true)}
+              href={platform.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}
             >
               <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
@@ -301,15 +314,10 @@ export default function Platforms() {
               >
                 {platform.storeLabel}
               </span>
-            </button>
+            </a>
           ))}
         </div>
       </div>
-
-      <ComingSoonDialog
-        isOpen={showDialog}
-        onClose={() => setShowDialog(false)}
-      />
     </section>
   );
 }

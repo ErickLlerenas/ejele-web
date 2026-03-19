@@ -1,7 +1,10 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { detectOS, getMainDownloadUrl } from "@/utils/os";
-import ComingSoonDialog from "./coming-soon-dialog";
+import {
+  detectOS,
+  getDownloadButtonText,
+  getMainDownloadUrl,
+} from "@/utils/os";
 
 function triggerDownload(url: string, filename: string) {
   const a = document.createElement("a");
@@ -15,22 +18,25 @@ function triggerDownload(url: string, filename: string) {
 }
 
 export default function Hero() {
-  const [showDialog, setShowDialog] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const os = detectOS();
 
   const handleDownload = async () => {
-    const os = detectOS();
-    if (os === "macOS" || os === "Unknown") {
-      setShowDialog(true);
+    if (os === "Unknown") {
+      document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
       return;
     }
     setDownloading(true);
     try {
       const url = await getMainDownloadUrl();
-      if (url) triggerDownload(url, url.split("/").pop() ?? "ejele-download");
-      else setShowDialog(true);
+      if (url) {
+        const filename = url.split("/").pop() ?? "ejele-download";
+        triggerDownload(url, filename);
+      } else {
+        document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
+      }
     } catch {
-      setShowDialog(true);
+      document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
     } finally {
       setDownloading(false);
     }
@@ -80,7 +86,7 @@ export default function Hero() {
                 <span className="text-white">
                   {downloading
                     ? "Descargando…"
-                    : "Descargar Ejele gratis (Beta)"}
+                    : getDownloadButtonText(os)}
                 </span>
               </div>
 
@@ -108,11 +114,6 @@ export default function Hero() {
           />
         </div>
       </div>
-
-      <ComingSoonDialog
-        isOpen={showDialog}
-        onClose={() => setShowDialog(false)}
-      />
     </section>
   );
 }

@@ -1,4 +1,5 @@
-// Reemplaza con tus URLs cuando las tengas
 export const PLAY_STORE_URL =
-  'https://play.google.com/store/apps/details?id=com.ejele';
-export const APP_STORE_URL = 'https://apps.apple.com/app/ejele/id000000000';
+  "https://play.google.com/store/apps/details?id=app.ejele.staff";
+
+/** App Store (Apple ID from App Store Connect) */
+export const APP_STORE_URL = "https://apps.apple.com/app/id6760519454";

@@ -68,7 +68,8 @@ export default function Hero() {
             para siempre.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">
+          {/* Oculto en móvil; visible desde tablet/escritorio (descargas en #platforms en celular) */}
+          <div className="hidden md:flex flex-col sm:flex-row gap-4 justify-center items-center mb-4 px-4">
             <button
               onClick={handleDownload}
               disabled={downloading}

@@ -5,7 +5,7 @@ export default function Questions() {
     {
       question: "¿Por qué es gratis?",
       answer:
-        "Ejele corre en tu computadora, no en la nube ni en apps de terceros. Sin rentas que pagar de nuestra parte, podemos ofrecerte la versión gratuita de por vida y un premium a un precio muy bajo.",
+        "Lo esencial para vender (menú, tickets, caja) va sin renta mensual. El plan premium es opcional —cocina, meseros, más pantallas— y con eso financiamos el producto y el gratis de por vida.",
       icon: "solar:gift-bold-duotone",
       color: "emerald",
     },

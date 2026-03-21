@@ -3,6 +3,7 @@ import { useState } from "react";
 import {
   APP_STORE_COMING_SOON,
   APP_STORE_URL,
+  PLAY_STORE_COMING_SOON,
   PLAY_STORE_URL,
 } from "@/constants/store";
 import {
@@ -276,8 +277,11 @@ export default function Platforms() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {remoteApps.map((platform, index) => {
             const isAppStore = platform.name === "App Store";
-            const appStoreSoon = isAppStore && APP_STORE_COMING_SOON;
-            const Wrapper = appStoreSoon ? "div" : "a";
+            const isPlayStore = platform.name === "Play Store";
+            const comingSoon =
+              (isPlayStore && PLAY_STORE_COMING_SOON) ||
+              (isAppStore && APP_STORE_COMING_SOON);
+            const Wrapper = comingSoon ? "div" : "a";
             const linkProps =
               Wrapper === "a"
                 ? {
@@ -290,7 +294,7 @@ export default function Platforms() {
               <Wrapper
                 key={index}
                 {...linkProps}
-                className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all text-center w-full border border-white/5 ${appStoreSoon ? "opacity-95" : "hover:scale-[1.02] hover:border-white/10 cursor-pointer"}`}
+                className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all text-center w-full border border-white/5 ${comingSoon ? "opacity-95" : "hover:scale-[1.02] hover:border-white/10 cursor-pointer"}`}
               >
                 <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
                   Premium
@@ -324,9 +328,9 @@ export default function Platforms() {
                   <span>pantalla en cocina</span>
                 </p>
                 <span
-                  className={`inline-flex items-center justify-center gap-2 w-full ${remoteButtonColors[platform.color]} text-white py-2 px-5 rounded-lg font-semibold text-sm ${appStoreSoon ? "opacity-90" : ""}`}
+                  className={`inline-flex items-center justify-center gap-2 w-full ${remoteButtonColors[platform.color]} text-white py-2 px-5 rounded-lg font-semibold text-sm ${comingSoon ? "opacity-90" : ""}`}
                 >
-                  {appStoreSoon ? "Próximamente" : platform.storeLabel}
+                  {comingSoon ? "Próximamente" : platform.storeLabel}
                 </span>
               </Wrapper>
             );

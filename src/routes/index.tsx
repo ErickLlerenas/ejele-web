@@ -4,6 +4,7 @@ import Policy from '@/pages/legal/policy';
 import TermsAndConditions from '@/pages/legal/terms';
 import PaymentSuccess from '@/pages/payment/payment-success';
 import FacturaPage from '@/pages/factura/factura';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
 import NotFound from '@/pages/NotFound';
 
 export function Router() {
@@ -27,6 +28,10 @@ export function Router() {
     {
       path: 'factura',
       element: <FacturaPage />,
+    },
+    {
+      path: 'admin',
+      element: <AdminDashboard />,
     },
     {
       path: '*',

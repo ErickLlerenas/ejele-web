@@ -1,6 +1,10 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
+import {
+  APP_STORE_COMING_SOON,
+  APP_STORE_URL,
+  PLAY_STORE_URL,
+} from "@/constants/store";
 import {
   DOWNLOAD_FILENAMES,
   fetchLatestReleaseUrls,
@@ -270,52 +274,63 @@ export default function Platforms() {
 
         {/* App remota: 2 cards más pequeñas y tono suave */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-          {remoteApps.map((platform, index) => (
-            <a
-              key={index}
-              href={platform.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}
-            >
-              <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
-                Premium
-              </div>
-              <div
-                className={`w-16 h-16 rounded-lg ${remoteIconBg[platform.color]} flex items-center justify-center mb-4 mx-auto`}
+          {remoteApps.map((platform, index) => {
+            const isAppStore = platform.name === "App Store";
+            const appStoreSoon = isAppStore && APP_STORE_COMING_SOON;
+            const Wrapper = appStoreSoon ? "div" : "a";
+            const linkProps =
+              Wrapper === "a"
+                ? {
+                    href: platform.href,
+                    target: "_blank" as const,
+                    rel: "noopener noreferrer" as const,
+                  }
+                : {};
+            return (
+              <Wrapper
+                key={index}
+                {...linkProps}
+                className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all text-center w-full border border-white/5 ${appStoreSoon ? "opacity-95" : "hover:scale-[1.02] hover:border-white/10 cursor-pointer"}`}
               >
-                <Icon
-                  icon={platform.icon}
-                  className={`${remoteIconColors[platform.color]} w-10 h-10`}
-                />
-              </div>
-              <h3 className="text-lg font-bold mb-1 text-white">
-                {platform.name}
-              </h3>
-              <p className="text-gray-400 text-xs mb-3">
-                {platform.deviceLabel}
-              </p>
-              <p className="text-gray-400 text-sm mb-4 flex items-center justify-center gap-2 flex-wrap">
-                <Icon
-                  icon="solar:users-group-two-rounded-bold-duotone"
-                  className="w-4 h-4 text-gray-500"
-                  aria-hidden
-                />
-                <span>meseros</span>
-                <Icon
-                  icon="solar:chef-hat-bold-duotone"
-                  className="w-4 h-4 text-gray-500"
-                  aria-hidden
-                />
-                <span>pantalla en cocina</span>
-              </p>
-              <span
-                className={`inline-flex items-center justify-center gap-2 w-full ${remoteButtonColors[platform.color]} text-white py-2 px-5 rounded-lg font-semibold text-sm`}
-              >
-                {platform.storeLabel}
-              </span>
-            </a>
-          ))}
+                <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
+                  Premium
+                </div>
+                <div
+                  className={`w-16 h-16 rounded-lg ${remoteIconBg[platform.color]} flex items-center justify-center mb-4 mx-auto`}
+                >
+                  <Icon
+                    icon={platform.icon}
+                    className={`${remoteIconColors[platform.color]} w-10 h-10`}
+                  />
+                </div>
+                <h3 className="text-lg font-bold mb-1 text-white">
+                  {platform.name}
+                </h3>
+                <p className="text-gray-400 text-xs mb-3">
+                  {platform.deviceLabel}
+                </p>
+                <p className="text-gray-400 text-sm mb-4 flex items-center justify-center gap-2 flex-wrap">
+                  <Icon
+                    icon="solar:users-group-two-rounded-bold-duotone"
+                    className="w-4 h-4 text-gray-500"
+                    aria-hidden
+                  />
+                  <span>meseros</span>
+                  <Icon
+                    icon="solar:chef-hat-bold-duotone"
+                    className="w-4 h-4 text-gray-500"
+                    aria-hidden
+                  />
+                  <span>pantalla en cocina</span>
+                </p>
+                <span
+                  className={`inline-flex items-center justify-center gap-2 w-full ${remoteButtonColors[platform.color]} text-white py-2 px-5 rounded-lg font-semibold text-sm ${appStoreSoon ? "opacity-90" : ""}`}
+                >
+                  {appStoreSoon ? "Próximamente" : platform.storeLabel}
+                </span>
+              </Wrapper>
+            );
+          })}
         </div>
       </div>
     </section>

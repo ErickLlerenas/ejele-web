@@ -14,6 +14,9 @@ type Restaurant = {
   name: string;
   created_at: string;
   subscription_status: string;
+  subscription_expiry?: string; // <-- Nuevo
+  invoice_credits?: number; // <-- Nuevo
+  facturapi_is_ready?: boolean; // <-- Nuevo
   total_orders_created?: number;
   total_products_created?: number;
   last_active_at?: string;
@@ -208,6 +211,8 @@ export default function AdminDashboard() {
                     <tr>
                       <th className="px-6 py-4 font-medium">Nombre</th>
                       <th className="px-6 py-4 font-medium">Plan</th>
+                      <th className="px-6 py-4 font-medium">Créditos</th>
+                      <th className="px-6 py-4 font-medium">Facturapi</th>
                       <th className="px-6 py-4 font-medium">Órdenes</th>
                       <th className="px-6 py-4 font-medium">Productos</th>
                       <th className="px-6 py-4 font-medium">Versión App</th>
@@ -236,15 +241,36 @@ export default function AdminDashboard() {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            <span
-                              className={`px-2.5 py-1 rounded-md text-xs font-medium ${
-                                restaurant.subscription_status === 'lifetime' || restaurant.subscription_status.includes('premium')
-                                  ? 'bg-blue-900/50 text-blue-300 border border-blue-700'
-                                  : 'bg-gray-700 text-gray-300 border border-gray-600'
-                              }`}
-                            >
-                              {restaurant.subscription_status}
-                            </span>
+                            <div className="relative group cursor-help inline-block">
+                              <span
+                                className={`px-2.5 py-1 rounded-md text-xs font-medium ${
+                                  restaurant.subscription_status === 'lifetime' || restaurant.subscription_status.includes('premium')
+                                    ? 'bg-blue-900/50 text-blue-300 border border-blue-700'
+                                    : 'bg-gray-700 text-gray-300 border border-gray-600'
+                                }`}
+                              >
+                                {restaurant.subscription_status}
+                              </span>
+                              {restaurant.subscription_expiry && (
+                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-max bg-gray-900 text-gray-200 text-xs rounded py-1 px-2 border border-gray-700 shadow-xl z-10">
+                                  Caduca: {new Date(restaurant.subscription_expiry).toLocaleDateString()}
+                                  <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-700"></div>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 font-medium text-white">
+                            {restaurant.invoice_credits || 0}
+                          </td>
+                          <td className="px-6 py-4">
+                            {restaurant.facturapi_is_ready ? (
+                              <span className="text-green-400 font-medium text-sm flex items-center gap-1">
+                                <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                Listo
+                              </span>
+                            ) : (
+                              <span className="text-gray-500 text-sm">No config.</span>
+                            )}
                           </td>
                           <td className="px-6 py-4 font-medium text-white">
                             {restaurant.total_orders_created || 0}

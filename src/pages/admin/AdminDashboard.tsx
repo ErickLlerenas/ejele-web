@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { getSupabase } from '@/lib/supabase';
-import { Session } from '@supabase/supabase-js';
+import { useEffect, useState } from "react";
+import { getSupabase } from "@/lib/supabase";
+import { Session } from "@supabase/supabase-js";
 
 type Profile = {
   id: string;
@@ -67,13 +67,13 @@ export default function AdminDashboard() {
       const supabase = getSupabase();
       // Llamamos al RPC que crearemos en Supabase
       const { data: rpcData, error: rpcError } = await supabase.rpc(
-        'get_admin_dashboard_data'
+        "get_admin_dashboard_data",
       );
 
       if (rpcError) throw rpcError;
       setData(rpcData as AdminData);
     } catch (err: any) {
-      setError(err.message || 'Error al cargar datos. ¿Eres el admin?');
+      setError(err.message || "Error al cargar datos. ¿Eres el admin?");
     } finally {
       setLoading(false);
     }
@@ -84,9 +84,9 @@ export default function AdminDashboard() {
       const supabase = getSupabase();
       // Usaremos Google Login igual que en la app
       await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
         options: {
-          redirectTo: window.location.origin + '/admin',
+          redirectTo: window.location.origin + "/admin",
         },
       });
     } catch (err: any) {
@@ -145,9 +145,7 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold">Ejele Admin</h1>
-            <p className="text-gray-400">
-              Hola, {session.user.email}
-            </p>
+            <p className="text-gray-400">Hola, {session.user.email}</p>
           </div>
           <button
             onClick={handleLogout}
@@ -162,7 +160,9 @@ export default function AdminDashboard() {
             <p className="font-semibold">Error al obtener datos</p>
             <p className="text-sm opacity-90">{error}</p>
             <p className="text-sm mt-2">
-              Asegúrate de haber creado el RPC <code>get_admin_dashboard_data</code> en Supabase y de estar logueado con el correo de admin.
+              Asegúrate de haber creado el RPC{" "}
+              <code>get_admin_dashboard_data</code> en Supabase y de estar
+              logueado con el correo de admin.
             </p>
           </div>
         )}
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
         {data && (
           <div className="space-y-8">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
               <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700">
                 <h3 className="text-gray-400 text-sm font-medium">
                   Total Usuarios
@@ -189,12 +189,23 @@ export default function AdminDashboard() {
               </div>
               <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700">
                 <h3 className="text-gray-400 text-sm font-medium">
-                  Órdenes Creadas (Global)
+                  Total órdenes
                 </h3>
                 <p className="text-4xl font-bold mt-2 text-green-400">
                   {data.restaurants.reduce(
                     (acc, r) => acc + (r.total_orders_created || 0),
-                    0
+                    0,
+                  )}
+                </p>
+              </div>
+              <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700">
+                <h3 className="text-gray-400 text-sm font-medium">
+                  Total productos
+                </h3>
+                <p className="text-4xl font-bold mt-2 text-amber-400">
+                  {data.restaurants.reduce(
+                    (acc, r) => acc + (r.total_products_created || 0),
+                    0,
                   )}
                 </p>
               </div>
@@ -216,7 +227,9 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 font-medium">Órdenes</th>
                       <th className="px-6 py-4 font-medium">Productos</th>
                       <th className="px-6 py-4 font-medium">Versión App</th>
-                      <th className="px-6 py-4 font-medium">Última Actividad</th>
+                      <th className="px-6 py-4 font-medium">
+                        Última Actividad
+                      </th>
                       <th className="px-6 py-4 font-medium">Fecha Creación</th>
                     </tr>
                   </thead>
@@ -237,23 +250,32 @@ export default function AdminDashboard() {
                               {restaurant.name}
                             </div>
                             <div className="text-xs text-gray-500">
-                              {data.profiles.find((p) => p.id === restaurant.owner_id)?.email || 'Desconocido'}
+                              {data.profiles.find(
+                                (p) => p.id === restaurant.owner_id,
+                              )?.email || "Desconocido"}
                             </div>
                           </td>
                           <td className="px-6 py-4">
                             <div className="relative group cursor-help inline-block">
                               <span
                                 className={`px-2.5 py-1 rounded-md text-xs font-medium ${
-                                  restaurant.subscription_status === 'lifetime' || restaurant.subscription_status.includes('premium')
-                                    ? 'bg-blue-900/50 text-blue-300 border border-blue-700'
-                                    : 'bg-gray-700 text-gray-300 border border-gray-600'
+                                  restaurant.subscription_status ===
+                                    "lifetime" ||
+                                  restaurant.subscription_status.includes(
+                                    "premium",
+                                  )
+                                    ? "bg-blue-900/50 text-blue-300 border border-blue-700"
+                                    : "bg-gray-700 text-gray-300 border border-gray-600"
                                 }`}
                               >
                                 {restaurant.subscription_status}
                               </span>
                               {restaurant.subscription_expiry && (
                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-max bg-gray-900 text-gray-200 text-xs rounded py-1 px-2 border border-gray-700 shadow-xl z-10">
-                                  Caduca: {new Date(restaurant.subscription_expiry).toLocaleDateString()}
+                                  Caduca:{" "}
+                                  {new Date(
+                                    restaurant.subscription_expiry,
+                                  ).toLocaleDateString()}
                                   <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-700"></div>
                                 </div>
                               )}
@@ -269,7 +291,9 @@ export default function AdminDashboard() {
                                 Listo
                               </span>
                             ) : (
-                              <span className="text-gray-500 text-sm">No config.</span>
+                              <span className="text-gray-500 text-sm">
+                                No config.
+                              </span>
                             )}
                           </td>
                           <td className="px-6 py-4 font-medium text-white">
@@ -279,18 +303,26 @@ export default function AdminDashboard() {
                             {restaurant.total_products_created || 0}
                           </td>
                           <td className="px-6 py-4 text-gray-300">
-                            {restaurant.app_version || '-'}
+                            {restaurant.app_version || "-"}
                           </td>
                           <td className="px-6 py-4">
                             {restaurant.last_active_at ? (
                               <div className="flex items-center gap-2">
                                 <div
                                   className={`w-2 h-2 rounded-full ${
-                                    isActive ? 'bg-green-500' : 'bg-gray-500'
+                                    isActive ? "bg-green-500" : "bg-gray-500"
                                   }`}
                                 ></div>
-                                <span className={isActive ? 'text-green-400' : 'text-gray-400'}>
-                                  {new Date(restaurant.last_active_at).toLocaleDateString()}
+                                <span
+                                  className={
+                                    isActive
+                                      ? "text-green-400"
+                                      : "text-gray-400"
+                                  }
+                                >
+                                  {new Date(
+                                    restaurant.last_active_at,
+                                  ).toLocaleDateString()}
                                 </span>
                               </div>
                             ) : (
@@ -298,14 +330,19 @@ export default function AdminDashboard() {
                             )}
                           </td>
                           <td className="px-6 py-4 text-gray-400">
-                            {new Date(restaurant.created_at).toLocaleDateString()}
+                            {new Date(
+                              restaurant.created_at,
+                            ).toLocaleDateString()}
                           </td>
                         </tr>
                       );
                     })}
                     {data.restaurants.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                        <td
+                          colSpan={9}
+                          className="px-6 py-8 text-center text-gray-500"
+                        >
                           No hay restaurantes registrados.
                         </td>
                       </tr>

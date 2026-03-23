@@ -28,6 +28,22 @@ type AdminData = {
   restaurants: Restaurant[];
 };
 
+const DATE_TIME_FORMATTER = new Intl.DateTimeFormat("es-MX", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+});
+
+function formatDateTime(value?: string | null): string {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "-";
+  return DATE_TIME_FORMATTER.format(date);
+}
+
 export default function AdminDashboard() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -273,9 +289,7 @@ export default function AdminDashboard() {
                               {restaurant.subscription_expiry && (
                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-max bg-gray-900 text-gray-200 text-xs rounded py-1 px-2 border border-gray-700 shadow-xl z-10">
                                   Caduca:{" "}
-                                  {new Date(
-                                    restaurant.subscription_expiry,
-                                  ).toLocaleDateString()}
+                                  {formatDateTime(restaurant.subscription_expiry)}
                                   <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-700"></div>
                                 </div>
                               )}
@@ -320,9 +334,7 @@ export default function AdminDashboard() {
                                       : "text-gray-400"
                                   }
                                 >
-                                  {new Date(
-                                    restaurant.last_active_at,
-                                  ).toLocaleDateString()}
+                                  {formatDateTime(restaurant.last_active_at)}
                                 </span>
                               </div>
                             ) : (
@@ -330,9 +342,7 @@ export default function AdminDashboard() {
                             )}
                           </td>
                           <td className="px-6 py-4 text-gray-400">
-                            {new Date(
-                              restaurant.created_at,
-                            ).toLocaleDateString()}
+                            {formatDateTime(restaurant.created_at)}
                           </td>
                         </tr>
                       );

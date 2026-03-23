@@ -44,6 +44,11 @@ function formatDateTime(value?: string | null): string {
   return DATE_TIME_FORMATTER.format(date);
 }
 
+const ADMIN_EMAILS = new Set([
+  "dev.llerenas@gmail.com",
+  "adrianhernandezgomez896@gmail.com",
+]);
+
 export default function AdminDashboard() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,8 +61,12 @@ export default function AdminDashboard() {
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
         setLoading(false);
-        if (session) {
+
+        const email = session?.user?.email?.toLowerCase();
+        if (email && ADMIN_EMAILS.has(email)) {
           fetchAdminData();
+        } else if (session) {
+          setError("No tienes permisos para acceder al panel admin.");
         }
       });
 
@@ -65,8 +74,13 @@ export default function AdminDashboard() {
         data: { subscription },
       } = supabase.auth.onAuthStateChange((_event, session) => {
         setSession(session);
-        if (session) {
+
+        const email = session?.user?.email?.toLowerCase();
+        if (email && ADMIN_EMAILS.has(email)) {
           fetchAdminData();
+        } else if (session) {
+          setError("No tienes permisos para acceder al panel admin.");
+          setData(null);
         }
       });
 
@@ -142,7 +156,7 @@ export default function AdminDashboard() {
         <div className="bg-gray-800 p-8 rounded-2xl shadow-xl max-w-sm w-full text-center border border-gray-700">
           <h1 className="text-2xl font-bold mb-2">Panel de Control</h1>
           <p className="text-gray-400 mb-8 text-sm">
-            Acceso exclusivo para el administrador (dev.llerenas@gmail.com).
+            Acceso exclusivo para admins: dev.llerenas@gmail.com y adrianhernandezgomez896@gmail.com.
           </p>
           <button
             onClick={handleLogin}
@@ -178,7 +192,7 @@ export default function AdminDashboard() {
             <p className="text-sm mt-2">
               Asegúrate de haber creado el RPC{" "}
               <code>get_admin_dashboard_data</code> en Supabase y de estar
-              logueado con el correo de admin.
+              logueado con un correo admin permitido.
             </p>
           </div>
         )}

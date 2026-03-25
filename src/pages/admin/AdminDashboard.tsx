@@ -47,6 +47,7 @@ function formatDateTime(value?: string | null): string {
 const ADMIN_EMAILS = new Set([
   "dev.llerenas@gmail.com",
   "adrianhernandezgomez896@gmail.com",
+  "llere1997@gmail.com",
 ]);
 
 export default function AdminDashboard() {
@@ -156,7 +157,7 @@ export default function AdminDashboard() {
         <div className="bg-gray-800 p-8 rounded-2xl shadow-xl max-w-sm w-full text-center border border-gray-700">
           <h1 className="text-2xl font-bold mb-2">Panel de Control</h1>
           <p className="text-gray-400 mb-8 text-sm">
-            Acceso exclusivo para admins: dev.llerenas@gmail.com y adrianhernandezgomez896@gmail.com.
+            Acceso exclusivo para cuentas de administrador autorizadas.
           </p>
           <button
             onClick={handleLogin}

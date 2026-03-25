@@ -21,6 +21,7 @@ type Restaurant = {
   total_products_created?: number;
   last_active_at?: string;
   app_version?: string;
+  os_version?: string;
 };
 
 type AdminData = {
@@ -258,6 +259,7 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 font-medium">Órdenes</th>
                       <th className="px-6 py-4 font-medium">Productos</th>
                       <th className="px-6 py-4 font-medium">Versión App</th>
+                      <th className="px-6 py-4 font-medium">OS</th>
                       <th className="px-6 py-4 font-medium">
                         Última Actividad
                       </th>
@@ -334,6 +336,9 @@ export default function AdminDashboard() {
                           <td className="px-6 py-4 text-gray-300">
                             {restaurant.app_version || "-"}
                           </td>
+                          <td className="px-6 py-4 text-gray-300">
+                            {restaurant.os_version ? restaurant.os_version.charAt(0).toUpperCase() + restaurant.os_version.slice(1) : "-"}
+                          </td>
                           <td className="px-6 py-4">
                             {restaurant.last_active_at ? (
                               <div className="flex items-center gap-2">
@@ -365,7 +370,7 @@ export default function AdminDashboard() {
                     {data.restaurants.length === 0 && (
                       <tr>
                         <td
-                          colSpan={9}
+                          colSpan={10}
                           className="px-6 py-8 text-center text-gray-500"
                         >
                           No hay restaurantes registrados.

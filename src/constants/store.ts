@@ -3,6 +3,3 @@ export const PLAY_STORE_URL =
 
 export const APP_STORE_URL =
   "https://apps.apple.com/mx/app/ejele-meseros-y-cocina/id6760519454";
-
-/** Si es true, Play Store muestra "Próximamente" (sin enlace). */
-export const PLAY_STORE_COMING_SOON = true;

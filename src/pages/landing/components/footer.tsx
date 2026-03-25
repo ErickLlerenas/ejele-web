@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import {
-  APP_STORE_COMING_SOON,
   APP_STORE_URL,
   PLAY_STORE_COMING_SOON,
   PLAY_STORE_URL,
@@ -68,15 +67,9 @@ export default function Footer() {
                 )}
               </li>
               <li>
-                {APP_STORE_COMING_SOON ? (
-                  <span className="text-gray-500 text-sm font-medium flex items-center gap-2">
-                    <Icon icon="logos:apple-app-store" className="w-4 h-4" /> App Store — Próximamente
-                  </span>
-                ) : (
-                  <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
-                    <Icon icon="logos:apple-app-store" className="w-4 h-4" /> App Store
-                  </a>
-                )}
+                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline">
+                  <Icon icon="logos:apple-app-store" className="w-4 h-4" /> App Store
+                </a>
               </li>
             </ul>
           </div>

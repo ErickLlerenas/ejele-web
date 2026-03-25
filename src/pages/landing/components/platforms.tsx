@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 import {
-  APP_STORE_COMING_SOON,
   APP_STORE_URL,
   PLAY_STORE_COMING_SOON,
   PLAY_STORE_URL,
@@ -276,11 +275,8 @@ export default function Platforms() {
         {/* App remota: 2 cards más pequeñas y tono suave */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {remoteApps.map((platform, index) => {
-            const isAppStore = platform.name === "App Store";
             const isPlayStore = platform.name === "Play Store";
-            const comingSoon =
-              (isPlayStore && PLAY_STORE_COMING_SOON) ||
-              (isAppStore && APP_STORE_COMING_SOON);
+            const comingSoon = isPlayStore && PLAY_STORE_COMING_SOON;
             const Wrapper = comingSoon ? "div" : "a";
             const linkProps =
               Wrapper === "a"

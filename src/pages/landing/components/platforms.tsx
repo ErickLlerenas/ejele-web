@@ -2,6 +2,10 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
 import {
+  copyPendingReferralToClipboard,
+  EJELE_PENDING_REFERRAL_STORAGE_KEY,
+} from "@/constants/referral";
+import {
   DOWNLOAD_FILENAMES,
   fetchLatestReleaseUrls,
   getFallbackDownloadUrl,
@@ -119,12 +123,23 @@ export default function Platforms() {
     "windows-x64" | "windows-arm" | "android" | "macos" | null
   >(null);
   const [windowsVariant, setWindowsVariant] = useState<"x64" | "arm">("x64");
+  const [referralToast, setReferralToast] = useState(false);
+
+  const beforeMainDownload = () => {
+    const had = !!localStorage.getItem(EJELE_PENDING_REFERRAL_STORAGE_KEY);
+    copyPendingReferralToClipboard();
+    if (had) {
+      setReferralToast(true);
+      window.setTimeout(() => setReferralToast(false), 4000);
+    }
+  };
 
   const handleWindowsDownload = async () => {
     await handleWindowsDownloadVariant(windowsVariant);
   };
 
   const handleWindowsDownloadVariant = async (variant: "x64" | "arm") => {
+    beforeMainDownload();
     setLoading(variant === "x64" ? "windows-x64" : "windows-arm");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -140,6 +155,7 @@ export default function Platforms() {
   };
 
   const handleAndroidDownload = async () => {
+    beforeMainDownload();
     setLoading("android");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -151,6 +167,7 @@ export default function Platforms() {
   };
 
   const handleMacOsDownload = async () => {
+    beforeMainDownload();
     setLoading("macos");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -162,7 +179,16 @@ export default function Platforms() {
   };
 
   return (
-    <section id="platforms" className="py-20 md:py-32 px-6">
+    <section id="platforms" className="py-20 md:py-32 px-6 relative">
+      {referralToast ? (
+        <div
+          className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-slate-900 text-white text-sm px-4 py-3 shadow-lg border border-teal-500/30 max-w-[min(90vw,24rem)] text-center"
+          role="status"
+        >
+          Si tenías un código de invitación, quedó copiado. Pégalo al crear tu
+          restaurante.
+        </div>
+      ) : null}
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 reveal">
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">

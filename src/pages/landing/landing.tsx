@@ -1,22 +1,38 @@
-import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 
-import Hero from './components/hero';
-import Header from './components/header';
-import Features from './components/features';
-import Platforms from './components/platforms';
-import Questions from './components/questions';
-import Footer from './components/footer';
+import Hero from "./components/hero";
+import Header from "./components/header";
+import ReferralFromUrlBanner from "./components/referral-from-url-banner";
+import Features from "./components/features";
+import Platforms from "./components/platforms";
+import Questions from "./components/questions";
+import Footer from "./components/footer";
 
 export default function LandingPage() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const id = location.hash.replace(/^#/, "");
+    if (!id) return;
+    const t = window.setTimeout(() => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(t);
+  }, [location.pathname, location.hash]);
+
   useEffect(() => {
     // En móviles, no usar animaciones reveal para mejor rendimiento
     const isMobile = window.innerWidth <= 768;
-    
+
     if (isMobile) {
       // En móviles, mostrar todo inmediatamente
-      document.querySelectorAll('.reveal').forEach(el => {
-        el.classList.add('active');
+      document.querySelectorAll(".reveal").forEach((el) => {
+        el.classList.add("active");
       });
       return;
     }
@@ -26,28 +42,28 @@ export default function LandingPage() {
     let timeout: NodeJS.Timeout | null = null;
 
     const initObserver = () => {
-      const observerOptions = { 
+      const observerOptions = {
         threshold: 0.01,
-        rootMargin: '50px'
+        rootMargin: "50px",
       };
-      
+
       observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('active');
+            entry.target.classList.add("active");
             observer?.unobserve(entry.target);
           }
         });
       }, observerOptions);
 
-      const revealElements = document.querySelectorAll('.reveal');
-      revealElements.forEach(el => observer?.observe(el));
+      const revealElements = document.querySelectorAll(".reveal");
+      revealElements.forEach((el) => observer?.observe(el));
 
       // Fallback: show all after 300ms
       timeout = setTimeout(() => {
-        document.querySelectorAll('.reveal').forEach(el => {
-          if (!el.classList.contains('active')) {
-            el.classList.add('active');
+        document.querySelectorAll(".reveal").forEach((el) => {
+          if (!el.classList.contains("active")) {
+            el.classList.add("active");
           }
         });
       }, 300);
@@ -65,6 +81,7 @@ export default function LandingPage() {
     <div className="landing-premium min-h-screen overflow-x-hidden">
       <Helmet title="Ejele - Tu restaurante funcionando hoy" />
       <Header />
+      <ReferralFromUrlBanner />
       <Hero />
       <Features />
       <Platforms />

@@ -1,11 +1,13 @@
-import { useRoutes } from 'react-router-dom';
-import LandingPage from '@/pages/landing/landing';
-import Policy from '@/pages/legal/policy';
-import TermsAndConditions from '@/pages/legal/terms';
-import PaymentSuccess from '@/pages/payment/payment-success';
-import FacturaPage from '@/pages/factura/factura';
-import AdminDashboard from '@/pages/admin/AdminDashboard';
-import NotFound from '@/pages/NotFound';
+import { useRoutes } from "react-router-dom";
+import LandingPage from "@/pages/landing/landing";
+import Policy from "@/pages/legal/policy";
+import TermsAndConditions from "@/pages/legal/terms";
+import PaymentSuccess from "@/pages/payment/payment-success";
+import FacturaPage from "@/pages/factura/factura";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import ReferidosPage from "@/pages/referidos/ReferidosPage";
+import ReferidosPromoPage from "@/pages/referidos/ReferidosPromoPage";
+import NotFound from "@/pages/NotFound";
 
 export function Router() {
   return useRoutes([
@@ -14,27 +16,35 @@ export function Router() {
       element: <LandingPage />,
     },
     {
-      path: 'politica-de-privacidad',
+      path: "politica-de-privacidad",
       element: <Policy />,
     },
     {
-      path: 'terminos-y-condiciones',
+      path: "terminos-y-condiciones",
       element: <TermsAndConditions />,
     },
     {
-      path: 'payment-success',
+      path: "payment-success",
       element: <PaymentSuccess />,
     },
     {
-      path: 'factura',
+      path: "factura",
       element: <FacturaPage />,
     },
     {
-      path: 'admin',
+      path: "admin",
       element: <AdminDashboard />,
     },
     {
-      path: '*',
+      path: "programa-referidos",
+      element: <ReferidosPromoPage />,
+    },
+    {
+      path: "referidos",
+      element: <ReferidosPage />,
+    },
+    {
+      path: "*",
       element: <NotFound />,
     },
   ]);

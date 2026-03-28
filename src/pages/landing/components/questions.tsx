@@ -81,7 +81,7 @@ export default function Questions() {
   ];
 
   return (
-    <section id="faq" className="py-24 md:py-36 px-6">
+    <section id="faq" className="py-24 md:py-36 px-6 overflow-x-hidden">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16 reveal">
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
@@ -121,7 +121,7 @@ export default function Questions() {
             return (
               <div
                 key={index}
-                className={`p-6 rounded-lg ${cardBgColors[faq.color as keyof typeof cardBgColors]} reveal transition-all hover:scale-[1.02]`}
+                className={`p-6 rounded-lg ${cardBgColors[faq.color as keyof typeof cardBgColors]} reveal transition-transform duration-200 hover:scale-[1.01] hover:shadow-lg hover:shadow-black/20 md:hover:scale-[1.02]`}
               >
                 <div
                   className={`mb-4 ${iconColors[faq.color as keyof typeof iconColors]}`}

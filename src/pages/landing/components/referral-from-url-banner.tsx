@@ -45,8 +45,9 @@ export default function ReferralFromUrlBanner() {
             aria-hidden
           />
           <span>
-            Invitación activa: <strong className="font-mono">{activeCode}</strong>.
-            Al descargar, el código se copia al portapapeles para pegarlo al crear tu
+            Invitación activa:{" "}
+            <strong className="font-mono">{activeCode}</strong>. Al descargar,
+            el código se copia al portapapeles para pegarlo al crear tu
             restaurante, o abre la app con el botón de la derecha.
           </span>
         </p>
@@ -55,7 +56,11 @@ export default function ReferralFromUrlBanner() {
             href={openInAppHref}
             className="inline-flex items-center gap-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold px-4 py-2 no-underline"
           >
-            <Icon icon="solar:bolt-bold-duotone" className="w-4 h-4" aria-hidden />
+            <Icon
+              icon="solar:bolt-bold-duotone"
+              className="w-4 h-4"
+              aria-hidden
+            />
             Abrir en Ejele
           </a>
           <button

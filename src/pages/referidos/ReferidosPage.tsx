@@ -193,7 +193,9 @@ export default function ReferidosPage() {
         <Helmet>
           <title>Referidos — Ejele</title>
         </Helmet>
-        <div className={`${pageBg} flex flex-col items-center justify-center p-6 min-h-screen`}>
+        <div
+          className={`${pageBg} flex flex-col items-center justify-center p-6 min-h-screen`}
+        >
           <div className="absolute -top-32 left-1/2 h-64 w-[min(100vw,36rem)] -translate-x-1/2 rounded-full bg-amber-400/15 blur-[100px]" />
           <div className="relative z-10 rounded-3xl border border-slate-700/80 bg-slate-900/90 px-10 py-12 shadow-xl shadow-slate-950/50 max-w-md w-full text-center">
             {authGateError ? (
@@ -320,9 +322,7 @@ export default function ReferidosPage() {
                 className="w-6 h-6 text-sky-400 shrink-0"
               />
               <div>
-                <h2 className="text-base font-bold text-slate-50">
-                  Tu código
-                </h2>
+                <h2 className="text-base font-bold text-slate-50">Tu código</h2>
                 <p className="text-slate-500 text-xs mt-0.5">
                   Para quien registre un restaurante nuevo
                 </p>
@@ -353,7 +353,9 @@ export default function ReferidosPage() {
                       }
                       className="w-5 h-5"
                     />
-                    {copiedLink ? "Enlace copiado" : "Copiar enlace de invitación"}
+                    {copiedLink
+                      ? "Enlace copiado"
+                      : "Copiar enlace de invitación"}
                   </button>
                   <button
                     type="button"
@@ -371,8 +373,9 @@ export default function ReferidosPage() {
                 </div>
                 <p className="text-slate-500 text-xs leading-relaxed">
                   Comparte el <strong className="text-slate-400">enlace</strong>
-                  : quien lo abra en el celular podrá instalar Ejele y el código se
-                  aplicará al crear el restaurante (sin tener que escribirlo).
+                  : quien lo abra en el celular podrá instalar Ejele y el código
+                  se aplicará al crear el restaurante (sin tener que
+                  escribirlo).
                 </p>
               </div>
             ) : (

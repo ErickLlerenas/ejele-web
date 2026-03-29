@@ -49,6 +49,7 @@ const ADMIN_EMAILS = new Set([
   "dev.llerenas@gmail.com",
   "adrianhernandezgomez896@gmail.com",
   "llere1997@gmail.com",
+  "yesicaselene15@gmail.com",
 ]);
 
 export default function AdminDashboard() {

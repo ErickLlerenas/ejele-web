@@ -12,6 +12,9 @@ import {
 } from "@/utils/os";
 
 function triggerDownload(url: string, filename: string) {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "Lead");
+  }
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
@@ -302,6 +305,11 @@ export default function Platforms() {
               href={platform.href}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                if (typeof window.fbq === "function") {
+                  window.fbq("track", "Lead");
+                }
+              }}
               className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}
             >
               <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">

@@ -7,6 +7,9 @@ import {
 } from "@/utils/os";
 
 function triggerDownload(url: string, filename: string) {
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "Lead");
+  }
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;

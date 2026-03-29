@@ -10,6 +10,13 @@ function triggerDownload(url: string, filename: string) {
   if (typeof window.fbq === "function") {
     window.fbq("track", "Lead");
   }
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "generate_lead", {
+      currency: "MXN",
+      value: 0.0,
+      item_id: filename,
+    });
+  }
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;

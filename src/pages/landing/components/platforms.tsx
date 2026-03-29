@@ -15,6 +15,13 @@ function triggerDownload(url: string, filename: string) {
   if (typeof window.fbq === "function") {
     window.fbq("track", "Lead");
   }
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "generate_lead", {
+      currency: "MXN",
+      value: 0.0,
+      item_id: filename,
+    });
+  }
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;
@@ -308,6 +315,13 @@ export default function Platforms() {
               onClick={() => {
                 if (typeof window.fbq === "function") {
                   window.fbq("track", "Lead");
+                }
+                if (typeof window.gtag === "function") {
+                  window.gtag("event", "generate_lead", {
+                    currency: "MXN",
+                    value: 0.0,
+                    item_id: platform.name,
+                  });
                 }
               }}
               className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}

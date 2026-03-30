@@ -33,10 +33,12 @@ export default function Hero() {
 
   const handleDownload = async () => {
     if (os === "Unknown") {
-      document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById("platforms")
+        ?.scrollIntoView({ behavior: "smooth" });
       return;
     }
-    
+
     if (os === "Windows") {
       if (typeof window.fbq === "function") window.fbq("track", "Lead");
       if (typeof window.gtag === "function") {
@@ -57,10 +59,14 @@ export default function Hero() {
         const filename = url.split("/").pop() ?? "ejele-download";
         triggerDownload(url, filename);
       } else {
-        document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("platforms")
+          ?.scrollIntoView({ behavior: "smooth" });
       }
     } catch {
-      document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
+      document
+        .getElementById("platforms")
+        ?.scrollIntoView({ behavior: "smooth" });
     } finally {
       setDownloading(false);
     }
@@ -109,9 +115,7 @@ export default function Hero() {
                   className="w-5 h-5 sm:w-7 sm:h-7 text-white sm:group-hover:scale-110 transition-transform duration-300"
                 />
                 <span className="text-white">
-                  {downloading
-                    ? "Descargando…"
-                    : getDownloadButtonText(os)}
+                  {downloading ? "Descargando…" : getDownloadButtonText(os)}
                 </span>
               </div>
 

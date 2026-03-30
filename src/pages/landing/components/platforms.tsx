@@ -114,8 +114,8 @@ const remoteApps = [
     name: "Play Store",
     icon: "logos:google-play-icon",
     color: "green" as const,
-    href: PLAY_STORE_URL,
-    storeLabel: "Ver en Play Store",
+    href: undefined,
+    storeLabel: "Próximamente",
     deviceLabel: "Celulares y tablets",
   },
   {
@@ -272,9 +272,13 @@ export default function Platforms() {
             <a
               key={index}
               href={platform.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
+              target={platform.href ? "_blank" : undefined}
+              rel={platform.href ? "noopener noreferrer" : undefined}
+              onClick={(e) => {
+                if (!platform.href) {
+                  e.preventDefault();
+                  return;
+                }
                 if (typeof window.fbq === "function") {
                   window.fbq("track", "Lead");
                 }
@@ -286,7 +290,7 @@ export default function Platforms() {
                   });
                 }
               }}
-              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all hover:scale-[1.02] text-center w-full border border-white/5 hover:border-white/10 cursor-pointer`}
+              className={`relative p-6 rounded-lg ${remoteCardBg[platform.color]} reveal transition-all ${platform.href ? "hover:scale-[1.02] hover:border-white/10 cursor-pointer" : "opacity-75 cursor-default"} text-center w-full border border-white/5`}
             >
               <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
                 Premium

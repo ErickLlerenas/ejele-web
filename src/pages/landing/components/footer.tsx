@@ -113,15 +113,10 @@ export default function Footer() {
             </p>
             <ul className="space-y-3">
               <li>
-                <a
-                  href={PLAY_STORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 no-underline"
-                >
-                  <Icon icon="logos:google-play-icon" className="w-4 h-4" />{" "}
-                  Play Store
-                </a>
+                <span className="text-gray-500 text-sm font-medium flex items-center gap-2 cursor-not-allowed">
+                  <Icon icon="logos:google-play-icon" className="w-4 h-4 grayscale opacity-50" />{" "}
+                  Play Store (Próximamente)
+                </span>
               </li>
               <li>
                 <a

@@ -36,6 +36,20 @@ export default function Hero() {
       document.getElementById("platforms")?.scrollIntoView({ behavior: "smooth" });
       return;
     }
+    
+    if (os === "Windows") {
+      if (typeof window.fbq === "function") window.fbq("track", "Lead");
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "generate_lead", {
+          currency: "MXN",
+          value: 0.0,
+          item_id: "windows-store",
+        });
+      }
+      window.open("https://apps.microsoft.com/detail/9NSP89GKSFLN", "_blank");
+      return;
+    }
+
     setDownloading(true);
     try {
       const url = await getMainDownloadUrl();

@@ -129,10 +129,7 @@ const remoteApps = [
 ];
 
 export default function Platforms() {
-  const [loading, setLoading] = useState<
-    "windows-x64" | "windows-arm" | "android" | "macos" | null
-  >(null);
-  const [windowsVariant, setWindowsVariant] = useState<"x64" | "arm">("x64");
+  const [loading, setLoading] = useState<"android" | "macos" | null>(null);
   const [referralToast, setReferralToast] = useState(false);
 
   const beforeMainDownload = () => {
@@ -141,26 +138,6 @@ export default function Platforms() {
     if (had) {
       setReferralToast(true);
       window.setTimeout(() => setReferralToast(false), 4000);
-    }
-  };
-
-  const handleWindowsDownload = async () => {
-    await handleWindowsDownloadVariant(windowsVariant);
-  };
-
-  const handleWindowsDownloadVariant = async (variant: "x64" | "arm") => {
-    beforeMainDownload();
-    setLoading(variant === "x64" ? "windows-x64" : "windows-arm");
-    try {
-      const urls = await fetchLatestReleaseUrls();
-      const url = variant === "x64" ? urls.windowsX64 : urls.windowsArm64;
-      const fallback = getFallbackDownloadUrl(
-        variant === "x64" ? "windowsX64" : "windowsArm64",
-      );
-      const key = variant === "x64" ? "windowsX64" : "windowsArm64";
-      triggerDownload(url || fallback, DOWNLOAD_FILENAMES[key]);
-    } finally {
-      setLoading(null);
     }
   };
 
@@ -231,44 +208,29 @@ export default function Platforms() {
                 {platform.description}
               </p>
               {platform.key === "windows" && (
-                <div className="relative w-full flex rounded-xl overflow-hidden shadow-lg shadow-blue-900/30">
-                  <button
-                    type="button"
-                    onClick={handleWindowsDownload}
-                    disabled={loading !== null}
-                    className={`flex-1 ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-l-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70 min-w-0`}
-                  >
-                    <Icon
-                      icon="solar:download-bold-duotone"
-                      className="w-5 h-5 shrink-0 opacity-95"
-                    />
-                    <span className="truncate">
-                      {loading === "windows-x64" || loading === "windows-arm"
-                        ? "Descargando…"
-                        : "Descargar"}
-                    </span>
-                  </button>
-                  <div className="relative flex items-stretch border-l border-white/20 bg-white/10 rounded-r-xl min-w-[5rem]">
-                    <select
-                      value={windowsVariant}
-                      onChange={(e) =>
-                        setWindowsVariant(e.target.value as "x64" | "arm")
-                      }
-                      onClick={(e) => e.stopPropagation()}
-                      className="appearance-none bg-transparent text-white text-xs font-semibold cursor-pointer pl-3 pr-8 py-3 focus:outline-none focus:ring-0 [&>option]:bg-slate-800 [&>option]:text-white"
-                      aria-label="Arquitectura Windows"
-                      style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgba(255,255,255,0.8)'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
-                        backgroundSize: "1rem",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "right 0.5rem center",
-                      }}
-                    >
-                      <option value="x64">x64</option>
-                      <option value="arm">ARM</option>
-                    </select>
-                  </div>
-                </div>
+                <a
+                  href="https://apps.microsoft.com/detail/9NSP89GKSFLN"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    if (typeof window.fbq === "function")
+                      window.fbq("track", "Lead");
+                    if (typeof window.gtag === "function") {
+                      window.gtag("event", "generate_lead", {
+                        currency: "MXN",
+                        value: 0.0,
+                        item_id: "windows-store",
+                      });
+                    }
+                  }}
+                  className={`w-full ${mainButtonColors[platform.color]} text-white py-3 px-5 rounded-xl font-semibold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-blue-900/30`}
+                >
+                  <Icon
+                    icon="solar:download-bold-duotone"
+                    className="w-5 h-5 shrink-0"
+                  />
+                  Descargar
+                </a>
               )}
               {platform.key === "macos" && (
                 <button

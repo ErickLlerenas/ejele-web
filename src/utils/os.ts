@@ -1,15 +1,11 @@
 /** Asset names as published on GitHub Releases (must match release uploads). */
 export const RELEASE_ASSETS = {
-  windowsX64: "ejele-windows-x64.exe",
-  windowsArm64: "ejele-windows-arm64.exe",
   android: "ejele-android.apk",
   macos: "ejele-macos.zip",
 } as const;
 
 /** Filenames used when saving the download. */
 export const DOWNLOAD_FILENAMES: Record<keyof typeof RELEASE_ASSETS, string> = {
-  windowsX64: "ejele-windows-x64.exe",
-  windowsArm64: "ejele-windows-arm64.exe",
   android: "ejele-android.apk",
   macos: "ejele-macos.zip",
 };
@@ -33,8 +29,6 @@ const GITHUB_RELEASES_API =
   "https://api.github.com/repos/ErickLlerenas/ejele-releases/releases/latest";
 
 export type ReleaseUrls = {
-  windowsX64: string;
-  windowsArm64: string;
   android: string;
   macos: string;
 };
@@ -50,8 +44,6 @@ export async function fetchLatestReleaseUrls(): Promise<ReleaseUrls> {
     assets.find((a) => a.name === name)?.browser_download_url ?? "";
 
   return {
-    windowsX64: byName(RELEASE_ASSETS.windowsX64),
-    windowsArm64: byName(RELEASE_ASSETS.windowsArm64),
     android: byName(RELEASE_ASSETS.android),
     macos: byName(RELEASE_ASSETS.macos),
   };
@@ -70,17 +62,18 @@ export async function getMainDownloadUrl(): Promise<string | null> {
   const os = detectOS();
   if (os === "Unknown") return null;
 
+  if (os === "Windows") {
+    return "https://apps.microsoft.com/detail/9NSP89GKSFLN";
+  }
+
   try {
     const urls = await fetchLatestReleaseUrls();
-    if (os === "Windows")
-      return urls.windowsX64 || getFallbackDownloadUrl("windowsX64");
     if (os === "Android")
       return urls.android || getFallbackDownloadUrl("android");
     if (os === "macOS") return urls.macos || getFallbackDownloadUrl("macos");
     return null;
   } catch (e) {
     console.error("Error fetching latest release:", e);
-    if (os === "Windows") return getFallbackDownloadUrl("windowsX64");
     if (os === "Android") return getFallbackDownloadUrl("android");
     if (os === "macOS") return getFallbackDownloadUrl("macos");
     return null;

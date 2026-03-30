@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useState } from "react";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
+import { APP_STORE_URL } from "@/constants/store";
 import {
   copyPendingReferralToClipboard,
   EJELE_PENDING_REFERRAL_STORAGE_KEY,

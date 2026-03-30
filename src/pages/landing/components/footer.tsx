@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/store";
+import { APP_STORE_URL } from "@/constants/store";
 
 export default function Footer() {
   return (

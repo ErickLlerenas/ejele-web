@@ -56,14 +56,6 @@ export default function Footer() {
                   Preguntas
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/programa-referidos"
-                  className="text-gray-400 hover:text-amber-300 transition-colors text-sm font-medium no-underline"
-                >
-                  Referidos
-                </Link>
-              </li>
             </ul>
           </div>
 

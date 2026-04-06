@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getSupabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
+import { Icon } from "@iconify/react";
+
+type SortKey = keyof Restaurant | "owner_email";
 
 type Profile = {
   id: string;
@@ -57,6 +60,61 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<AdminData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: "asc" | "desc" } | null>({ key: "created_at", direction: "desc" });
+
+  const sortedRestaurants = useMemo(() => {
+    if (!data?.restaurants) return [];
+    if (!sortConfig) return data.restaurants;
+
+    return [...data.restaurants].sort((a, b) => {
+      let aValue: any = a[sortConfig.key as keyof Restaurant];
+      let bValue: any = b[sortConfig.key as keyof Restaurant];
+
+      if (sortConfig.key === "owner_email") {
+        aValue = data.profiles.find((p) => p.id === a.owner_id)?.email || "";
+        bValue = data.profiles.find((p) => p.id === b.owner_id)?.email || "";
+      }
+
+      if (aValue === bValue) return 0;
+      if (aValue === undefined || aValue === null) return 1;
+      if (bValue === undefined || bValue === null) return -1;
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortConfig.direction === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      if (aValue < bValue) {
+        return sortConfig.direction === "asc" ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [data, sortConfig]);
+
+  const handleSort = (key: SortKey) => {
+    setSortConfig((current) => {
+      if (current?.key === key) {
+        return { key, direction: current.direction === "asc" ? "desc" : "asc" };
+      }
+      const isNumericOrDate = ["total_orders_created", "total_products_created", "last_active_at", "created_at"].includes(key);
+      return { key, direction: isNumericOrDate ? "desc" : "asc" };
+    });
+  };
+
+  const SortIcon = ({ columnKey }: { columnKey: SortKey }) => {
+    if (sortConfig?.key !== columnKey) {
+      return <Icon icon="lucide:arrow-up-down" className="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition-opacity" />;
+    }
+    return sortConfig.direction === "asc" ? (
+      <Icon icon="lucide:arrow-up" className="w-3.5 h-3.5 text-blue-400" />
+    ) : (
+      <Icon icon="lucide:arrow-down" className="w-3.5 h-3.5 text-blue-400" />
+    );
+  };
 
   useEffect(() => {
     try {
@@ -253,22 +311,40 @@ export default function AdminDashboard() {
                 <table className="w-full text-left text-sm whitespace-nowrap">
                   <thead className="bg-gray-800/50 text-gray-400">
                     <tr>
-                      <th className="px-6 py-4 font-medium">Nombre</th>
-                      <th className="px-6 py-4 font-medium">Plan</th>
-                      <th className="px-6 py-4 font-medium">Créditos</th>
-                      <th className="px-6 py-4 font-medium">Facturapi</th>
-                      <th className="px-6 py-4 font-medium">Órdenes</th>
-                      <th className="px-6 py-4 font-medium">Productos</th>
-                      <th className="px-6 py-4 font-medium">Versión App</th>
-                      <th className="px-6 py-4 font-medium">OS</th>
-                      <th className="px-6 py-4 font-medium">
-                        Última Actividad
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("name")}>
+                        <div className="flex items-center gap-2">Nombre <SortIcon columnKey="name" /></div>
                       </th>
-                      <th className="px-6 py-4 font-medium">Fecha Creación</th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("subscription_status")}>
+                        <div className="flex items-center gap-2">Plan <SortIcon columnKey="subscription_status" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("invoice_credits")}>
+                        <div className="flex items-center gap-2">Créditos <SortIcon columnKey="invoice_credits" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("facturapi_is_ready")}>
+                        <div className="flex items-center gap-2">Facturapi <SortIcon columnKey="facturapi_is_ready" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("total_orders_created")}>
+                        <div className="flex items-center gap-2">Órdenes <SortIcon columnKey="total_orders_created" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("total_products_created")}>
+                        <div className="flex items-center gap-2">Productos <SortIcon columnKey="total_products_created" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("app_version")}>
+                        <div className="flex items-center gap-2">Versión App <SortIcon columnKey="app_version" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("os_version")}>
+                        <div className="flex items-center gap-2">OS <SortIcon columnKey="os_version" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("last_active_at")}>
+                        <div className="flex items-center gap-2">Última Actividad <SortIcon columnKey="last_active_at" /></div>
+                      </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("created_at")}>
+                        <div className="flex items-center gap-2">Fecha Creación <SortIcon columnKey="created_at" /></div>
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-700/50">
-                    {data.restaurants.map((restaurant) => {
+                    {sortedRestaurants.map((restaurant) => {
                       const isActive =
                         restaurant.last_active_at &&
                         new Date(restaurant.last_active_at).getTime() >

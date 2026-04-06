@@ -55,12 +55,6 @@ export default function Header({
             >
               Preguntas
             </Link>
-            <Link
-              to="/programa-referidos"
-              className="text-sm text-amber-400/90 hover:text-amber-300 transition-colors no-underline"
-            >
-              Referidos
-            </Link>
           </div>
         )}
       </div>

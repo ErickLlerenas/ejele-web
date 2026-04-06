@@ -5,8 +5,6 @@ import TermsAndConditions from "@/pages/legal/terms";
 import PaymentSuccess from "@/pages/payment/payment-success";
 import FacturaPage from "@/pages/factura/factura";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
-import ReferidosPage from "@/pages/referidos/ReferidosPage";
-import ReferidosPromoPage from "@/pages/referidos/ReferidosPromoPage";
 import NotFound from "@/pages/NotFound";
 
 export function Router() {
@@ -34,14 +32,6 @@ export function Router() {
     {
       path: "admin",
       element: <AdminDashboard />,
-    },
-    {
-      path: "programa-referidos",
-      element: <ReferidosPromoPage />,
-    },
-    {
-      path: "referidos",
-      element: <ReferidosPage />,
     },
     {
       path: "*",

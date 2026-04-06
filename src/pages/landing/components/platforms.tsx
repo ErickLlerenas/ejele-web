@@ -2,10 +2,6 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 import { APP_STORE_URL } from "@/constants/store";
 import {
-  copyPendingReferralToClipboard,
-  EJELE_PENDING_REFERRAL_STORAGE_KEY,
-} from "@/constants/referral";
-import {
   DOWNLOAD_FILENAMES,
   fetchLatestReleaseUrls,
   getFallbackDownloadUrl,
@@ -94,18 +90,18 @@ const mainPlatforms: Array<{
     color: "blue",
   },
   {
-    key: "macos",
-    name: "macOS",
-    icon: "logos:apple",
-    description: "Diseñado para Apple Silicon.",
-    color: "slate",
-  },
-  {
     key: "android",
     name: "Android",
     icon: "logos:android-icon",
     description: "Para terminales como Sunmi o Nexgo.",
     color: "green",
+  },
+  {
+    key: "macos",
+    name: "macOS",
+    icon: "logos:apple",
+    description: "Diseñado para Apple Silicon.",
+    color: "slate",
   },
 ];
 
@@ -130,19 +126,8 @@ const remoteApps = [
 
 export default function Platforms() {
   const [loading, setLoading] = useState<"android" | "macos" | null>(null);
-  const [referralToast, setReferralToast] = useState(false);
-
-  const beforeMainDownload = () => {
-    const had = !!localStorage.getItem(EJELE_PENDING_REFERRAL_STORAGE_KEY);
-    copyPendingReferralToClipboard();
-    if (had) {
-      setReferralToast(true);
-      window.setTimeout(() => setReferralToast(false), 4000);
-    }
-  };
 
   const handleAndroidDownload = async () => {
-    beforeMainDownload();
     setLoading("android");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -154,7 +139,6 @@ export default function Platforms() {
   };
 
   const handleMacOsDownload = async () => {
-    beforeMainDownload();
     setLoading("macos");
     try {
       const urls = await fetchLatestReleaseUrls();
@@ -167,19 +151,10 @@ export default function Platforms() {
 
   return (
     <section id="platforms" className="py-20 md:py-32 px-6 relative">
-      {referralToast ? (
-        <div
-          className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-slate-900 text-white text-sm px-4 py-3 shadow-lg border border-teal-500/30 max-w-[min(90vw,24rem)] text-center"
-          role="status"
-        >
-          Si tenías un código de invitación, quedó copiado. Pégalo al crear tu
-          restaurante.
-        </div>
-      ) : null}
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 reveal">
           <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">
-            Plataformas
+            Aplicación de escritorio
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Descarga e instala Ejele en tu equipo principal.
@@ -263,7 +238,7 @@ export default function Platforms() {
         </div>
 
         <p className="text-center text-gray-300 text-lg mb-6 reveal">
-          Aplicación para meseros y cocina
+          Aplicación móvil
         </p>
 
         {/* App remota: 2 cards más pequeñas y tono suave */}

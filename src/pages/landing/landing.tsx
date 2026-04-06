@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 import Hero from "./components/hero";
 import Header from "./components/header";
-import ReferralFromUrlBanner from "./components/referral-from-url-banner";
 import Features from "./components/features";
 import Platforms from "./components/platforms";
 import Questions from "./components/questions";
@@ -81,7 +80,6 @@ export default function LandingPage() {
     <div className="landing-premium min-h-screen overflow-x-hidden">
       <Helmet title="Ejele - Tu restaurante funcionando hoy" />
       <Header />
-      <ReferralFromUrlBanner />
       <Hero />
       <Features />
       <Platforms />

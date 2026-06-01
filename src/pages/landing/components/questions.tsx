@@ -19,7 +19,7 @@ export default function Questions() {
     {
       question: "¿Cuánto cuesta el plan premium?",
       answer:
-        "Tenemos tres planes: Plan mensual por $299, plan anual por $2,999 y plan de por vida por $5,999. Todos incluyen acceso completo a todas las funciones premium.",
+        "Tenemos dos planes: plan mensual por $299 y plan de por vida por $2,999. Ambos incluyen acceso completo a todas las funciones premium.",
       icon: "solar:wallet-money-bold-duotone",
       color: "yellow",
     },

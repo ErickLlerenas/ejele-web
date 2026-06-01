@@ -111,9 +111,9 @@ export default function TermsAndConditions() {
             </p>
             <p className="mb-2 mt-4">
               <strong className="text-white">Planes Premium:</strong> Ofrecemos
-              tres opciones: Plan mensual por $299 MXN, plan anual por $2,999
-              MXN y plan de por vida por $5,999 MXN. Todos incluyen acceso
-              completo a todas las funciones premium.
+              dos opciones: plan mensual por $299 MXN y plan de por vida por
+              $2,999 MXN. Ambos incluyen acceso completo a todas las funciones
+              premium.
             </p>
             <p className="mb-2 mt-4">
               <strong className="text-white">Facturación:</strong> La

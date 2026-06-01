@@ -3,11 +3,12 @@ import { getSupabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
 import { Icon } from "@iconify/react";
 
-type SortKey = keyof Restaurant | "owner_email";
+type SortKey = keyof Restaurant | "owner_email" | "owner_phone";
 
 type Profile = {
   id: string;
   email: string;
+  phone?: string | null;
   created_at: string;
 };
 
@@ -48,6 +49,21 @@ function formatDateTime(value?: string | null): string {
   return DATE_TIME_FORMATTER.format(date);
 }
 
+function formatOwnerPhone(phone?: string | null): string {
+  if (!phone?.trim()) return "-";
+  const digits = phone.replace(/\D/g, "");
+  if (digits.length === 10) {
+    return `${digits.slice(0, 2)} ${digits.slice(2, 6)} ${digits.slice(6)}`;
+  }
+  return phone.trim();
+}
+
+function whatsAppUrl(phone?: string | null): string | null {
+  const digits = phone?.replace(/\D/g, "") ?? "";
+  if (digits.length !== 10) return null;
+  return `https://wa.me/52${digits}`;
+}
+
 const ADMIN_EMAILS = new Set([
   "dev.llerenas@gmail.com",
   "adrianhernandezgomez896@gmail.com",
@@ -73,6 +89,11 @@ export default function AdminDashboard() {
       if (sortConfig.key === "owner_email") {
         aValue = data.profiles.find((p) => p.id === a.owner_id)?.email || "";
         bValue = data.profiles.find((p) => p.id === b.owner_id)?.email || "";
+      }
+
+      if (sortConfig.key === "owner_phone") {
+        aValue = data.profiles.find((p) => p.id === a.owner_id)?.phone || "";
+        bValue = data.profiles.find((p) => p.id === b.owner_id)?.phone || "";
       }
 
       if (aValue === bValue) return 0;
@@ -314,6 +335,9 @@ export default function AdminDashboard() {
                       <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("name")}>
                         <div className="flex items-center gap-2">Nombre <SortIcon columnKey="name" /></div>
                       </th>
+                      <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("owner_phone")}>
+                        <div className="flex items-center gap-2">WhatsApp <SortIcon columnKey="owner_phone" /></div>
+                      </th>
                       <th className="px-6 py-4 font-medium cursor-pointer group hover:bg-gray-700/50 transition-colors" onClick={() => handleSort("subscription_status")}>
                         <div className="flex items-center gap-2">Plan <SortIcon columnKey="subscription_status" /></div>
                       </th>
@@ -345,6 +369,11 @@ export default function AdminDashboard() {
                   </thead>
                   <tbody className="divide-y divide-gray-700/50">
                     {sortedRestaurants.map((restaurant) => {
+                      const ownerProfile = data.profiles.find(
+                        (p) => p.id === restaurant.owner_id,
+                      );
+                      const ownerPhone = ownerProfile?.phone;
+                      const ownerWaUrl = whatsAppUrl(ownerPhone);
                       const isActive =
                         restaurant.last_active_at &&
                         new Date(restaurant.last_active_at).getTime() >
@@ -360,10 +389,29 @@ export default function AdminDashboard() {
                               {restaurant.name}
                             </div>
                             <div className="text-xs text-gray-500">
-                              {data.profiles.find(
-                                (p) => p.id === restaurant.owner_id,
-                              )?.email || "Desconocido"}
+                              {ownerProfile?.email || "Desconocido"}
                             </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            {ownerPhone?.trim() ? (
+                              ownerWaUrl ? (
+                                <a
+                                  href={ownerWaUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-green-400 hover:text-green-300 font-medium text-sm inline-flex items-center gap-1"
+                                >
+                                  <Icon icon="mdi:whatsapp" className="w-4 h-4" />
+                                  {formatOwnerPhone(ownerPhone)}
+                                </a>
+                              ) : (
+                                <span className="text-gray-300 text-sm">
+                                  {formatOwnerPhone(ownerPhone)}
+                                </span>
+                              )
+                            ) : (
+                              <span className="text-gray-500 text-sm">-</span>
+                            )}
                           </td>
                           <td className="px-6 py-4">
                             <div className="relative group cursor-help inline-block">
@@ -447,7 +495,7 @@ export default function AdminDashboard() {
                     {data.restaurants.length === 0 && (
                       <tr>
                         <td
-                          colSpan={10}
+                          colSpan={11}
                           className="px-6 py-8 text-center text-gray-500"
                         >
                           No hay restaurantes registrados.

@@ -11,15 +11,6 @@ export default function Features() {
       premium: false,
     },
     {
-      icon: "solar:qr-code-bold-duotone",
-      title: "Facturación por QR",
-      description:
-        "El cliente escanea el QR del ticket, ingresa sus datos fiscales y obtiene su CFDI.",
-      color: "green",
-      premium: false,
-      badge: "compras",
-    },
-    {
       icon: "solar:monitor-bold-duotone",
       title: "Pantallas en Cocina (KDS)",
       description:
@@ -171,11 +162,6 @@ export default function Features() {
                 {feature.premium && (
                   <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
                     Premium
-                  </div>
-                )}
-                {(feature as any).badge === "compras" && (
-                  <div className="absolute top-4 right-4 bg-amber-600 text-white text-xs font-bold px-2 py-1 rounded">
-                    Folios
                   </div>
                 )}
                 <div

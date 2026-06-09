@@ -53,13 +53,6 @@ export default function Questions() {
       color: "teal",
     },
     {
-      question: "¿Cómo funciona la facturación?",
-      answer:
-        "Cuando imprimes la cuenta, el ticket de venta incluye un código QR para facturar. El cliente escanea el código QR, ingresa sus datos fiscales y obtiene su CFDI. Necesitas comprar folios y cada folio te permite hacer una factura.",
-      icon: "solar:document-text-bold-duotone",
-      color: "indigo",
-    },
-    {
       question: "¿Necesito internet para usarlo?",
       answer:
         "Ejele funciona completamente offline. Todo se guarda localmente en tu computadora. Solo necesitas internet para registrarte, para comprar los planes premium y para enviar el reporte en PDF por correo al hacer corte de caja.",
